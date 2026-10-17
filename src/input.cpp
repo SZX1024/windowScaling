@@ -86,7 +86,7 @@ void X11InputForwarder::sendMotion(const QPoint &localPos)
     ev.y_root = d->targetRect.y() + localPos.y();
     ev.state = 0;
 
-    XSendEvent(d->display, d->targetWindow, True, PointerMotionMask, reinterpret_cast<XEvent*>(&ev));
+    XSendEvent(d->display, d->targetWindow, False, PointerMotionMask, reinterpret_cast<XEvent*>(&ev));
     XFlush(d->display);
 }
 
@@ -114,7 +114,7 @@ void X11InputForwarder::sendButton(Qt::MouseButton button, bool pressed, const Q
     ev.state = pressed ? 0 : (1 << (7 + ev.button));
 
     long mask = pressed ? ButtonPressMask : ButtonReleaseMask;
-    XSendEvent(d->display, d->targetWindow, True, mask, reinterpret_cast<XEvent*>(&ev));
+    XSendEvent(d->display, d->targetWindow, False, mask, reinterpret_cast<XEvent*>(&ev));
     XFlush(d->display);
 }
 
@@ -149,10 +149,10 @@ void X11InputForwarder::sendWheel(int deltaY, const QPoint &localPos)
 
         ev.type = ButtonPress;
         ev.button = xbtn;
-        XSendEvent(d->display, d->targetWindow, True, ButtonPressMask, reinterpret_cast<XEvent*>(&ev));
+        XSendEvent(d->display, d->targetWindow, False, ButtonPressMask, reinterpret_cast<XEvent*>(&ev));
 
         ev.type = ButtonRelease;
-        XSendEvent(d->display, d->targetWindow, True, ButtonReleaseMask, reinterpret_cast<XEvent*>(&ev));
+        XSendEvent(d->display, d->targetWindow, False, ButtonReleaseMask, reinterpret_cast<XEvent*>(&ev));
     }
     XFlush(d->display);
 }

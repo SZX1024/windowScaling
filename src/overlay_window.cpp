@@ -37,7 +37,7 @@ OverlayWindow::OverlayWindow(X11CaptureEngine &capture, X11InputForwarder &input
     , m_input(input)
     , m_vbo(QOpenGLBuffer::VertexBuffer)
 {
-    setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
+    setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus | Qt::BypassWindowManagerHint);
     connect(&m_renderTimer, &QTimer::timeout, this, &OverlayWindow::updateFrame);
 }
 
@@ -265,6 +265,7 @@ void OverlayWindow::mouseReleaseEvent(QMouseEvent *event)
     if (!m_active) return;
     QPoint gamePos = mapToGame(event->position());
     m_input.sendButton(event->button(), false, gamePos);
+    this->raise();
 }
 
 void OverlayWindow::wheelEvent(QWheelEvent *event)
@@ -295,6 +296,7 @@ bool OverlayWindow::event(QEvent *event)
         if (!te->points().isEmpty()) {
             QPoint gamePos = mapToGame(te->points().first().position());
             m_input.sendTouchUp(gamePos);
+            this->raise();
             return true;
         }
     }
