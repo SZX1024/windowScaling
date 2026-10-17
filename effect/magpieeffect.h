@@ -13,6 +13,7 @@ class EffectWindow;
 class MagpieEffect : public OffscreenEffect
 {
     Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "org.kde.KWin.Magpie")
 
 public:
     MagpieEffect();
@@ -33,7 +34,8 @@ public:
     EffectWindow *targetWindow() const;
 
 public Q_SLOTS:
-    void toggle();
+    Q_SCRIPTABLE void toggle();
+    Q_SCRIPTABLE bool isMagpieActive() const;
     void handleWindowDeleted(KWin::EffectWindow *w);
     void slotWindowClosed(KWin::EffectWindow *w);
 

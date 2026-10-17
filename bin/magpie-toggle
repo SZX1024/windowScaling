@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Trigger Magpie window scaling on currently active window
+if [ "$1" = "-d" ] || [ "$1" = "--delay" ]; then
+    DELAY="${2:-2}"
+    echo "Magpie will toggle in ${DELAY} seconds... Focus your target window now!"
+    sleep "${DELAY}"
+fi
+
+qdbus-qt6 org.kde.kglobalaccel /component/kwin invokeShortcut "ToggleMagpie" 2>/dev/null || \
+qdbus-qt6 org.kde.KWin /Magpie toggle 2>/dev/null || \
+busctl --user call org.kde.KWin /Magpie org.kde.KWin.Magpie toggle 2>/dev/null
+
+echo "Magpie toggle signal sent."

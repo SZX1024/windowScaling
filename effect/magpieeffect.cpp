@@ -9,7 +9,7 @@
 #include <core/output.h>
 #include <effect/effectwindow.h>
 
-Q_LOGGING_CATEGORY(KWIN_MAGPIE, "kwin_effect_magpie", QtWarningMsg)
+Q_LOGGING_CATEGORY(KWIN_MAGPIE, "kwin_effect_magpie", QtInfoMsg)
 
 namespace KWin
 {
@@ -32,16 +32,16 @@ MagpieEffect::MagpieEffect()
     }
 
     if (QDBusConnection::sessionBus().isConnected()) {
-        QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/Magpie"), this, QDBusConnection::ExportAllSlots);
+        QDBusConnection::sessionBus().registerObject(QStringLiteral("/Magpie"), QStringLiteral("org.kde.KWin.Magpie"), this, QDBusConnection::ExportScriptableSlots | QDBusConnection::ExportAllSlots);
     }
 
-    qCInfo(KWIN_MAGPIE) << "Magpie effect initialized successfully.";
+    qCWarning(KWIN_MAGPIE) << "Magpie effect initialized successfully.";
 }
 
 MagpieEffect::~MagpieEffect()
 {
     if (QDBusConnection::sessionBus().isConnected()) {
-        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/kde/KWin/Magpie"));
+        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/Magpie"));
     }
 
     if (m_active && m_targetWindow) {
@@ -50,7 +50,7 @@ MagpieEffect::~MagpieEffect()
         m_active = false;
     }
 
-    qCInfo(KWIN_MAGPIE) << "Magpie effect unloaded.";
+    qCWarning(KWIN_MAGPIE) << "Magpie effect unloaded.";
 }
 
 bool MagpieEffect::supported()
@@ -61,6 +61,11 @@ bool MagpieEffect::supported()
 bool MagpieEffect::isActive() const
 {
     return m_active && (m_targetWindow != nullptr);
+}
+
+bool MagpieEffect::isMagpieActive() const
+{
+    return m_active;
 }
 
 EffectWindow *MagpieEffect::targetWindow() const
@@ -109,6 +114,8 @@ void MagpieEffect::postPaintScreen()
 
 void MagpieEffect::toggle()
 {
+    qCWarning(KWIN_MAGPIE) << "Magpie toggle invoked. Current state active:" << m_active;
+
     if (!m_active) {
         if (!effects) {
             qCWarning(KWIN_MAGPIE) << "Cannot toggle Magpie: effects handler is null";
@@ -117,12 +124,12 @@ void MagpieEffect::toggle()
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
-            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: no active window";
+            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: no active window currently focused";
             return;
         }
 
         if (!window->isNormalWindow() && !window->isDialog()) {
-            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: window is not a normal or dialog window";
+            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: window is not normal/dialog. Type:" << window->windowType();
             return;
         }
 
@@ -130,7 +137,7 @@ void MagpieEffect::toggle()
         m_active = true;
         redirect(m_targetWindow);
 
-        qCInfo(KWIN_MAGPIE) << "Magpie activated for window:" << m_targetWindow;
+        qCWarning(KWIN_MAGPIE) << "Magpie ACTIVATED for window:" << m_targetWindow << "geometry:" << m_targetWindow->frameGeometry();
         effects->addRepaintFull();
     } else {
         if (m_targetWindow) {
@@ -139,7 +146,7 @@ void MagpieEffect::toggle()
         }
         m_active = false;
 
-        qCInfo(KWIN_MAGPIE) << "Magpie deactivated";
+        qCWarning(KWIN_MAGPIE) << "Magpie DEACTIVATED";
         if (effects) {
             effects->addRepaintFull();
         }
@@ -149,7 +156,7 @@ void MagpieEffect::toggle()
 void MagpieEffect::handleWindowDeleted(EffectWindow *w)
 {
     if (w == m_targetWindow) {
-        qCInfo(KWIN_MAGPIE) << "Target window deleted, resetting Magpie state";
+        qCWarning(KWIN_MAGPIE) << "Target window deleted, resetting Magpie state";
         m_targetWindow = nullptr;
         m_active = false;
         if (effects) {
@@ -161,7 +168,7 @@ void MagpieEffect::handleWindowDeleted(EffectWindow *w)
 void MagpieEffect::slotWindowClosed(EffectWindow *w)
 {
     if (w == m_targetWindow) {
-        qCInfo(KWIN_MAGPIE) << "Target window closed, unredirecting and resetting Magpie state";
+        qCWarning(KWIN_MAGPIE) << "Target window closed, unredirecting and resetting Magpie state";
         if (m_active && m_targetWindow) {
             unredirect(m_targetWindow);
         }
@@ -245,7 +252,7 @@ public:
 
     bool enabledByDefault() const override
     {
-        return false;
+        return true;
     }
 
     Effect *createEffect() const override
