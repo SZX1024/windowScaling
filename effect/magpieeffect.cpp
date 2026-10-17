@@ -21,8 +21,7 @@ MagpieEffect::MagpieEffect()
     m_toggleAction->setObjectName(QStringLiteral("ToggleMagpie"));
     m_toggleAction->setText(i18n("Toggle Magpie Window Scaling"));
 
-    KGlobalAccel::self()->setDefaultShortcut(m_toggleAction, {QKeySequence(Qt::META | Qt::ALT | Qt::Key_M)});
-    KGlobalAccel::self()->setShortcut(m_toggleAction, {QKeySequence(Qt::META | Qt::ALT | Qt::Key_M)});
+    KGlobalAccel::setGlobalShortcut(m_toggleAction, QKeySequence(Qt::META | Qt::ALT | Qt::Key_M));
 
     connect(m_toggleAction, &QAction::triggered, this, &MagpieEffect::toggle);
 
@@ -35,7 +34,9 @@ MagpieEffect::MagpieEffect()
         QDBusConnection::sessionBus().registerObject(QStringLiteral("/Magpie"), QStringLiteral("org.kde.KWin.Magpie"), this, QDBusConnection::ExportScriptableSlots | QDBusConnection::ExportAllSlots);
     }
 
-    qCWarning(KWIN_MAGPIE) << "Magpie effect initialized successfully.";
+    if (effects) {
+        effects->showOnScreenMessage(QStringLiteral("Magpie Plugin Loaded (Meta+Alt+M)"), QStringLiteral("preferences-system-windows-effect-magpie"));
+    }
 }
 
 MagpieEffect::~MagpieEffect()
@@ -49,8 +50,6 @@ MagpieEffect::~MagpieEffect()
         m_targetWindow = nullptr;
         m_active = false;
     }
-
-    qCWarning(KWIN_MAGPIE) << "Magpie effect unloaded.";
 }
 
 bool MagpieEffect::supported()
@@ -112,51 +111,74 @@ void MagpieEffect::postPaintScreen()
     }
 }
 
+void MagpieEffect::activateOnWindow(EffectWindow *window)
+{
+    if (!window) {
+        return;
+    }
+
+    if (window->isSpecialWindow()) {
+        if (effects) {
+            effects->showOnScreenMessage(QStringLiteral("Magpie: Cannot scale special/desktop window"));
+        }
+        return;
+    }
+
+    m_targetWindow = window;
+    m_active = true;
+    redirect(m_targetWindow);
+
+    if (effects) {
+        QString name = m_targetWindow->caption();
+        if (name.isEmpty()) {
+            name = QStringLiteral("Window");
+        }
+        effects->showOnScreenMessage(QStringLiteral("Magpie Active: %1").arg(name), QStringLiteral("preferences-system-windows-effect-magpie"));
+        effects->addRepaintFull();
+    }
+}
+
+void MagpieEffect::deactivate()
+{
+    if (m_targetWindow) {
+        unredirect(m_targetWindow);
+        m_targetWindow = nullptr;
+    }
+    m_active = false;
+
+    if (effects) {
+        effects->showOnScreenMessage(QStringLiteral("Magpie Restored"), QStringLiteral("preferences-system-windows-effect-magpie"));
+        effects->addRepaintFull();
+    }
+}
+
 void MagpieEffect::toggle()
 {
-    qCWarning(KWIN_MAGPIE) << "Magpie toggle invoked. Current state active:" << m_active;
-
     if (!m_active) {
         if (!effects) {
-            qCWarning(KWIN_MAGPIE) << "Cannot toggle Magpie: effects handler is null";
             return;
         }
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
-            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: no active window currently focused";
+            effects->showOnScreenMessage(QStringLiteral("Magpie: Click target window to scale"));
+            effects->startInteractiveWindowSelection([this](EffectWindow *w) {
+                if (w) {
+                    activateOnWindow(w);
+                }
+            });
             return;
         }
 
-        if (!window->isNormalWindow() && !window->isDialog()) {
-            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: window is not normal/dialog. Type:" << window->windowType();
-            return;
-        }
-
-        m_targetWindow = window;
-        m_active = true;
-        redirect(m_targetWindow);
-
-        qCWarning(KWIN_MAGPIE) << "Magpie ACTIVATED for window:" << m_targetWindow << "geometry:" << m_targetWindow->frameGeometry();
-        effects->addRepaintFull();
+        activateOnWindow(window);
     } else {
-        if (m_targetWindow) {
-            unredirect(m_targetWindow);
-            m_targetWindow = nullptr;
-        }
-        m_active = false;
-
-        qCWarning(KWIN_MAGPIE) << "Magpie DEACTIVATED";
-        if (effects) {
-            effects->addRepaintFull();
-        }
+        deactivate();
     }
 }
 
 void MagpieEffect::handleWindowDeleted(EffectWindow *w)
 {
     if (w == m_targetWindow) {
-        qCWarning(KWIN_MAGPIE) << "Target window deleted, resetting Magpie state";
         m_targetWindow = nullptr;
         m_active = false;
         if (effects) {
@@ -168,7 +190,6 @@ void MagpieEffect::handleWindowDeleted(EffectWindow *w)
 void MagpieEffect::slotWindowClosed(EffectWindow *w)
 {
     if (w == m_targetWindow) {
-        qCWarning(KWIN_MAGPIE) << "Target window closed, unredirecting and resetting Magpie state";
         if (m_active && m_targetWindow) {
             unredirect(m_targetWindow);
         }

@@ -9,7 +9,7 @@
         "Category": "Accessibility",
         "Description": "Window scaling with super-resolution shaders (Magpie-like)",
         "Description[zh_CN]": "使用超分辨率着色器放大窗口（类 Magpie 体验）",
-        "EnabledByDefault": false,
+        "EnabledByDefault": true,
         "Icon": "preferences-system-windows-effect-magpie",
         "License": "GPL-2.0-or-later",
         "Name": "Magpie Scaling",

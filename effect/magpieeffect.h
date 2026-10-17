@@ -43,6 +43,9 @@ protected:
     void apply(EffectWindow *window, int mask, WindowPaintData &data, WindowQuadList &quads) override;
 
 private:
+    void activateOnWindow(EffectWindow *w);
+    void deactivate();
+
     bool m_active{false};
     EffectWindow *m_targetWindow{nullptr};
     QAction *m_toggleAction{nullptr};
