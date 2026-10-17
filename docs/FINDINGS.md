@@ -141,3 +141,12 @@
 - **修复实现**:
   - 在 `MagpieInputSpy` 中全量扩展重写了 `touchDown`、`touchMotion`、`pointerButton`、`pointerAxis`、`tabletToolTipEvent`、`tabletToolAxisEvent`。
   - 所有触控与绝对点击事件在到达合成器分发前，全部经过 `mapScaledToOriginal` 归一化并缩放换算回目标窗口原生坐标，完美支持屏幕触控玩 Galgame。
+### 鼠标按键与快捷键持久化排查结论
+1. **鼠标按键点击错位的真凶 (二次映射踩坑)**:
+   - 反编译 `PointerInputRedirection::processButton` 发现：在调用 `pointerButton` 过滤器之前，KWin 已经把当前指针坐标 `m_pos` 拷贝进了 `PointerButtonEvent->position`。
+   - 而在此前鼠标移动时，`handlePointerEvent` 已经将 `m_pos` 瞬移到了原窗口的 `origPos`。
+   - 此时在 `pointerButton` 中再次执行 `mapScaledToOriginal(event->position)`，相当于**把已经换算回原窗口的坐标再次进行了反向映射**，所有点击都会被死死挤压到窗口最左上角边界。
+   - **修复**: 以屏幕上的视觉光标位置 `m_visualCursorPos` 为**唯一真理源 (Single Source of Truth)**，每次点击事件仅进行一次严格、单向的坐标计算，根除二次映射错误。
+2. **快捷键 `Ctrl+Alt+M` 强制覆盖**:
+   - KDE 的 `KGlobalAccel::setShortcut` 默认带有 `Autoloading` 标志，会优先读取用户配置文件中存留的历史快捷键。
+   - 使用 `KGlobalAccel::NoAutoloading` 标志强制在内存中将 `ToggleMagpie` 强刷绑定至 `Ctrl + Alt + M`。
