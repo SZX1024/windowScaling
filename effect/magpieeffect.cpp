@@ -33,10 +33,6 @@ MagpieEffect::MagpieEffect()
     if (QDBusConnection::sessionBus().isConnected()) {
         QDBusConnection::sessionBus().registerObject(QStringLiteral("/Magpie"), QStringLiteral("org.kde.KWin.Magpie"), this, QDBusConnection::ExportScriptableSlots | QDBusConnection::ExportAllSlots);
     }
-
-    if (effects) {
-        effects->showOnScreenMessage(QStringLiteral("Magpie Plugin Loaded (Meta+Alt+M)"), QStringLiteral("preferences-system-windows-effect-magpie"));
-    }
 }
 
 MagpieEffect::~MagpieEffect()
@@ -94,6 +90,23 @@ void MagpieEffect::prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePa
     }
     if (effects) {
         effects->prePaintWindow(view, w, data);
+    }
+}
+
+void MagpieEffect::paintWindow(const RenderTarget &renderTarget, const RenderViewport &viewport, EffectWindow *w, int mask, const Region &deviceRegion, WindowPaintData &data)
+{
+    if (m_active) {
+        if (w != m_targetWindow) {
+            // When Magpie is active, hide all other windows (panels, desktop, background apps)
+            // so the scaled target window has exclusive fullscreen presentation without clutter
+            data.multiplyOpacity(0.0);
+        } else {
+            data.setOpacity(1.0);
+        }
+    }
+
+    if (effects) {
+        effects->paintWindow(renderTarget, viewport, w, mask, deviceRegion, data);
     }
 }
 
@@ -221,7 +234,8 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
     }
 
     const RectF outputRect = output->geometryF();
-    const RectF winGeom = window->frameGeometry();
+    // Use expandedGeometry() because OffscreenEffect builds quads using expandedGeometry()
+    const RectF winGeom = window->expandedGeometry();
 
     const qreal winW = winGeom.width();
     const qreal winH = winGeom.height();
