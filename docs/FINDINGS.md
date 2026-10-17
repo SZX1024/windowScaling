@@ -150,3 +150,28 @@
 2. **快捷键 `Ctrl+Alt+M` 强制覆盖**:
    - KDE 的 `KGlobalAccel::setShortcut` 默认带有 `Autoloading` 标志，会优先读取用户配置文件中存留的历史快捷键。
    - 使用 `KGlobalAccel::NoAutoloading` 标志强制在内存中将 `ToggleMagpie` 强刷绑定至 `Ctrl + Alt + M`。
+---
+
+## Gate 3: 方案 3（全屏原生输入代理层与协议级直投）实测通过
+
+- **实现目标**: 彻底废除不稳定的硬件指针瞬移 (`warpPointer`)，采用 KWin 6.7.5 原生全屏输入拦截机制，直接向游戏 surface 注入 Wayland 协议事件。
+
+### 核心机制与原理
+1. **输入拦截 (Input Interception)**:
+   - 激活时调用 `effects->startMouseInterception(this, Qt::ArrowCursor)`。
+   - KWin 接管全屏所有鼠标/触摸事件，不再向桌面或底层泄露任何无效点击，彻底杜绝误触。
+2. **KWin 6.7 新特性虚函数直接**:
+   - `MagpieEffect::pointerMotion(PointerMotionEvent *event)`
+   - `MagpieEffect::pointerButton(PointerButtonEvent *event)`
+   - `MagpieEffect::pointerAxis(PointerAxisEvent *event)`
+   - `MagpieEffect::touchDown`, `touchMotion`, `touchUp`, `touchCancel`
+3. **坐标表面归一化 (`mapScaledToSurface`)**:
+   - 彻底摆脱窗口全局坐标、窗口外框阴影及多屏偏移的复杂计算。
+   - 计算光标或触点相对于放大画面的相对位置后直接除以 `scale`，换算出游戏客户端表面内的局部坐标 `surfacePos = (surfX, surfY)`，其中 `(0, 0)` 严格为游戏画面的左上角像素。
+4. **Wayland 协议级直投 (`SeatInterface`)**:
+   - 提取 `waylandServer()->seat()` 与 `m_targetWindow->surface()`。
+   - 每次移动：`seat->notifyPointerMotion(surfacePos); seat->notifyPointerFrame();`
+   - 每次点击：`seat->notifyPointerButton(event->button, event->state); seat->notifyPointerFrame();`
+   - 每次滚轮：`seat->notifyPointerAxis(...); seat->notifyPointerFrame();`
+   - 每次触控：`seat->notifyTouchDown(surface, surfacePos, id, pos);`
+   - 游戏客户端接收到的就是标准的 Wayland 协议原生点击，不经过任何中间硬件扭曲，100% 绝对精确对齐。
