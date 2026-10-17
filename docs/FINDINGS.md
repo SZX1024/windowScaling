@@ -104,3 +104,25 @@
   - 原公式错误地减去了 `window->pos() * scale`，导致窗口被向左上方过度偏移了 `window->pos() * (scale - 1)` 个像素，且比例越大偏差越严重。现已彻底修正。
 - **OSD 弹窗清除**:
   - KWin 的 `showOnScreenMessage` 属于模态/常驻型消息，不会自动超时消失。已彻底移除所有 `showOnScreenMessage` 调用，并在插件构造时显式调用 `hideOnScreenMessage()` 清除屏幕残留。
+---
+
+## Gate 3: 输入映射与原生系统通知 (实测通过)
+
+- **验证时间**: 2026-10-17
+- **实现模块**: `MagpieInputFilter` (继承 `KWin::InputEventFilter`) 与 FreeDesktop 原生通知。
+
+### 实现与技术验证
+1. **输入过滤器架构**:
+   - 继承 `KWin::InputEventFilter`，注册于 `InputFilterOrder::InteractiveMoveResize` 层级（在全局快捷键之后，窗口动作之前）。
+   - 拦截并重写指针事件（指针移动 `pointerMotion`、鼠标点击 `pointerButton`、滚轮滚动 `pointerAxis`）。
+   - 原窗口坐标反向映射函数 `mapScaledToOriginal(const QPointF &pos)`：
+     - 精准剔除全屏居中黑边偏移（`targetX`, `targetY`）；
+     - 将相对坐标按 `scale` 进行反向除法还原为原始窗口坐标；
+     - 限制在游戏窗口边界内（`std::clamp`），防止点击黑边时误触背景。
+   - 动态挂载：仅在 Magpie 激活期间调用 `input()->installInputEventFilter(this)`；退出时立即销毁并注销（`uninstallInputEventFilter`），平态运行时 0 额外开销。
+2. **原生桌面系统通知**:
+   - 彻底废除不自动退出的 KWin OSD (`showOnScreenMessage`)。
+   - 采用标准 FreeDesktop / KDE Plasma 桌面通知协议 (`org.freedesktop.Notifications`)：
+     - 激活时弹出标准桌面通知：`Magpie 已激活: 正在等比全屏放大 [窗口名]`；
+     - 退出时弹出：`Magpie 已退出: 窗口已恢复原始尺寸`；
+     - 2 秒自动渐隐消失，完全符合现代桌面交互标准。
