@@ -60,6 +60,8 @@ private:
     QAction *m_toggleAction{nullptr};
     QPointF m_visualCursorPos;
     std::unique_ptr<MagpieInputSpy> m_inputSpy;
+
+    friend class MagpieInputSpy;
 };
 
 class MagpieInputSpy : public InputEventSpy
@@ -93,14 +95,15 @@ public:
     void pointerButton(PointerButtonEvent *event) override
     {
         if (m_effect && m_effect->isActive()) {
-            event->position = m_effect->mapScaledToOriginal(event->position);
+            // Map button click strictly from visual cursor position (single source of truth)
+            event->position = m_effect->mapScaledToOriginal(m_effect->m_visualCursorPos);
         }
     }
 
     void pointerAxis(PointerAxisEvent *event) override
     {
         if (m_effect && m_effect->isActive()) {
-            event->position = m_effect->mapScaledToOriginal(event->position);
+            event->position = m_effect->mapScaledToOriginal(m_effect->m_visualCursorPos);
         }
     }
 

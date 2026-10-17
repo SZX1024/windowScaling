@@ -47,7 +47,9 @@ MagpieEffect::MagpieEffect()
     m_toggleAction->setObjectName(QStringLiteral("ToggleMagpie"));
     m_toggleAction->setText(i18n("Toggle Magpie Window Scaling"));
 
-    KGlobalAccel::setGlobalShortcut(m_toggleAction, QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M));
+    // Forcibly set both default and active shortcut to Ctrl+Alt+M with NoAutoloading
+    KGlobalAccel::self()->setDefaultShortcut(m_toggleAction, {QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M)});
+    KGlobalAccel::self()->setShortcut(m_toggleAction, {QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M)}, KGlobalAccel::NoAutoloading);
 
     connect(m_toggleAction, &QAction::triggered, this, &MagpieEffect::toggle);
 
@@ -205,7 +207,7 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
     if (name.isEmpty()) {
         name = QStringLiteral("Window");
     }
-    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1\n按 Ctrl+Alt+M 退出").arg(name));
+    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1\n快捷键: Ctrl+Alt+M").arg(name));
 
     if (effects) {
         effects->addRepaintFull();
