@@ -70,6 +70,9 @@ bool OverlayWindow::startScaling(unsigned long windowId)
 
     calculateLayout();
     m_active = true;
+    m_input.restackOverlayAbove(this->winId());
+    m_input.restackOverlayAbove(this->winId());
+    this->raise();
 
     // 120 FPS continuous render loop
     m_renderTimer.start(8);
@@ -80,6 +83,7 @@ void OverlayWindow::stopScaling()
 {
     m_renderTimer.stop();
     m_active = false;
+    m_input.releaseTarget();
     m_capture.releaseTarget();
     hide();
 }

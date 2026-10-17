@@ -344,6 +344,4 @@ CMakeFiles/magpie-overlay.dir/src/input.cpp.o: \
  /usr/include/qt6/QtCore/qvarlengtharray.h \
  /usr/include/qt6/QtCore/qalloc.h /usr/include/X11/Xlib.h \
  /usr/include/X11/X.h /usr/include/X11/Xfuncproto.h \
- /usr/include/X11/Xosdefs.h /usr/include/X11/extensions/XTest.h \
- /usr/include/X11/extensions/xtestconst.h \
- /usr/include/X11/extensions/XInput.h /usr/include/X11/extensions/XI.h
+ /usr/include/X11/Xosdefs.h /usr/include/X11/Xatom.h

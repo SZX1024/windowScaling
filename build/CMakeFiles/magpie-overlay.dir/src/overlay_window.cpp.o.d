@@ -387,9 +387,13 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/qt6/QtGui/qvector2d.h /usr/include/qt6/QtGui/qvectornd.h \
  /usr/include/qt6/QtGui/qvector3d.h /usr/include/qt6/QtGui/qvector4d.h \
  /usr/include/qt6/QtGui/qmatrix4x4.h \
- /usr/include/qt6/QtGui/qgenericmatrix.h /usr/include/qt6/QtCore/QTimer \
- /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtGui/QImage \
- /usr/include/qt6/QtCore/QRect \
+ /usr/include/qt6/QtGui/qgenericmatrix.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
+ /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
+ /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h \
+ /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
+ /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtCore/QRect \
  /home/SZX10246/Projects/software/windowScaling/src/capture.h \
  /usr/include/qt6/QtCore/QString \
  /home/SZX10246/Projects/software/windowScaling/src/input.h \
@@ -410,9 +414,4 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/qt6/QtGui/qkeysequence.h /usr/include/qt6/QtGui/QTouchEvent \
  /usr/include/qt6/QtGui/QKeyEvent /usr/include/qt6/QtGui/QWheelEvent \
  /usr/include/qt6/QtGui/QGuiApplication /usr/include/qt6/QtGui/QScreen \
- /usr/include/qt6/QtGui/QPainter /usr/include/qt6/QtGui/qpainter.h \
- /usr/include/qt6/QtGui/qtextoption.h /usr/include/qt6/QtGui/qpen.h \
- /usr/include/qt6/QtGui/qbrush.h /usr/include/qt6/QtGui/qfontinfo.h \
- /usr/include/qt6/QtGui/qfont.h /usr/include/qt6/QtCore/qendian.h \
- /usr/include/qt6/QtGui/qfontvariableaxis.h \
- /usr/include/qt6/QtGui/qfontmetrics.h /usr/include/qt6/QtCore/QDebug
+ /usr/include/qt6/QtGui/QMatrix4x4 /usr/include/qt6/QtCore/QDebug

@@ -14,6 +14,11 @@ public:
     void close();
 
     void setTarget(unsigned long windowId, const QRect &targetRect);
+    void releaseTarget();
+
+    // Stacking management: pin game below, overlay above
+    void setWindowBelow(unsigned long windowId, bool below);
+    void restackOverlayAbove(unsigned long overlayWinId);
 
     // Direct protocol injection via XSendEvent (Never warps hardware pointer!)
     void sendMotion(const QPoint &localPos);

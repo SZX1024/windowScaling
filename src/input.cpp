@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <cstring>
 #include <X11/Xlib.h>
+#include <X11/Xatom.h>
 
 struct X11InputForwarder::Impl {
     Display *display = nullptr;
@@ -39,10 +40,35 @@ bool X11InputForwarder::open(const char *displayName)
 
 void X11InputForwarder::close()
 {
+    releaseTarget();
     if (d->display) {
         XCloseDisplay(d->display);
         d->display = nullptr;
     }
+}
+
+void X11InputForwarder::setWindowBelow(unsigned long windowId, bool below)
+{
+    if (!d->display || windowId == None || d->root == None) {
+        return;
+    }
+
+    Atom netWmState = XInternAtom(d->display, "_NET_WM_STATE", False);
+    Atom netWmStateBelow = XInternAtom(d->display, "_NET_WM_STATE_BELOW", False);
+
+    XEvent ev;
+    memset(&ev, 0, sizeof(ev));
+    ev.xclient.type = ClientMessage;
+    ev.xclient.window = windowId;
+    ev.xclient.message_type = netWmState;
+    ev.xclient.format = 32;
+    ev.xclient.data.l[0] = below ? 1 : 0; // 1 = _NET_WM_STATE_ADD, 0 = _NET_WM_STATE_REMOVE
+    ev.xclient.data.l[1] = netWmStateBelow;
+    ev.xclient.data.l[2] = 0;
+    ev.xclient.data.l[3] = 1; // 1 = regular application
+
+    XSendEvent(d->display, d->root, False, SubstructureRedirectMask | SubstructureNotifyMask, &ev);
+    XFlush(d->display);
 }
 
 void X11InputForwarder::setTarget(unsigned long windowId, const QRect &targetRect)
@@ -50,11 +76,33 @@ void X11InputForwarder::setTarget(unsigned long windowId, const QRect &targetRec
     d->targetWindow = windowId;
     d->targetRect = targetRect;
 
-    // Ensure target window keeps input focus so it never pauses background rendering
     if (d->display && windowId != None) {
+        // Pin target window below so it can never pop up over the overlay
+        setWindowBelow(windowId, true);
+
+        // Keep input focus on game window so animations never pause
         XSetInputFocus(d->display, windowId, RevertToPointerRoot, CurrentTime);
         XFlush(d->display);
     }
+}
+
+void X11InputForwarder::releaseTarget()
+{
+    if (d->display && d->targetWindow != None) {
+        setWindowBelow(d->targetWindow, false);
+        d->targetWindow = None;
+    }
+}
+
+void X11InputForwarder::restackOverlayAbove(unsigned long overlayWinId)
+{
+    if (!d->display || overlayWinId == 0 || d->targetWindow == None) {
+        return;
+    }
+
+    Window wins[2] = { (Window)overlayWinId, d->targetWindow };
+    XRestackWindows(d->display, wins, 2);
+    XFlush(d->display);
 }
 
 static unsigned int qtButtonToX11(Qt::MouseButton button)
@@ -94,7 +142,7 @@ void X11InputForwarder::sendButton(Qt::MouseButton button, bool pressed, const Q
 {
     if (!d->display || d->targetWindow == None) return;
 
-    // First send motion to ensure target window updates its internal hover coordinate
+    // Send motion first to update target internal position
     sendMotion(localPos);
 
     XButtonEvent ev;

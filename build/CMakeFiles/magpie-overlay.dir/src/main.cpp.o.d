@@ -407,4 +407,8 @@ CMakeFiles/magpie-overlay.dir/src/main.cpp.o: \
  /usr/include/qt6/QtGui/qvector2d.h /usr/include/qt6/QtGui/qvectornd.h \
  /usr/include/qt6/QtGui/qvector3d.h /usr/include/qt6/QtGui/qvector4d.h \
  /usr/include/qt6/QtGui/qmatrix4x4.h \
- /usr/include/qt6/QtGui/qgenericmatrix.h
+ /usr/include/qt6/QtGui/qgenericmatrix.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
+ /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
+ /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h
