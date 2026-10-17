@@ -544,9 +544,12 @@ kwin4_effect_magpie2_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qyieldcpu.h \
 	/usr/include/qt6/QtDBus/QDBusArgument \
 	/usr/include/qt6/QtDBus/QDBusConnection \
+	/usr/include/qt6/QtDBus/QDBusMessage \
 	/usr/include/qt6/QtDBus/qdbusargument.h \
 	/usr/include/qt6/QtDBus/qdbusconnection.h \
+	/usr/include/qt6/QtDBus/qdbuserror.h \
 	/usr/include/qt6/QtDBus/qdbusextratypes.h \
+	/usr/include/qt6/QtDBus/qdbusmessage.h \
 	/usr/include/qt6/QtDBus/qtdbusexports.h \
 	/usr/include/qt6/QtDBus/qtdbusglobal.h \
 	/usr/include/qt6/QtGui/QAction \

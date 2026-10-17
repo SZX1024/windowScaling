@@ -12,6 +12,7 @@ target_include_directories(kwin4_effect_magpie2 PRIVATE
 target_link_libraries(kwin4_effect_magpie2 PRIVATE
     Qt6::Core
     Qt6::Gui
+    Qt6::DBus
     KF6::ConfigCore
     KF6::CoreAddons
     KF6::GlobalAccel

@@ -2,6 +2,7 @@
 
 #include <QAction>
 #include <QDBusConnection>
+#include <QDBusMessage>
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #include <QLoggingCategory>
@@ -13,6 +14,27 @@ Q_LOGGING_CATEGORY(KWIN_MAGPIE, "kwin_effect_magpie", QtInfoMsg)
 
 namespace KWin
 {
+
+static void sendDesktopNotification(const QString &summary, const QString &body)
+{
+    QDBusMessage msg = QDBusMessage::createMethodCall(
+        QStringLiteral("org.freedesktop.Notifications"),
+        QStringLiteral("/org/freedesktop/Notifications"),
+        QStringLiteral("org.freedesktop.Notifications"),
+        QStringLiteral("Notify")
+    );
+    msg << QStringLiteral("Magpie");
+    msg << static_cast<uint>(0);
+    msg << QStringLiteral("preferences-system-windows-effect-magpie");
+    msg << summary;
+    msg << body;
+    msg << QStringList();
+    QVariantMap hints;
+    hints[QStringLiteral("transient")] = true;
+    msg << hints;
+    msg << static_cast<int>(2000);
+    QDBusConnection::sessionBus().send(msg);
+}
 
 MagpieEffect::MagpieEffect()
     : OffscreenEffect()
@@ -28,7 +50,6 @@ MagpieEffect::MagpieEffect()
     if (effects) {
         connect(effects, &EffectsHandler::windowDeleted, this, &MagpieEffect::handleWindowDeleted);
         connect(effects, &EffectsHandler::windowClosed, this, &MagpieEffect::slotWindowClosed);
-        // Dismiss any lingering OSD messages from earlier
         effects->hideOnScreenMessage();
     }
 
@@ -136,6 +157,12 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
     m_active = true;
     redirect(m_targetWindow);
 
+    QString name = m_targetWindow->caption();
+    if (name.isEmpty()) {
+        name = QStringLiteral("Window");
+    }
+    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1").arg(name));
+
     if (effects) {
         effects->addRepaintFull();
     }
@@ -148,6 +175,8 @@ void MagpieEffect::deactivate()
         m_targetWindow = nullptr;
     }
     m_active = false;
+
+    sendDesktopNotification(QStringLiteral("Magpie 已退出"), QStringLiteral("窗口已恢复原始尺寸"));
 
     if (effects) {
         effects->addRepaintFull();
@@ -163,7 +192,7 @@ void MagpieEffect::toggle()
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
-            // Interactive window selection fallback without any OSD
+            sendDesktopNotification(QStringLiteral("Magpie 待命"), QStringLiteral("请点击需要放大的目标窗口"));
             effects->startInteractiveWindowSelection([this](EffectWindow *w) {
                 if (w) {
                     activateOnWindow(w);
@@ -236,9 +265,7 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
     // Aspect-preserving scale
     const qreal scale = std::min(outputRect.width() / winW, outputRect.height() / winH);
 
-    // Exact Mathematical Center Alignment:
-    // ScreenCenter = outputRect.center()
-    // Translation = ScreenCenter - window->pos() - scale * (winSize / 2)
+    // Center alignment:
     const QPointF screenCenter(outputRect.x() + outputRect.width() / 2.0,
                                outputRect.y() + outputRect.height() / 2.0);
     const QPointF windowPos = window->pos();

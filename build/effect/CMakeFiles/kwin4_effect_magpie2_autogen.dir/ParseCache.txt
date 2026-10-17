@@ -546,9 +546,12 @@
  mdp:/usr/include/qt6/QtCore/qyieldcpu.h
  mdp:/usr/include/qt6/QtDBus/QDBusArgument
  mdp:/usr/include/qt6/QtDBus/QDBusConnection
+ mdp:/usr/include/qt6/QtDBus/QDBusMessage
  mdp:/usr/include/qt6/QtDBus/qdbusargument.h
  mdp:/usr/include/qt6/QtDBus/qdbusconnection.h
+ mdp:/usr/include/qt6/QtDBus/qdbuserror.h
  mdp:/usr/include/qt6/QtDBus/qdbusextratypes.h
+ mdp:/usr/include/qt6/QtDBus/qdbusmessage.h
  mdp:/usr/include/qt6/QtDBus/qtdbusexports.h
  mdp:/usr/include/qt6/QtDBus/qtdbusglobal.h
  mdp:/usr/include/qt6/QtGui/QAction

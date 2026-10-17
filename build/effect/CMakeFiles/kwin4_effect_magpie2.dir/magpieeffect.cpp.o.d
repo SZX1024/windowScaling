@@ -441,6 +441,9 @@ effect/CMakeFiles/kwin4_effect_magpie2.dir/magpieeffect.cpp.o: \
  /usr/include/qt6/QtDBus/qdbusconnection.h \
  /usr/include/qt6/QtDBus/qtdbusglobal.h \
  /usr/include/qt6/QtDBus/qtdbusexports.h \
+ /usr/include/qt6/QtDBus/QDBusMessage \
+ /usr/include/qt6/QtDBus/qdbusmessage.h \
+ /usr/include/qt6/QtDBus/qdbuserror.h \
  /usr/include/KF6/KGlobalAccel/KGlobalAccel \
  /usr/include/KF6/KGlobalAccel/kglobalaccel.h \
  /usr/include/KF6/KGlobalAccel/kglobalshortcutinfo.h \
