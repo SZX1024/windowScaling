@@ -4,6 +4,8 @@
 #include <QOpenGLFunctions>
 #include <QOpenGLTexture>
 #include <QOpenGLShaderProgram>
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
 #include <QTimer>
 #include <QImage>
 #include <QRect>
@@ -44,17 +46,20 @@ private slots:
 private:
     QPoint mapToGame(const QPointF &screenPos) const;
     void calculateLayout();
+    void updateQuadGeometry();
 
     X11CaptureEngine &m_capture;
     X11InputForwarder &m_input;
     QTimer m_renderTimer;
 
-    QImage m_currentFrame;
+    std::unique_ptr<QOpenGLShaderProgram> m_program;
     std::unique_ptr<QOpenGLTexture> m_texture;
-    std::unique_ptr<QOpenGLShaderProgram> m_shader;
+    QOpenGLBuffer m_vbo;
+    QOpenGLVertexArrayObject m_vao;
 
     QRect m_origRect;
     QRect m_targetRect;
     qreal m_scale{1.0};
     bool m_active{false};
+    bool m_needsTextureUpload{false};
 };
