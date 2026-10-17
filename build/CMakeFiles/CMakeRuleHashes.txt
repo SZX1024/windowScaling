@@ -1,0 +1,6 @@
+# Hashes of file build rules.
+6203bed69ee19fa073392ec35d421380 CMakeFiles/fetch-translations
+a73ffa88211b75a4227ab6ed70b84d26 CMakeFiles/uninstall
+a8fab0110e32b6cb9c4fb3b47857a4a7 effect/CMakeFiles/kwin4_effect_magpie_autogen
+682e0c4ccc7c62a259cf7e70626cf1c5 effect/kwin4_effect_magpie_autogen/timestamp
+907855072379403bba48ab26747d7980 releaseme

@@ -1,0 +1,2 @@
+set(__QT_DEPLOY_TARGET_kwin4_effect_magpie_FILE /home/SZX10246/Projects/software/windowScaling/build/bin/kwin/effects/plugins/kwin4_effect_magpie.so)
+set(__QT_DEPLOY_TARGET_kwin4_effect_magpie_TYPE MODULE_LIBRARY)
