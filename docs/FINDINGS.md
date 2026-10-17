@@ -235,3 +235,10 @@
    - **X11 协议级强制压制 (`_NET_WM_STATE_BELOW`)**：激活全屏时，主动向窗口管理器发送 ClientMessage 将目标游戏窗口置为 **`_NET_WM_STATE_BELOW`（底层常驻）**；退出时再解除；
    - **XRestackWindows 强行重排**：在每次点击与释放后，显式调用 `XRestackWindows(overlay, game)`，在 X 服务器底层将覆盖层死死钉在游戏窗口正上方。
    - 彻底解决了点击时底层窗口翻到上方的问题。
+### 游戏内关闭游戏自动退出全屏机制实现
+1. **黑屏残留成因**:
+   - 当用户在游戏内点击退出（或关闭游戏窗口）时，原覆盖层仍在以 120Hz 刷新；由于目标窗口已销毁，抓取到的帧为空白，覆盖层按逻辑清屏为纯黑，导致用户被困在黑屏全屏窗口中。
+2. **毫秒级窗口生命周期探测与自毁**:
+   - 在 `X11CaptureEngine` 中实现 `isTargetAlive()`：通过 `XGetWindowAttributes` 实时检验目标窗口的物理存活状态及 `map_state == IsViewable`；
+   - 在覆盖层主渲染循环 `updateFrame()` 中嵌入该探针：一旦感知到游戏窗口被销毁或隐藏，覆盖层将在 **8 毫秒内自动调用 `stopScaling()` 并关闭窗口**，瞬间平滑返回原生桌面；
+   - 注入 X11 静默错误处理器（`silentX11ErrorHandler`），防止游戏突然退出时产生 `BadWindow` 崩溃，确保全流程无缝干净退出。
