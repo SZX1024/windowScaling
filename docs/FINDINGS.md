@@ -218,3 +218,11 @@
      - 计算相对于游戏窗口的局部相对坐标 `localX = [0, winW]`、`localY = [0, winH]`；
      - 通过 `XSendEvent` 绕过所有上层遮挡，直接把 `ButtonPress` 与 `ButtonRelease` 事件塞入目标游戏窗口句柄；
      - **物理光标位置分毫不动，绝不跳帧，绝不吸附右侧，点击 100% 命中**。
+### 点击导致底层游戏窗口升至顶层的排查与攻克
+1. **根本原因定位**:
+   - 在调用 `XSendEvent(d->display, d->targetWindow, propagate, mask, &event)` 时，第三个参数 `propagate` 之前设置为 `True`。
+   - 当 `propagate == True` 时，若事件未被特定客户端消费，X11 会将事件沿着层级向上传播到根窗口（Root Window）。KWin 窗口管理器监听到了根窗口的 `ButtonPress`，触发了桌面默认的 **“点击窗口自动置顶 (Click to Raise)”** 策略，强行把底层的游戏窗口拉到了最顶层，反向覆盖了放大覆盖层。
+2. **彻底解决措施**:
+   - **将 `propagate` 严格设为 `False`**：事件只投递进游戏窗口本身，**绝不向上传播到窗口管理器**。KWin 根本不知道发生了点击，彻底消除“点击自动置顶”的触发源；
+   - **赋予覆盖层 `Qt::BypassWindowManagerHint`**：将覆盖层窗口配置为 **Override-Redirect（无视窗口管理器）** 特权窗口，不受任何窗口管理器的层级排序影响，永久钉死在所有普通窗口的绝对顶层；
+   - 在按键释放（`mouseReleaseEvent`）与触控抬起（`TouchEnd`）时主动调用 `this->raise()` 进行双重保障，确保无论用户如何高频点击或快速滑动，全屏放大覆盖层始终牢牢居于游戏窗口上方。
