@@ -37,7 +37,7 @@ OverlayWindow::OverlayWindow(X11CaptureEngine &capture, X11InputForwarder &input
     , m_input(input)
     , m_vbo(QOpenGLBuffer::VertexBuffer)
 {
-    setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus);
     connect(&m_renderTimer, &QTimer::timeout, this, &OverlayWindow::updateFrame);
 }
 
@@ -235,10 +235,11 @@ QPoint OverlayWindow::mapToGame(const QPointF &screenPos) const
     const qreal clampedX = std::clamp(relX, 0.0, (qreal)m_targetRect.width());
     const qreal clampedY = std::clamp(relY, 0.0, (qreal)m_targetRect.height());
 
-    const int origX = m_origRect.x() + std::lround(clampedX / m_scale);
-    const int origY = m_origRect.y() + std::lround(clampedY / m_scale);
+    // Local coordinates inside game window: (0, 0) is top-left
+    const int localX = (int)std::clamp(std::lround(clampedX / m_scale), 0L, (long)m_origRect.width() - 1);
+    const int localY = (int)std::clamp(std::lround(clampedY / m_scale), 0L, (long)m_origRect.height() - 1);
 
-    return QPoint(origX, origY);
+    return QPoint(localX, localY);
 }
 
 void OverlayWindow::mousePressEvent(QMouseEvent *event)

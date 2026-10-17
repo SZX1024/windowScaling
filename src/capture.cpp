@@ -161,23 +161,33 @@ unsigned long X11CaptureEngine::getActiveWindow()
     }
 
     Atom netActiveWindow = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", True);
-    if (netActiveWindow == None) {
-        return 0;
-    }
-
-    Atom actualType;
-    int actualFormat;
-    unsigned long nItems = 0, bytesAfter = 0;
-    unsigned char *prop = nullptr;
-
     unsigned long activeWin = 0;
-    if (XGetWindowProperty(d->display, d->root, netActiveWindow, 0, 1, False, XA_WINDOW,
-                           &actualType, &actualFormat, &nItems, &bytesAfter, &prop) == Success && prop) {
-        if (nItems > 0) {
-            activeWin = *reinterpret_cast<Window*>(prop);
+
+    if (netActiveWindow != None) {
+        Atom actualType;
+        int actualFormat;
+        unsigned long nItems = 0, bytesAfter = 0;
+        unsigned char *prop = nullptr;
+
+        if (XGetWindowProperty(d->display, d->root, netActiveWindow, 0, 1, False, XA_WINDOW,
+                               &actualType, &actualFormat, &nItems, &bytesAfter, &prop) == Success && prop) {
+            if (nItems > 0) {
+                activeWin = *reinterpret_cast<Window*>(prop);
+            }
+            XFree(prop);
         }
-        XFree(prop);
     }
+
+    // Fallback: XGetInputFocus
+    if (activeWin == 0) {
+        Window focusWin = None;
+        int revertTo = 0;
+        XGetInputFocus(d->display, &focusWin, &revertTo);
+        if (focusWin != None && focusWin != d->root && focusWin != PointerRoot) {
+            activeWin = focusWin;
+        }
+    }
+
     return activeWin;
 }
 
@@ -206,10 +216,6 @@ bool X11CaptureEngine::setTargetWindow(unsigned long windowId)
         return false;
     }
 
-    if (attrs.width <= 0 || attrs.height <= 0) {
-        return false;
-    }
-
     d->target = windowId;
     m_target = windowId;
     d->targetGeometry = QRect(attrs.x, attrs.y, attrs.width, attrs.height);
@@ -217,8 +223,39 @@ bool X11CaptureEngine::setTargetWindow(unsigned long windowId)
     // Redirect window offscreen
     XCompositeRedirectWindow(d->display, d->target, CompositeRedirectAutomatic);
     d->pixmap = XCompositeNameWindowPixmap(d->display, d->target);
+
+    // If top-level has no pixmap, check children (common in Wine/Proton games)
+    if (d->pixmap == None) {
+        Window rootRet, parentRet;
+        Window *children = nullptr;
+        unsigned int nchildren = 0;
+        if (XQueryTree(d->display, d->target, &rootRet, &parentRet, &children, &nchildren) && children) {
+            for (unsigned int i = 0; i < nchildren; ++i) {
+                XWindowAttributes childAttrs;
+                if (XGetWindowAttributes(d->display, children[i], &childAttrs) && childAttrs.map_state == IsViewable) {
+                    XCompositeRedirectWindow(d->display, children[i], CompositeRedirectAutomatic);
+                    Pixmap p = XCompositeNameWindowPixmap(d->display, children[i]);
+                    if (p != None) {
+                        d->target = children[i];
+                        m_target = children[i];
+                        d->pixmap = p;
+                        d->targetGeometry = QRect(childAttrs.x, childAttrs.y, childAttrs.width, childAttrs.height);
+                        attrs = childAttrs;
+                        break;
+                    }
+                }
+            }
+            XFree(children);
+        }
+    }
+
     if (d->pixmap == None) {
         qWarning() << "X11CaptureEngine: XCompositeNameWindowPixmap failed for window" << Qt::hex << windowId;
+        releaseTarget();
+        return false;
+    }
+
+    if (attrs.width <= 0 || attrs.height <= 0) {
         releaseTarget();
         return false;
     }

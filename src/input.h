@@ -15,16 +15,16 @@ public:
 
     void setTarget(unsigned long windowId, const QRect &targetRect);
 
-    // Mouse input injection via XTest
-    void sendMotion(const QPoint &globalPos);
-    void sendButton(Qt::MouseButton button, bool pressed, const QPoint &globalPos);
-    void sendClick(Qt::MouseButton button, const QPoint &globalPos);
-    void sendWheel(int deltaY, const QPoint &globalPos);
+    // Direct protocol injection via XSendEvent (Never warps hardware pointer!)
+    void sendMotion(const QPoint &localPos);
+    void sendButton(Qt::MouseButton button, bool pressed, const QPoint &localPos);
+    void sendClick(Qt::MouseButton button, const QPoint &localPos);
+    void sendWheel(int deltaY, const QPoint &localPos);
 
-    // Touch input injection via XTest
-    void sendTouchDown(const QPoint &globalPos);
-    void sendTouchMotion(const QPoint &globalPos);
-    void sendTouchUp(const QPoint &globalPos);
+    // Touch input (mapped to direct button 1 press/release on target window)
+    void sendTouchDown(const QPoint &localPos);
+    void sendTouchMotion(const QPoint &localPos);
+    void sendTouchUp(const QPoint &localPos);
 
 private:
     struct Impl;

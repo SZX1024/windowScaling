@@ -63,7 +63,7 @@ int main(int argc, char **argv)
             std::cout << "  0x" << std::hex << item.id << std::dec
                       << "  [" << item.width << "x" << item.height << " at (" << item.x << "," << item.y << ")]"
                       << "  " << (item.isViewable ? "[Visible]" : "[Hidden]")
-                      << "  " << item.title.toStdString() << std::endl;
+                      << "  " << (item.title.isEmpty() ? std::string("[Wine / Game Window]") : item.title.toStdString()) << std::endl;
         }
         return 0;
     }
@@ -113,14 +113,20 @@ int main(int argc, char **argv)
         QTimer::singleShot(delaySec * 1000, [&]() {
             unsigned long activeId = capture.getActiveWindow();
             if (activeId == 0) {
-                // Pick the first viewable non-empty window as fallback
+                // Pick the largest viewable window that is not a desktop/panel
                 auto list = capture.listWindows();
+                unsigned long bestId = 0;
+                int maxArea = 0;
                 for (const auto &w : list) {
-                    if (w.isViewable && !w.title.isEmpty() && !w.title.contains(QStringLiteral("magpie"), Qt::CaseInsensitive)) {
-                        activeId = w.id;
-                        break;
+                    if (w.isViewable && w.width >= 640 && w.height >= 400) {
+                        int area = w.width * w.height;
+                        if (area > maxArea) {
+                            maxArea = area;
+                            bestId = w.id;
+                        }
                     }
                 }
+                activeId = bestId;
             }
             startOverlayWithId(activeId);
         });
