@@ -336,11 +336,15 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compi
   /usr/include/c++/16/x86_64-redhat-linux/bits/time_members.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
+  /usr/include/epoxy/common.h \
+  /usr/include/epoxy/gl.h \
+  /usr/include/epoxy/gl_generated.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/kwin/config-kwin.h \
   /usr/include/kwin/core/colorspace.h \
   /usr/include/kwin/core/output.h \
@@ -351,7 +355,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compi
   /usr/include/kwin/effect/effecthandler.h \
   /usr/include/kwin/effect/effectwindow.h \
   /usr/include/kwin/effect/globals.h \
+  /usr/include/kwin/effect/offscreeneffect.h \
   /usr/include/kwin/kwin_export.h \
+  /usr/include/kwin/opengl/glvertexbuffer.h \
+  /usr/include/kwin/scene/itemgeometry.h \
   /usr/include/kwin/utils/edid.h \
   /usr/include/libintl.h \
   /usr/include/limits.h \
@@ -552,6 +559,7 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compi
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtGui/QColor \
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QMatrix4x4 \
@@ -953,11 +961,15 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
   /usr/include/c++/16/x86_64-redhat-linux/bits/time_members.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
+  /usr/include/epoxy/common.h \
+  /usr/include/epoxy/gl.h \
+  /usr/include/epoxy/gl_generated.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/kwin/config-kwin.h \
   /usr/include/kwin/core/colorspace.h \
   /usr/include/kwin/core/output.h \
@@ -968,7 +980,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
   /usr/include/kwin/effect/effecthandler.h \
   /usr/include/kwin/effect/effectwindow.h \
   /usr/include/kwin/effect/globals.h \
+  /usr/include/kwin/effect/offscreeneffect.h \
   /usr/include/kwin/kwin_export.h \
+  /usr/include/kwin/opengl/glvertexbuffer.h \
+  /usr/include/kwin/scene/itemgeometry.h \
   /usr/include/kwin/utils/edid.h \
   /usr/include/libintl.h \
   /usr/include/limits.h \
@@ -1174,11 +1189,14 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
   /usr/include/qt6/QtDBus/QDBusArgument \
+  /usr/include/qt6/QtDBus/QDBusConnection \
   /usr/include/qt6/QtDBus/qdbusargument.h \
+  /usr/include/qt6/QtDBus/qdbusconnection.h \
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
   /usr/include/qt6/QtGui/QAction \
+  /usr/include/qt6/QtGui/QColor \
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QKeySequence \
@@ -1247,6 +1265,8 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 /usr/include/qt6/QtGui/QAction:
 
 /usr/include/qt6/QtDBus/qdbusextratypes.h:
+
+/usr/include/qt6/QtDBus/qdbusconnection.h:
 
 /usr/include/qt6/QtDBus/QDBusArgument:
 
@@ -1330,6 +1350,8 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 
 /usr/include/qt6/QtGui/QIcon:
 
+/usr/include/qt6/QtGui/QColor:
+
 /usr/include/qt6/QtCore/qyieldcpu.h:
 
 /usr/include/qt6/QtCore/qxptype_traits.h:
@@ -1341,6 +1363,14 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 /usr/include/qt6/QtCore/qutf8stringview.h:
 
 /usr/include/qt6/QtCore/qurl.h:
+
+/usr/include/qt6/QtCore/qtversionchecks.h:
+
+/usr/include/qt6/QtCore/qtversion.h:
+
+/usr/include/qt6/QtCore/qttypetraits.h:
+
+/usr/include/qt6/QtCore/qtnoop.h:
 
 /usr/include/qt6/QtCore/qmargins.h:
 
@@ -1417,8 +1447,6 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 /usr/include/c++/16/bits/stl_uninitialized.h:
 
 /usr/include/c++/16/cstring:
-
-/usr/include/c++/16/bits/specfun.h:
 
 /usr/include/bits/mathcalls-helper-functions.h:
 
@@ -1536,6 +1564,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 
 /usr/include/c++/16/bits/concept_check.h:
 
+/usr/include/c++/16/bits/specfun.h:
+
+/usr/include/epoxy/gl_generated.h:
+
 /usr/include/qt6/QtCore/QPoint:
 
 /usr/include/c++/16/bits/stl_multimap.h:
@@ -1549,6 +1581,8 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 /usr/include/c++/16/x86_64-redhat-linux/bits/gthr.h:
 
 /usr/include/c++/16/bits/chrono.h:
+
+/usr/include/inttypes.h:
 
 /usr/include/c++/16/cwctype:
 
@@ -1571,6 +1605,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: /home/SZX10246/Pro
 /usr/include/bits/types/__fpos_t.h:
 
 /usr/include/c++/16/ranges:
+
+/usr/include/qt6/QtCore/qtpreprocessorsupport.h:
+
+/usr/include/c++/16/bits/nested_exception.h:
 
 /usr/include/qt6/QtCore/QEvent:
 
@@ -1611,6 +1649,8 @@ effect/kwin4_effect_magpie_autogen/mocs_compilation.cpp:
 /usr/include/c++/16/tr1/bessel_function.tcc:
 
 /usr/include/bits/endianness.h:
+
+/usr/include/qt6/QtDBus/QDBusConnection:
 
 /usr/include/libintl.h:
 
@@ -1725,6 +1765,10 @@ effect/kwin4_effect_magpie_autogen/mocs_compilation.cpp:
 /usr/include/c++/16/bits/binders.h:
 
 /usr/include/KF6/KConfig/kconfig_version.h:
+
+/usr/include/qt6/QtCore/qtresource.h:
+
+/usr/include/bits/libc-header-start.h:
 
 /usr/include/xcb/xproto.h:
 
@@ -1860,8 +1904,6 @@ effect/kwin4_effect_magpie_autogen/mocs_compilation.cpp:
 
 /usr/include/c++/16/bit:
 
-/usr/include/kwin/core/region.h:
-
 /usr/include/bits/types/error_t.h:
 
 /usr/include/qt6/QtGui/qimage.h:
@@ -1950,6 +1992,12 @@ effect/kwin4_effect_magpie_autogen/mocs_compilation.cpp:
 
 /usr/include/bits/mathcalls.h:
 
+/usr/include/qt6/QtCore/qttranslation.h:
+
+effect/kwin4_effect_magpie_autogen/EWIEGA46WW/moc_magpieeffect.cpp:
+
+/usr/include/c++/16/list:
+
 /usr/include/bits/types/mbstate_t.h:
 
 /usr/include/c++/16/bits/memory_resource.h:
@@ -2009,8 +2057,6 @@ effect/kwin4_effect_magpie_autogen/mocs_compilation.cpp:
 /usr/include/c++/16/bits/ranges_algo.h:
 
 /usr/include/qt6/QtCore/qsize.h:
-
-/usr/include/qt6/QtCore/qtnoop.h:
 
 /usr/include/qt6/QtCore/QString:
 
@@ -2194,9 +2240,11 @@ effect/kwin4_effect_magpie_autogen/include/magpieeffect.moc:
 
 /usr/include/c++/16/x86_64-redhat-linux/bits/time_members.h:
 
-/usr/include/gnu/stubs-64.h:
+/usr/include/epoxy/common.h:
 
-/usr/include/qt6/QtCore/qtversionchecks.h:
+/usr/include/epoxy/gl.h:
+
+/usr/include/gnu/stubs-64.h:
 
 /usr/include/kwin/config-kwin.h:
 
@@ -2210,11 +2258,21 @@ effect/kwin4_effect_magpie_autogen/include/magpieeffect.moc:
 
 /usr/include/kwin/effect/effecthandler.h:
 
+/usr/include/kwin/effect/offscreeneffect.h:
+
+/usr/include/qt6/QtCore/qanystringview.h:
+
 /usr/include/kwin/kwin_export.h:
 
 /usr/include/c++/16/array:
 
 /usr/include/qt6/QtCore/qglobal.h:
+
+/usr/include/kwin/core/region.h:
+
+/usr/include/kwin/opengl/glvertexbuffer.h:
+
+/usr/include/kwin/scene/itemgeometry.h:
 
 /usr/include/bits/types/clock_t.h:
 
@@ -2333,8 +2391,6 @@ effect/kwin4_effect_magpie_autogen/include/magpieeffect.moc:
 /usr/include/qt6/QtCore/qalgorithms.h:
 
 /usr/include/qt6/QtCore/qalloc.h:
-
-/usr/include/qt6/QtCore/qanystringview.h:
 
 /usr/include/qt6/QtCore/qarraydataops.h:
 
@@ -2481,21 +2537,3 @@ effect/kwin4_effect_magpie_autogen/include/magpieeffect.moc:
 /usr/include/qt6/QtCore/qtenvironmentvariables.h:
 
 /usr/include/qt6/QtCore/qtextstream.h:
-
-/usr/include/c++/16/bits/nested_exception.h:
-
-/usr/include/qt6/QtCore/qtpreprocessorsupport.h:
-
-/usr/include/bits/libc-header-start.h:
-
-/usr/include/qt6/QtCore/qtresource.h:
-
-effect/kwin4_effect_magpie_autogen/EWIEGA46WW/moc_magpieeffect.cpp:
-
-/usr/include/c++/16/list:
-
-/usr/include/qt6/QtCore/qttranslation.h:
-
-/usr/include/qt6/QtCore/qttypetraits.h:
-
-/usr/include/qt6/QtCore/qtversion.h:

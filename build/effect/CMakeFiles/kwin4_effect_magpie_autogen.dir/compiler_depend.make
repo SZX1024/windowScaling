@@ -281,8 +281,10 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
   /usr/include/c++/16/pstl/execution_defs.h \
   /usr/include/c++/16/pstl/glue_numeric_defs.h \
   /usr/include/c++/16/pstl/pstl_config.h \
+  /usr/include/c++/16/ranges \
   /usr/include/c++/16/ratio \
   /usr/include/c++/16/set \
+  /usr/include/c++/16/span \
   /usr/include/c++/16/sstream \
   /usr/include/c++/16/stdexcept \
   /usr/include/c++/16/streambuf \
@@ -323,11 +325,15 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
   /usr/include/c++/16/x86_64-redhat-linux/bits/os_defines.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
+  /usr/include/epoxy/common.h \
+  /usr/include/epoxy/gl.h \
+  /usr/include/epoxy/gl_generated.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/kwin/config-kwin.h \
   /usr/include/kwin/core/colorspace.h \
   /usr/include/kwin/core/output.h \
@@ -338,7 +344,10 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
   /usr/include/kwin/effect/effecthandler.h \
   /usr/include/kwin/effect/effectwindow.h \
   /usr/include/kwin/effect/globals.h \
+  /usr/include/kwin/effect/offscreeneffect.h \
   /usr/include/kwin/kwin_export.h \
+  /usr/include/kwin/opengl/glvertexbuffer.h \
+  /usr/include/kwin/scene/itemgeometry.h \
   /usr/include/kwin/utils/edid.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
@@ -537,11 +546,14 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
   /usr/include/qt6/QtDBus/QDBusArgument \
+  /usr/include/qt6/QtDBus/QDBusConnection \
   /usr/include/qt6/QtDBus/qdbusargument.h \
+  /usr/include/qt6/QtDBus/qdbusconnection.h \
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
   /usr/include/qt6/QtGui/QAction \
+  /usr/include/qt6/QtGui/QColor \
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QKeySequence \
@@ -660,6 +672,22 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 
 /usr/include/qt6/QtGui/QIcon:
 
+/usr/include/qt6/QtGui/QColor:
+
+/usr/include/qt6/QtGui/QAction:
+
+/usr/include/qt6/QtDBus/qdbusextratypes.h:
+
+/usr/include/qt6/QtDBus/qdbusconnection.h:
+
+/usr/include/qt6/QtDBus/QDBusConnection:
+
+/usr/include/qt6/QtDBus/QDBusArgument:
+
+/usr/include/qt6/QtCore/qyieldcpu.h:
+
+/usr/include/qt6/QtCore/qxptype_traits.h:
+
 /usr/include/asm-generic/types.h:
 
 /usr/include/asm-generic/bitsperlong.h:
@@ -740,8 +768,6 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 
 /usr/include/c++/16/cstring:
 
-/usr/include/c++/16/bits/specfun.h:
-
 /usr/include/c++/16/bits/shared_ptr_base.h:
 
 /usr/include/bits/stdint-least.h:
@@ -794,11 +820,7 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 
 /usr/include/c++/16/ext/atomicity.h:
 
-/usr/include/qt6/QtCore/qyieldcpu.h:
-
 /usr/include/c++/16/bits/ios_base.h:
-
-/usr/include/qt6/QtDBus/qdbusextratypes.h:
 
 /usr/include/qt6/QtCore/QMetaType:
 
@@ -848,9 +870,15 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 
 /usr/include/c++/16/bits/concept_check.h:
 
+/usr/include/c++/16/bits/specfun.h:
+
+/usr/include/epoxy/gl_generated.h:
+
 /usr/include/qt6/QtCore/QPoint:
 
 /usr/include/c++/16/bits/chrono.h:
+
+/usr/include/inttypes.h:
 
 /usr/include/c++/16/cwctype:
 
@@ -871,6 +899,8 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 /usr/include/c++/16/bits/char_traits.h:
 
 /usr/include/bits/types/__fpos_t.h:
+
+/usr/include/c++/16/ranges:
 
 /usr/include/qt6/QtCore/QEvent:
 
@@ -931,8 +961,6 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 /usr/include/c++/16/version:
 
 /usr/include/qt6/QtCore/qdatetime.h:
-
-/usr/include/qt6/QtCore/qxptype_traits.h:
 
 /usr/include/asm-generic/errno-base.h:
 
@@ -1040,6 +1068,10 @@ effect/kwin4_effect_magpie_autogen/timestamp: effect/kwin4_effect_magpie_autogen
 
 /usr/include/KF6/KConfig/kconfig_version.h:
 
+/usr/include/qt6/QtCore/qversiontagging.h:
+
+/usr/include/c++/16/bits/stringfwd.h:
+
 /usr/include/c++/16/cwchar:
 
 /usr/include/qt6/QtCore/qcompare_impl.h:
@@ -1124,12 +1156,6 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/KF6/KI18n/ki18n_version.h:
 
-/usr/include/c++/16/bits/stl_relops.h:
-
-/usr/include/c++/16/bits/stl_iterator_base_types.h:
-
-/usr/include/KF6/KCoreAddons/kpluginmetadata.h:
-
 /usr/include/qt6/QtCore/qdarwinhelpers.h:
 
 /usr/include/c++/16/backward/binders.h:
@@ -1141,8 +1167,6 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 /usr/include/bits/long-double.h:
 
 /usr/include/c++/16/bits/stl_list.h:
-
-/usr/include/kwin/core/region.h:
 
 /usr/include/bits/types/error_t.h:
 
@@ -1338,6 +1362,10 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/bits/time64.h:
 
+/usr/include/qt6/QtDBus/qtdbusexports.h:
+
+/usr/include/c++/16/bits/allocator.h:
+
 /usr/include/c++/16/debug/assertions.h:
 
 /usr/include/c++/16/pstl/execution_defs.h:
@@ -1387,6 +1415,14 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 /usr/include/c++/16/ratio:
 
 /usr/include/c++/16/set:
+
+/usr/include/c++/16/bits/stl_relops.h:
+
+/usr/include/c++/16/bits/stl_iterator_base_types.h:
+
+/usr/include/KF6/KCoreAddons/kpluginmetadata.h:
+
+/usr/include/c++/16/span:
 
 /usr/include/c++/16/bits/stdexcept_throwfwd.h:
 
@@ -1478,6 +1514,10 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qutf8stringview.h:
 
+/usr/include/epoxy/common.h:
+
+/usr/include/epoxy/gl.h:
+
 /usr/include/gnu/stubs-64.h:
 
 /usr/include/qt6/QtCore/qtversionchecks.h:
@@ -1494,11 +1534,21 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/kwin/effect/effecthandler.h:
 
+/usr/include/kwin/effect/offscreeneffect.h:
+
+/usr/include/qt6/QtCore/qanystringview.h:
+
 /usr/include/kwin/kwin_export.h:
 
 /usr/include/c++/16/array:
 
 /usr/include/qt6/QtCore/qglobal.h:
+
+/usr/include/kwin/core/region.h:
+
+/usr/include/kwin/opengl/glvertexbuffer.h:
+
+/usr/include/kwin/scene/itemgeometry.h:
 
 /usr/include/bits/types/clock_t.h:
 
@@ -1535,6 +1585,10 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/QCoreApplication:
 
 /usr/include/qt6/QtCore/qobjectdefs_impl.h:
+
+/usr/include/qt6/QtDBus/qdbusargument.h:
+
+/usr/include/qt6/QtCore/QDataStream:
 
 /usr/include/c++/16/bits/range_access.h:
 
@@ -1578,8 +1632,6 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/QUuid:
 
-/usr/include/qt6/QtGui/QAction:
-
 /usr/include/qt6/QtCore/QVariant:
 
 /usr/include/qt6/QtCore/qurl.h:
@@ -1599,8 +1651,6 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/qalgorithms.h:
 
 /usr/include/qt6/QtCore/qalloc.h:
-
-/usr/include/qt6/QtCore/qanystringview.h:
 
 /usr/include/qt6/QtCore/qarraydataops.h:
 
@@ -1690,6 +1740,12 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qnativeinterface.h:
 
+/usr/include/qt6/QtDBus/qtdbusglobal.h:
+
+/usr/include/c++/16/x86_64-redhat-linux/bits/ctype_inline.h:
+
+/usr/include/qt6/QtCore/qobject.h:
+
 /usr/include/qt6/QtCore/qobject_impl.h:
 
 /usr/include/qt6/QtCore/qpair.h:
@@ -1760,10 +1816,6 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qttranslation.h:
 
-/usr/include/c++/16/bits/stringfwd.h:
-
-/usr/include/qt6/QtCore/qversiontagging.h:
-
 /usr/include/qt6/QtCore/qttypetraits.h:
 
 /usr/include/qt6/QtCore/qtversion.h:
@@ -1771,19 +1823,3 @@ effect/kwin4_effect_magpie_autogen/moc_predefs.h:
 /usr/include/c++/16/bits/stl_algobase.h:
 
 /usr/include/qt6/QtCore/qvarlengtharray.h:
-
-/usr/include/qt6/QtDBus/QDBusArgument:
-
-/usr/include/qt6/QtCore/QDataStream:
-
-/usr/include/qt6/QtDBus/qdbusargument.h:
-
-/usr/include/c++/16/bits/allocator.h:
-
-/usr/include/qt6/QtDBus/qtdbusexports.h:
-
-/usr/include/c++/16/x86_64-redhat-linux/bits/ctype_inline.h:
-
-/usr/include/qt6/QtCore/qobject.h:
-
-/usr/include/qt6/QtDBus/qtdbusglobal.h:

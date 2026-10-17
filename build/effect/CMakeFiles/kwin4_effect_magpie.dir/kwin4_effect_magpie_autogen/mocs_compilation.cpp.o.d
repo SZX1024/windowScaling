@@ -3,6 +3,7 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compi
  /usr/include/stdc-predef.h \
  /home/SZX10246/Projects/software/windowScaling/build/effect/kwin4_effect_magpie_autogen/EWIEGA46WW/moc_magpieeffect.cpp \
  /home/SZX10246/Projects/software/windowScaling/build/effect/kwin4_effect_magpie_autogen/EWIEGA46WW/../../../../effect/magpieeffect.h \
+ /usr/include/kwin/effect/offscreeneffect.h \
  /usr/include/kwin/effect/effect.h /usr/include/kwin/core/region.h \
  /usr/include/kwin/core/rect.h /usr/include/kwin/kwin_export.h \
  /usr/include/qt6/QtCore/QDataStream \
@@ -401,6 +402,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compi
  /usr/include/qt6/QtCore/qiodevice.h \
  /usr/include/qt6/QtCore/QStandardPaths \
  /usr/include/qt6/QtCore/qstandardpaths.h \
+ /usr/include/kwin/scene/itemgeometry.h \
+ /usr/include/kwin/opengl/glvertexbuffer.h /usr/include/qt6/QtGui/QColor \
+ /usr/include/epoxy/gl.h /usr/include/epoxy/common.h \
+ /usr/include/epoxy/gl_generated.h /usr/include/inttypes.h \
  /usr/include/kwin/effect/effecthandler.h \
  /usr/include/kwin/effect/effectwindow.h /usr/include/kwin/core/output.h \
  /usr/include/kwin/core/renderloop.h /usr/include/kwin/utils/edid.h \

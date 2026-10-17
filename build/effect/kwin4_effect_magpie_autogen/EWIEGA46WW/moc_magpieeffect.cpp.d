@@ -263,8 +263,10 @@
   /usr/include/c++/16/pstl/execution_defs.h \
   /usr/include/c++/16/pstl/glue_numeric_defs.h \
   /usr/include/c++/16/pstl/pstl_config.h \
+  /usr/include/c++/16/ranges \
   /usr/include/c++/16/ratio \
   /usr/include/c++/16/set \
+  /usr/include/c++/16/span \
   /usr/include/c++/16/sstream \
   /usr/include/c++/16/stdexcept \
   /usr/include/c++/16/streambuf \
@@ -305,11 +307,15 @@
   /usr/include/c++/16/x86_64-redhat-linux/bits/os_defines.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
+  /usr/include/epoxy/common.h \
+  /usr/include/epoxy/gl.h \
+  /usr/include/epoxy/gl_generated.h \
   /usr/include/errno.h \
   /usr/include/features-time64.h \
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/inttypes.h \
   /usr/include/kwin/config-kwin.h \
   /usr/include/kwin/core/colorspace.h \
   /usr/include/kwin/core/output.h \
@@ -320,7 +326,10 @@
   /usr/include/kwin/effect/effecthandler.h \
   /usr/include/kwin/effect/effectwindow.h \
   /usr/include/kwin/effect/globals.h \
+  /usr/include/kwin/effect/offscreeneffect.h \
   /usr/include/kwin/kwin_export.h \
+  /usr/include/kwin/opengl/glvertexbuffer.h \
+  /usr/include/kwin/scene/itemgeometry.h \
   /usr/include/kwin/utils/edid.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
@@ -516,6 +525,7 @@
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtGui/QColor \
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QMatrix4x4 \

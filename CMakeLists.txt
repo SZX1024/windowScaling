@@ -12,7 +12,7 @@ include(KDECMakeSettings)
 include(KDECompilerSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 
-find_package(Qt6 REQUIRED COMPONENTS Core Gui)
+find_package(Qt6 REQUIRED COMPONENTS Core Gui DBus)
 find_package(KF6 REQUIRED COMPONENTS Config CoreAddons GlobalAccel I18n WindowSystem)
 find_package(KWin REQUIRED)
 

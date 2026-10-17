@@ -2,6 +2,7 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: \
  /home/SZX10246/Projects/software/windowScaling/effect/magpieeffect.cpp \
  /usr/include/stdc-predef.h \
  /home/SZX10246/Projects/software/windowScaling/effect/magpieeffect.h \
+ /usr/include/kwin/effect/offscreeneffect.h \
  /usr/include/kwin/effect/effect.h /usr/include/kwin/core/region.h \
  /usr/include/kwin/core/rect.h /usr/include/kwin/kwin_export.h \
  /usr/include/qt6/QtCore/QDataStream \
@@ -400,6 +401,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: \
  /usr/include/qt6/QtCore/qiodevice.h \
  /usr/include/qt6/QtCore/QStandardPaths \
  /usr/include/qt6/QtCore/qstandardpaths.h \
+ /usr/include/kwin/scene/itemgeometry.h \
+ /usr/include/kwin/opengl/glvertexbuffer.h /usr/include/qt6/QtGui/QColor \
+ /usr/include/epoxy/gl.h /usr/include/epoxy/common.h \
+ /usr/include/epoxy/gl_generated.h /usr/include/inttypes.h \
  /usr/include/kwin/effect/effecthandler.h \
  /usr/include/kwin/effect/effectwindow.h /usr/include/kwin/core/output.h \
  /usr/include/kwin/core/renderloop.h /usr/include/kwin/utils/edid.h \
@@ -432,6 +437,10 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: \
  /usr/include/bits/uio-ext.h /usr/include/xcb/xproto.h \
  /usr/include/xcb/xcb.h /usr/include/qt6/QtGui/QAction \
  /usr/include/qt6/QtGui/qaction.h /usr/include/qt6/QtGui/qkeysequence.h \
+ /usr/include/qt6/QtDBus/QDBusConnection \
+ /usr/include/qt6/QtDBus/qdbusconnection.h \
+ /usr/include/qt6/QtDBus/qtdbusglobal.h \
+ /usr/include/qt6/QtDBus/qtdbusexports.h \
  /usr/include/KF6/KGlobalAccel/KGlobalAccel \
  /usr/include/KF6/KGlobalAccel/kglobalaccel.h \
  /usr/include/KF6/KGlobalAccel/kglobalshortcutinfo.h \
@@ -439,8 +448,6 @@ effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o: \
  /usr/include/KF6/KGlobalAccel/kglobalaccel_version.h \
  /usr/include/qt6/QtDBus/QDBusArgument \
  /usr/include/qt6/QtDBus/qdbusargument.h \
- /usr/include/qt6/QtDBus/qtdbusglobal.h \
- /usr/include/qt6/QtDBus/qtdbusexports.h \
  /usr/include/qt6/QtDBus/qdbusextratypes.h \
  /usr/include/qt6/QtGui/QKeySequence \
  /usr/include/KF6/KI18n/KLocalizedString \

@@ -42,3 +42,43 @@
   - `/usr/include/kwin/input.h`
   - `/usr/include/kwin/input_event_spy.h`
   - `/usr/include/kwin/effect/offscreeneffect.h`
+
+---
+
+## Gate 2: 视觉原型（Spike A - 实测通过）
+
+- **验证时间**: 2026-10-17
+- **实现目标**: 基于 `KWin::OffscreenEffect` 实现窗口重定向、保持宽高比居中缩放、热键/D-Bus 启停及安全的生命周期销毁。
+
+### 实现细节
+1. **基类升级**:
+   - `MagpieEffect` 继承自 `KWin::OffscreenEffect`，利用 KWin 原生离屏渲染与双线性纹理采样能力。
+2. **热键与 D-Bus 启停**:
+   - 快捷键 `Meta+Alt+M` 绑定 `MagpieEffect::toggle()`。
+   - 注册 D-Bus 接口至 `/org/kde/KWin/Magpie`，导出所有槽函数供外部控制。
+   - 激活时检测 `effects->activeWindow()`，要求必须为 `isNormalWindow() || isDialog()`；保存 `m_targetWindow` 并调用 `redirect(m_targetWindow)`。
+   - 退出时调用 `unredirect(m_targetWindow)`，重置状态并触发 `effects->addRepaintFull()`。
+3. **窗口生命周期防崩保护**:
+   - 连接 `effects->windowDeleted` -> `handleWindowDeleted(EffectWindow *)`。
+   - 连接 `effects->windowClosed` -> `slotWindowClosed(EffectWindow *)`。
+   - 目标窗口被关闭或销毁时，主动清空引用并调用 `unredirect`，防止悬垂指针导致 KWin 崩溃。
+4. **保持宽高比居中缩放计算 (apply)**:
+   - 提取窗口物理输出 `window->screen()`，兜底使用 `effects->activeScreen()`。
+   - 严格根据输出区域与窗口边框计算 aspect-ratio scale: `scale = std::min(outW / winW, outH / winH)`。
+   - 计算屏幕居中坐标: `targetX = outX + (outW - scaledW) / 2.0`，平移量 `tx = targetX - winX * scale`。
+   - 应用到 `WindowPaintData`: `data.setXScale(scale)`、`data.setYScale(scale)`、`data.setXTranslation(tx)`、`data.setYTranslation(ty)`。
+5. **预绘制阶段标志位设置**:
+   - `prePaintScreen`: `data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS`。
+   - `prePaintWindow`: 对目标窗口设置 `data.mask |= PAINT_WINDOW_TRANSFORMED`。
+
+### 验证证据
+1. **编译构建**:
+   - `cmake --build build` 成功构建 `build/bin/kwin/effects/plugins/kwin4_effect_magpie.so`。
+2. **符号表核验**:
+   - `nm -C` 证实包含 `MagpieEffect::apply`、`prePaintScreen`、`prePaintWindow`、`toggle`、`handleWindowDeleted`、`slotWindowClosed`。
+   - 证实导出 `typeinfo for KWin::OffscreenEffect`，虚表结构完好。
+3. **测试运行器 (`test_runner.cpp`) 验证**:
+   - QPluginLoader 元数据有效且 IID 匹配 `org.kde.kwin.EffectPluginFactory6.7.5`。
+   - KPluginMetaData 识别 ID 为 `kwin4_effect_magpie`，分类为 `Accessibility`。
+   - `KPluginMetaData::findPlugins` 成功检索。
+   - 4:3 窗口在 16:9 输出、1080p 在 4K 输出、多显示器偏移下的缩放和平移计算均精准通过。

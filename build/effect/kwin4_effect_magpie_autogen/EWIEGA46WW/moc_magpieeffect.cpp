@@ -40,12 +40,24 @@ template <> constexpr inline auto KWin::MagpieEffect::qt_create_metaobjectdata<q
     QtMocHelpers::StringRefStorage qt_stringData {
         "KWin::MagpieEffect",
         "toggle",
-        ""
+        "",
+        "handleWindowDeleted",
+        "KWin::EffectWindow*",
+        "w",
+        "slotWindowClosed"
     };
 
     QtMocHelpers::UintData qt_methods {
         // Slot 'toggle'
         QtMocHelpers::SlotData<void()>(1, 2, QMC::AccessPublic, QMetaType::Void),
+        // Slot 'handleWindowDeleted'
+        QtMocHelpers::SlotData<void(KWin::EffectWindow *)>(3, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 4, 5 },
+        }}),
+        // Slot 'slotWindowClosed'
+        QtMocHelpers::SlotData<void(KWin::EffectWindow *)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { 0x80000000 | 4, 5 },
+        }}),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -55,7 +67,7 @@ template <> constexpr inline auto KWin::MagpieEffect::qt_create_metaobjectdata<q
             qt_methods, qt_properties, qt_enums);
 }
 Q_CONSTINIT const QMetaObject KWin::MagpieEffect::staticMetaObject = { {
-    QMetaObject::SuperData::link<Effect::staticMetaObject>(),
+    QMetaObject::SuperData::link<OffscreenEffect::staticMetaObject>(),
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN4KWin12MagpieEffectE_t>.stringdata,
     qt_staticMetaObjectStaticContent<qt_meta_tag_ZN4KWin12MagpieEffectE_t>.data,
     qt_static_metacall,
@@ -70,10 +82,30 @@ void KWin::MagpieEffect::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->toggle(); break;
+        case 1: _t->handleWindowDeleted((*reinterpret_cast<std::add_pointer_t<KWin::EffectWindow*>>(_a[1]))); break;
+        case 2: _t->slotWindowClosed((*reinterpret_cast<std::add_pointer_t<KWin::EffectWindow*>>(_a[1]))); break;
         default: ;
         }
     }
-    (void)_a;
+    if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
+        switch (_id) {
+        default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+        case 1:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< KWin::EffectWindow* >(); break;
+            }
+            break;
+        case 2:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< KWin::EffectWindow* >(); break;
+            }
+            break;
+        }
+    }
 }
 
 const QMetaObject *KWin::MagpieEffect::metaObject() const
@@ -86,23 +118,23 @@ void *KWin::MagpieEffect::qt_metacast(const char *_clname)
     if (!_clname) return nullptr;
     if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN4KWin12MagpieEffectE_t>.strings))
         return static_cast<void*>(this);
-    return Effect::qt_metacast(_clname);
+    return OffscreenEffect::qt_metacast(_clname);
 }
 
 int KWin::MagpieEffect::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 {
-    _id = Effect::qt_metacall(_c, _id, _a);
+    _id = OffscreenEffect::qt_metacall(_c, _id, _a);
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 1)
+        if (_id < 3)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 1;
+        _id -= 3;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 1)
-            *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 1;
+        if (_id < 3)
+            qt_static_metacall(this, _c, _id, _a);
+        _id -= 3;
     }
     return _id;
 }

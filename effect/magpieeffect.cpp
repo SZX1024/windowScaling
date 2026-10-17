@@ -1,9 +1,13 @@
 #include "magpieeffect.h"
 
 #include <QAction>
+#include <QDBusConnection>
 #include <KGlobalAccel>
 #include <KLocalizedString>
 #include <QLoggingCategory>
+
+#include <core/output.h>
+#include <effect/effectwindow.h>
 
 Q_LOGGING_CATEGORY(KWIN_MAGPIE, "kwin_effect_magpie", QtWarningMsg)
 
@@ -11,7 +15,7 @@ namespace KWin
 {
 
 MagpieEffect::MagpieEffect()
-    : Effect()
+    : OffscreenEffect()
 {
     m_toggleAction = new QAction(this);
     m_toggleAction->setObjectName(QStringLiteral("ToggleMagpie"));
@@ -22,22 +26,46 @@ MagpieEffect::MagpieEffect()
 
     connect(m_toggleAction, &QAction::triggered, this, &MagpieEffect::toggle);
 
+    if (effects) {
+        connect(effects, &EffectsHandler::windowDeleted, this, &MagpieEffect::handleWindowDeleted);
+        connect(effects, &EffectsHandler::windowClosed, this, &MagpieEffect::slotWindowClosed);
+    }
+
+    if (QDBusConnection::sessionBus().isConnected()) {
+        QDBusConnection::sessionBus().registerObject(QStringLiteral("/org/kde/KWin/Magpie"), this, QDBusConnection::ExportAllSlots);
+    }
+
     qCInfo(KWIN_MAGPIE) << "Magpie effect initialized successfully.";
 }
 
 MagpieEffect::~MagpieEffect()
 {
+    if (QDBusConnection::sessionBus().isConnected()) {
+        QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/org/kde/KWin/Magpie"));
+    }
+
+    if (m_active && m_targetWindow) {
+        unredirect(m_targetWindow);
+        m_targetWindow = nullptr;
+        m_active = false;
+    }
+
     qCInfo(KWIN_MAGPIE) << "Magpie effect unloaded.";
 }
 
 bool MagpieEffect::supported()
 {
-    return effects && effects->isOpenGLCompositing();
+    return effects && OffscreenEffect::supported();
 }
 
 bool MagpieEffect::isActive() const
 {
-    return m_active;
+    return m_active && (m_targetWindow != nullptr);
+}
+
+EffectWindow *MagpieEffect::targetWindow() const
+{
+    return m_targetWindow;
 }
 
 void MagpieEffect::reconfigure(ReconfigureFlags flags)
@@ -47,24 +75,157 @@ void MagpieEffect::reconfigure(ReconfigureFlags flags)
 
 void MagpieEffect::prePaintScreen(ScreenPrePaintData &data)
 {
-    effects->prePaintScreen(data);
+    if (m_active && m_targetWindow) {
+        data.mask |= PAINT_SCREEN_WITH_TRANSFORMED_WINDOWS;
+    }
+    if (effects) {
+        effects->prePaintScreen(data);
+    }
+}
+
+void MagpieEffect::prePaintWindow(RenderView *view, EffectWindow *w, WindowPrePaintData &data)
+{
+    if (m_active && w == m_targetWindow) {
+        data.mask |= PAINT_WINDOW_TRANSFORMED;
+    }
+    if (effects) {
+        effects->prePaintWindow(view, w, data);
+    }
 }
 
 void MagpieEffect::paintScreen(const RenderTarget &renderTarget, const RenderViewport &viewport, int mask, const Region &deviceRegion, LogicalOutput *screen)
 {
-    effects->paintScreen(renderTarget, viewport, mask, deviceRegion, screen);
+    if (effects) {
+        effects->paintScreen(renderTarget, viewport, mask, deviceRegion, screen);
+    }
 }
 
 void MagpieEffect::postPaintScreen()
 {
-    effects->postPaintScreen();
+    if (effects) {
+        effects->postPaintScreen();
+    }
 }
 
 void MagpieEffect::toggle()
 {
-    m_active = !m_active;
-    qCInfo(KWIN_MAGPIE) << "Magpie effect toggled. Active:" << m_active;
-    effects->addRepaintFull();
+    if (!m_active) {
+        if (!effects) {
+            qCWarning(KWIN_MAGPIE) << "Cannot toggle Magpie: effects handler is null";
+            return;
+        }
+
+        EffectWindow *window = effects->activeWindow();
+        if (!window) {
+            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: no active window";
+            return;
+        }
+
+        if (!window->isNormalWindow() && !window->isDialog()) {
+            qCWarning(KWIN_MAGPIE) << "Cannot activate Magpie: window is not a normal or dialog window";
+            return;
+        }
+
+        m_targetWindow = window;
+        m_active = true;
+        redirect(m_targetWindow);
+
+        qCInfo(KWIN_MAGPIE) << "Magpie activated for window:" << m_targetWindow;
+        effects->addRepaintFull();
+    } else {
+        if (m_targetWindow) {
+            unredirect(m_targetWindow);
+            m_targetWindow = nullptr;
+        }
+        m_active = false;
+
+        qCInfo(KWIN_MAGPIE) << "Magpie deactivated";
+        if (effects) {
+            effects->addRepaintFull();
+        }
+    }
+}
+
+void MagpieEffect::handleWindowDeleted(EffectWindow *w)
+{
+    if (w == m_targetWindow) {
+        qCInfo(KWIN_MAGPIE) << "Target window deleted, resetting Magpie state";
+        m_targetWindow = nullptr;
+        m_active = false;
+        if (effects) {
+            effects->addRepaintFull();
+        }
+    }
+}
+
+void MagpieEffect::slotWindowClosed(EffectWindow *w)
+{
+    if (w == m_targetWindow) {
+        qCInfo(KWIN_MAGPIE) << "Target window closed, unredirecting and resetting Magpie state";
+        if (m_active && m_targetWindow) {
+            unredirect(m_targetWindow);
+        }
+        m_targetWindow = nullptr;
+        m_active = false;
+        if (effects) {
+            effects->addRepaintFull();
+        }
+    }
+}
+
+void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, WindowQuadList &quads)
+{
+    if (!m_active || window != m_targetWindow || !m_targetWindow) {
+        OffscreenEffect::apply(window, mask, data, quads);
+        return;
+    }
+
+    LogicalOutput *output = window ? window->screen() : nullptr;
+    if (!output && effects) {
+        output = effects->activeScreen();
+    }
+    if (!output && effects && !effects->screens().isEmpty()) {
+        output = effects->screens().first();
+    }
+    if (!output) {
+        OffscreenEffect::apply(window, mask, data, quads);
+        return;
+    }
+
+    const RectF outputRect = output->geometryF();
+    const RectF winGeom = window->frameGeometry();
+
+    const qreal winW = winGeom.width();
+    const qreal winH = winGeom.height();
+    const qreal winX = winGeom.x();
+    const qreal winY = winGeom.y();
+
+    const qreal outW = outputRect.width();
+    const qreal outH = outputRect.height();
+    const qreal outX = outputRect.x();
+    const qreal outY = outputRect.y();
+
+    if (winW <= 0.0 || winH <= 0.0 || outW <= 0.0 || outH <= 0.0) {
+        OffscreenEffect::apply(window, mask, data, quads);
+        return;
+    }
+
+    const qreal scale = std::min(outW / winW, outH / winH);
+    const qreal scaledW = winW * scale;
+    const qreal scaledH = winH * scale;
+
+    const qreal targetX = outX + (outW - scaledW) / 2.0;
+    const qreal targetY = outY + (outH - scaledH) / 2.0;
+
+    const qreal tx = targetX - winX * scale;
+    const qreal ty = targetY - winY * scale;
+
+    data.setXScale(scale);
+    data.setYScale(scale);
+    data.setXTranslation(tx);
+    data.setYTranslation(ty);
+
+    OffscreenEffect::apply(window, mask, data, quads);
 }
 
 class MagpieEffectFactory : public EffectPluginFactory
