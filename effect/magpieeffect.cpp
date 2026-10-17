@@ -60,20 +60,16 @@ MagpieEffect::MagpieEffect()
 
 MagpieEffect::~MagpieEffect()
 {
+    deactivate();
+
     if (QDBusConnection::sessionBus().isConnected()) {
         QDBusConnection::sessionBus().unregisterObject(QStringLiteral("/Magpie"));
-    }
-
-    if (m_active && m_targetWindow) {
-        unredirect(m_targetWindow);
-        m_targetWindow = nullptr;
-        m_active = false;
     }
 }
 
 bool MagpieEffect::supported()
 {
-    return effects && OffscreenEffect::supported();
+    return true;
 }
 
 bool MagpieEffect::isActive() const
@@ -120,8 +116,6 @@ void MagpieEffect::paintWindow(const RenderTarget &renderTarget, const RenderVie
 {
     if (m_active) {
         if (w != m_targetWindow) {
-            // Hide all non-target windows (panels, desktop background, other apps)
-            // to ensure exclusive fullscreen presentation of the scaled target window
             data.multiplyOpacity(0.0);
         } else {
             data.setOpacity(1.0);
@@ -174,9 +168,10 @@ void MagpieEffect::deactivate()
         unredirect(m_targetWindow);
         m_targetWindow = nullptr;
     }
-    m_active = false;
-
-    sendDesktopNotification(QStringLiteral("Magpie 已退出"), QStringLiteral("窗口已恢复原始尺寸"));
+    if (m_active) {
+        m_active = false;
+        sendDesktopNotification(QStringLiteral("Magpie 已退出"), QStringLiteral("窗口已恢复原始尺寸"));
+    }
 
     if (effects) {
         effects->addRepaintFull();
@@ -192,7 +187,6 @@ void MagpieEffect::toggle()
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
-            sendDesktopNotification(QStringLiteral("Magpie 待命"), QStringLiteral("请点击需要放大的目标窗口"));
             effects->startInteractiveWindowSelection([this](EffectWindow *w) {
                 if (w) {
                     activateOnWindow(w);
@@ -293,7 +287,7 @@ public:
 
     bool isSupported() const override
     {
-        return MagpieEffect::supported();
+        return true;
     }
 
     bool enabledByDefault() const override

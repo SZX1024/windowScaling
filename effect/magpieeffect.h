@@ -2,6 +2,7 @@
 
 #include <effect/offscreeneffect.h>
 #include <effect/effecthandler.h>
+#include <memory>
 
 class QAction;
 
