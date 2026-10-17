@@ -251,6 +251,30 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/main_window.o: src/main_window.cpp.o
+.PHONY : src/main_window.o
+
+# target to build an object file
+src/main_window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o
+.PHONY : src/main_window.cpp.o
+
+src/main_window.i: src/main_window.cpp.i
+.PHONY : src/main_window.i
+
+# target to preprocess a source file
+src/main_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main_window.cpp.i
+.PHONY : src/main_window.cpp.i
+
+src/main_window.s: src/main_window.cpp.s
+.PHONY : src/main_window.s
+
+# target to generate assembly for a file
+src/main_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main_window.cpp.s
+.PHONY : src/main_window.cpp.s
+
 src/overlay_window.o: src/overlay_window.cpp.o
 .PHONY : src/overlay_window.o
 
@@ -322,6 +346,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/main_window.o"
+	@echo "... src/main_window.i"
+	@echo "... src/main_window.s"
 	@echo "... src/overlay_window.o"
 	@echo "... src/overlay_window.i"
 	@echo "... src/overlay_window.s"

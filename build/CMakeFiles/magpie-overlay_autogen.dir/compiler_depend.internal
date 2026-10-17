@@ -11,6 +11,8 @@
  /home/SZX10246/Projects/software/windowScaling/src/input.cpp
  /home/SZX10246/Projects/software/windowScaling/src/input.h
  /home/SZX10246/Projects/software/windowScaling/src/main.cpp
+ /home/SZX10246/Projects/software/windowScaling/src/main_window.cpp
+ /home/SZX10246/Projects/software/windowScaling/src/main_window.h
  /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp
  /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h
  /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp
@@ -320,12 +322,14 @@
  /usr/include/locale.h
  /usr/include/pthread.h
  /usr/include/qt6/QtCore/QEvent
+ /usr/include/qt6/QtCore/QList
  /usr/include/qt6/QtCore/QMargins
  /usr/include/qt6/QtCore/QObject
  /usr/include/qt6/QtCore/QPoint
  /usr/include/qt6/QtCore/QRect
  /usr/include/qt6/QtCore/QScopedPointer
  /usr/include/qt6/QtCore/QSize
+ /usr/include/qt6/QtCore/QSizeF
  /usr/include/qt6/QtCore/QString
  /usr/include/qt6/QtCore/QTimer
  /usr/include/qt6/QtCore/Qt
@@ -339,6 +343,7 @@
  /usr/include/qt6/QtCore/q23type_traits.h
  /usr/include/qt6/QtCore/q23utility.h
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h
+ /usr/include/qt6/QtCore/qabstractitemmodel.h
  /usr/include/qt6/QtCore/qalgorithms.h
  /usr/include/qt6/QtCore/qalloc.h
  /usr/include/qt6/QtCore/qanystringview.h
@@ -368,11 +373,14 @@
  /usr/include/qt6/QtCore/qcontainerinfo.h
  /usr/include/qt6/QtCore/qcontainertools_impl.h
  /usr/include/qt6/QtCore/qcontiguouscache.h
+ /usr/include/qt6/QtCore/qcoreapplication.h
+ /usr/include/qt6/QtCore/qcoreapplication_platform.h
  /usr/include/qt6/QtCore/qcoreevent.h
  /usr/include/qt6/QtCore/qdarwinhelpers.h
  /usr/include/qt6/QtCore/qdatastream.h
  /usr/include/qt6/QtCore/qdeadlinetimer.h
  /usr/include/qt6/QtCore/qdebug.h
+ /usr/include/qt6/QtCore/qendian.h
  /usr/include/qt6/QtCore/qeventloop.h
  /usr/include/qt6/QtCore/qexceptionhandling.h
  /usr/include/qt6/QtCore/qflags.h
@@ -385,12 +393,14 @@
  /usr/include/qt6/QtCore/qglobalstatic.h
  /usr/include/qt6/QtCore/qhash.h
  /usr/include/qt6/QtCore/qhashfunctions.h
+ /usr/include/qt6/QtCore/qiodevice.h
  /usr/include/qt6/QtCore/qiodevicebase.h
  /usr/include/qt6/QtCore/qiterable.h
  /usr/include/qt6/QtCore/qiterator.h
  /usr/include/qt6/QtCore/qlatin1stringview.h
  /usr/include/qt6/QtCore/qline.h
  /usr/include/qt6/QtCore/qlist.h
+ /usr/include/qt6/QtCore/qlocale.h
  /usr/include/qt6/QtCore/qlogging.h
  /usr/include/qt6/QtCore/qmalloc.h
  /usr/include/qt6/QtCore/qmap.h
@@ -412,6 +422,7 @@
  /usr/include/qt6/QtCore/qprocessordetection.h
  /usr/include/qt6/QtCore/qrect.h
  /usr/include/qt6/QtCore/qrefcount.h
+ /usr/include/qt6/QtCore/qregularexpression.h
  /usr/include/qt6/QtCore/qscopedpointer.h
  /usr/include/qt6/QtCore/qscopeguard.h
  /usr/include/qt6/QtCore/qset.h
@@ -458,12 +469,14 @@
  /usr/include/qt6/QtCore/qtversionchecks.h
  /usr/include/qt6/QtCore/qtypeinfo.h
  /usr/include/qt6/QtCore/qtypes.h
+ /usr/include/qt6/QtCore/qurl.h
  /usr/include/qt6/QtCore/qutf8stringview.h
  /usr/include/qt6/QtCore/qvariant.h
  /usr/include/qt6/QtCore/qvarlengtharray.h
  /usr/include/qt6/QtCore/qversiontagging.h
  /usr/include/qt6/QtCore/qxptype_traits.h
  /usr/include/qt6/QtCore/qyieldcpu.h
+ /usr/include/qt6/QtGui/QCloseEvent
  /usr/include/qt6/QtGui/QImage
  /usr/include/qt6/QtGui/QMatrix4x4
  /usr/include/qt6/QtGui/QOpenGLContext
@@ -471,13 +484,27 @@
  /usr/include/qt6/QtGui/QPaintDevice
  /usr/include/qt6/QtGui/QPaintDeviceWindow
  /usr/include/qt6/QtGui/QSurfaceFormat
+ /usr/include/qt6/QtGui/QTransform
  /usr/include/qt6/QtGui/QWindow
+ /usr/include/qt6/QtGui/qaction.h
  /usr/include/qt6/QtGui/qbitmap.h
+ /usr/include/qt6/QtGui/qbrush.h
  /usr/include/qt6/QtGui/qcolor.h
  /usr/include/qt6/QtGui/qcursor.h
+ /usr/include/qt6/QtGui/qevent.h
+ /usr/include/qt6/QtGui/qeventpoint.h
+ /usr/include/qt6/QtGui/qfont.h
+ /usr/include/qt6/QtGui/qfontinfo.h
+ /usr/include/qt6/QtGui/qfontmetrics.h
+ /usr/include/qt6/QtGui/qfontvariableaxis.h
  /usr/include/qt6/QtGui/qgenericmatrix.h
+ /usr/include/qt6/QtGui/qguiapplication.h
+ /usr/include/qt6/QtGui/qguiapplication_platform.h
  /usr/include/qt6/QtGui/qicon.h
  /usr/include/qt6/QtGui/qimage.h
+ /usr/include/qt6/QtGui/qinputdevice.h
+ /usr/include/qt6/QtGui/qinputmethod.h
+ /usr/include/qt6/QtGui/qkeysequence.h
  /usr/include/qt6/QtGui/qmatrix4x4.h
  /usr/include/qt6/QtGui/qopengl.h
  /usr/include/qt6/QtGui/qopenglcontext.h
@@ -486,36 +513,68 @@
  /usr/include/qt6/QtGui/qopenglfunctions.h
  /usr/include/qt6/QtGui/qpaintdevice.h
  /usr/include/qt6/QtGui/qpaintdevicewindow.h
+ /usr/include/qt6/QtGui/qpalette.h
+ /usr/include/qt6/QtGui/qpicture.h
  /usr/include/qt6/QtGui/qpixelformat.h
  /usr/include/qt6/QtGui/qpixmap.h
+ /usr/include/qt6/QtGui/qpointingdevice.h
  /usr/include/qt6/QtGui/qpolygon.h
  /usr/include/qt6/QtGui/qregion.h
  /usr/include/qt6/QtGui/qrgb.h
  /usr/include/qt6/QtGui/qrgba64.h
+ /usr/include/qt6/QtGui/qscreen.h
+ /usr/include/qt6/QtGui/qscreen_platform.h
  /usr/include/qt6/QtGui/qsurface.h
  /usr/include/qt6/QtGui/qsurfaceformat.h
+ /usr/include/qt6/QtGui/qtextdocument.h
  /usr/include/qt6/QtGui/qtgui-config.h
  /usr/include/qt6/QtGui/qtguiexports.h
  /usr/include/qt6/QtGui/qtguiglobal.h
  /usr/include/qt6/QtGui/qtransform.h
+ /usr/include/qt6/QtGui/qvalidator.h
  /usr/include/qt6/QtGui/qvector2d.h
  /usr/include/qt6/QtGui/qvector3d.h
  /usr/include/qt6/QtGui/qvector4d.h
  /usr/include/qt6/QtGui/qvectornd.h
  /usr/include/qt6/QtGui/qwindow.h
  /usr/include/qt6/QtGui/qwindowdefs.h
- /usr/include/qt6/QtOpenGL/QOpenGLBuffer
+ /usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject
  /usr/include/qt6/QtOpenGL/QOpenGLShaderProgram
  /usr/include/qt6/QtOpenGL/QOpenGLTexture
- /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject
  /usr/include/qt6/QtOpenGL/QOpenGLWindow
- /usr/include/qt6/QtOpenGL/qopenglbuffer.h
+ /usr/include/qt6/QtOpenGL/qopenglframebufferobject.h
  /usr/include/qt6/QtOpenGL/qopenglshaderprogram.h
  /usr/include/qt6/QtOpenGL/qopengltexture.h
- /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h
  /usr/include/qt6/QtOpenGL/qopenglwindow.h
  /usr/include/qt6/QtOpenGL/qtopenglexports.h
  /usr/include/qt6/QtOpenGL/qtopenglglobal.h
+ /usr/include/qt6/QtWidgets/QComboBox
+ /usr/include/qt6/QtWidgets/QLabel
+ /usr/include/qt6/QtWidgets/QMainWindow
+ /usr/include/qt6/QtWidgets/QPushButton
+ /usr/include/qt6/QtWidgets/QSlider
+ /usr/include/qt6/QtWidgets/QSystemTrayIcon
+ /usr/include/qt6/QtWidgets/qabstractbutton.h
+ /usr/include/qt6/QtWidgets/qabstractitemdelegate.h
+ /usr/include/qt6/QtWidgets/qabstractslider.h
+ /usr/include/qt6/QtWidgets/qabstractspinbox.h
+ /usr/include/qt6/QtWidgets/qcombobox.h
+ /usr/include/qt6/QtWidgets/qframe.h
+ /usr/include/qt6/QtWidgets/qlabel.h
+ /usr/include/qt6/QtWidgets/qmainwindow.h
+ /usr/include/qt6/QtWidgets/qpushbutton.h
+ /usr/include/qt6/QtWidgets/qrubberband.h
+ /usr/include/qt6/QtWidgets/qsizepolicy.h
+ /usr/include/qt6/QtWidgets/qslider.h
+ /usr/include/qt6/QtWidgets/qstyle.h
+ /usr/include/qt6/QtWidgets/qstyleoption.h
+ /usr/include/qt6/QtWidgets/qsystemtrayicon.h
+ /usr/include/qt6/QtWidgets/qtabbar.h
+ /usr/include/qt6/QtWidgets/qtabwidget.h
+ /usr/include/qt6/QtWidgets/qtwidgets-config.h
+ /usr/include/qt6/QtWidgets/qtwidgetsexports.h
+ /usr/include/qt6/QtWidgets/qtwidgetsglobal.h
+ /usr/include/qt6/QtWidgets/qwidget.h
  /usr/include/sched.h
  /usr/include/stdc-predef.h
  /usr/include/stdint.h
@@ -877,6 +936,26 @@
  /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLTargets.cmake
  /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLTargetsPrecheck.cmake
  /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLVersionlessAliasTargets.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersionImpl.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargets-relwithdebinfo.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargetsPrecheck.cmake
+ /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsAdditionalTargetInfo.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfig.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersionImpl.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsDependencies.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-relwithdebinfo.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargetsPrecheck.cmake
+ /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake
  /usr/share/cmake/Modules/CMakeCXXInformation.cmake
  /usr/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake
  /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake

@@ -3,9 +3,6 @@
 #include <QOpenGLWindow>
 #include <QOpenGLFunctions>
 #include <QOpenGLTexture>
-#include <QOpenGLShaderProgram>
-#include <QOpenGLBuffer>
-#include <QOpenGLVertexArrayObject>
 #include <QTimer>
 #include <QImage>
 #include <QRect>
@@ -24,6 +21,8 @@ public:
     bool startScaling(unsigned long windowId);
     void stopScaling();
 
+    ShaderPipeline *shaderPipeline() { return m_shaders.get(); }
+
 protected:
     void initializeGL() override;
     void resizeGL(int w, int h) override;
@@ -40,7 +39,6 @@ protected:
 
     // Keyboard (Esc or Ctrl+Alt+M to exit)
     void keyPressEvent(QKeyEvent *event) override;
-    void setScaler(ScalerType type);
 
 private slots:
     void updateFrame();
@@ -48,7 +46,6 @@ private slots:
 private:
     QPoint mapToGame(const QPointF &screenPos) const;
     void calculateLayout();
-    void updateQuadGeometry();
 
     X11CaptureEngine &m_capture;
     X11InputForwarder &m_input;
@@ -56,12 +53,8 @@ private:
 
     std::unique_ptr<ShaderPipeline> m_shaders;
     std::unique_ptr<QOpenGLTexture> m_texture;
-    QOpenGLBuffer m_vbo;
-    QOpenGLVertexArrayObject m_vao;
 
     QRect m_origRect;
     QRect m_targetRect;
-    qreal m_scale{1.0};
     bool m_active{false};
-    bool m_needsTextureUpload{false};
 };

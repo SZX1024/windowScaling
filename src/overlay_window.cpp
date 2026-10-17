@@ -1,5 +1,3 @@
-#include <QDBusMessage>
-#include <QDBusConnection>
 #include "overlay_window.h"
 
 #include <QMouseEvent>
@@ -8,13 +6,11 @@
 #include <QWheelEvent>
 #include <QGuiApplication>
 #include <QScreen>
-#include <QMatrix4x4>
 #include <QDebug>
-#include <cmath>
-#include <algorithm>
+#include <QDBusMessage>
+#include <QDBusConnection>
 
-
-static void sendOverlayNotification(const QString &summary, const QString &body)
+static void sendNotification(const QString &summary, const QString &body)
 {
     QDBusMessage msg = QDBusMessage::createMethodCall(
         QStringLiteral("org.freedesktop.Notifications"),
@@ -35,31 +31,10 @@ static void sendOverlayNotification(const QString &summary, const QString &body)
     QDBusConnection::sessionBus().send(msg);
 }
 
-static const char *vshaderSource = R"(#version 330 core
-layout (location = 0) in vec2 aPos;
-layout (location = 1) in vec2 aTexCoord;
-out vec2 TexCoord;
-uniform mat4 uProjection;
-void main() {
-    gl_Position = uProjection * vec4(aPos, 0.0, 1.0);
-    TexCoord = aTexCoord;
-}
-)";
-
-static const char *fshaderSource = R"(#version 330 core
-in vec2 TexCoord;
-out vec4 FragColor;
-uniform sampler2D uTexture;
-void main() {
-    FragColor = texture(uTexture, TexCoord);
-}
-)";
-
 OverlayWindow::OverlayWindow(X11CaptureEngine &capture, X11InputForwarder &input, QWindow *parent)
     : QOpenGLWindow(NoPartialUpdate, parent)
     , m_capture(capture)
     , m_input(input)
-    , m_vbo(QOpenGLBuffer::VertexBuffer)
 {
     setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus | Qt::BypassWindowManagerHint);
     connect(&m_renderTimer, &QTimer::timeout, this, &OverlayWindow::updateFrame);
@@ -70,8 +45,6 @@ OverlayWindow::~OverlayWindow()
     makeCurrent();
     m_texture.reset();
     m_shaders.reset();
-    m_vbo.destroy();
-    m_vao.destroy();
     doneCurrent();
     stopScaling();
 }
@@ -95,10 +68,9 @@ bool OverlayWindow::startScaling(unsigned long windowId)
     calculateLayout();
     m_active = true;
     m_input.restackOverlayAbove(this->winId());
-    m_input.restackOverlayAbove(this->winId());
     this->raise();
 
-    // 120 FPS continuous render loop
+    // 120 FPS render loop
     m_renderTimer.start(8);
     return true;
 }
@@ -115,25 +87,11 @@ void OverlayWindow::stopScaling()
 
 void OverlayWindow::calculateLayout()
 {
-    if (m_origRect.width() <= 0 || m_origRect.height() <= 0) {
+    if (m_origRect.width() <= 0 || m_origRect.height() <= 0 || !m_shaders) {
         return;
     }
 
-    const int screenW = width();
-    const int screenH = height();
-
-    const qreal scaleX = (qreal)screenW / m_origRect.width();
-    const qreal scaleY = (qreal)screenH / m_origRect.height();
-    m_scale = std::min(scaleX, scaleY);
-
-    const int scaledW = std::lround(m_origRect.width() * m_scale);
-    const int scaledH = std::lround(m_origRect.height() * m_scale);
-
-    const int targetX = (screenW - scaledW) / 2;
-    const int targetY = (screenH - scaledH) / 2;
-
-    m_targetRect = QRect(targetX, targetY, scaledW, scaledH);
-    updateQuadGeometry();
+    m_targetRect = m_shaders->calculateTargetRect(m_origRect.size(), size());
 }
 
 void OverlayWindow::initializeGL()
@@ -144,53 +102,7 @@ void OverlayWindow::initializeGL()
     m_shaders = std::make_unique<ShaderPipeline>();
     m_shaders->init();
 
-    m_vao.create();
-    m_vao.bind();
-
-    m_vbo.create();
-    m_vbo.bind();
-
-    // 6 vertices (2 triangles): pos (x,y), tex (u,v)
-    m_vbo.allocate(sizeof(float) * 24);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, nullptr);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, reinterpret_cast<void*>(sizeof(float) * 2));
-
-    m_vao.release();
-    m_vbo.release();
-
-    updateQuadGeometry();
-}
-
-void OverlayWindow::updateQuadGeometry()
-{
-    if (!m_vbo.isCreated() || m_targetRect.isEmpty()) {
-        return;
-    }
-
-    const float x1 = m_targetRect.left();
-    const float y1 = m_targetRect.top();
-    const float x2 = m_targetRect.right() + 1.0f;
-    const float y2 = m_targetRect.bottom() + 1.0f;
-
-    // Standard texture coords: (0,0) top-left, (1,1) bottom-right
-    const float vertices[] = {
-        // Triangle 1
-        x1, y1, 0.0f, 0.0f,
-        x1, y2, 0.0f, 1.0f,
-        x2, y1, 1.0f, 0.0f,
-        // Triangle 2
-        x2, y1, 1.0f, 0.0f,
-        x1, y2, 0.0f, 1.0f,
-        x2, y2, 1.0f, 1.0f,
-    };
-
-    m_vbo.bind();
-    m_vbo.write(0, vertices, sizeof(vertices));
-    m_vbo.release();
+    calculateLayout();
 }
 
 void OverlayWindow::resizeGL(int w, int h)
@@ -236,38 +148,25 @@ void OverlayWindow::paintGL()
 
     m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, frame.constBits());
 
-    QMatrix4x4 proj;
-    proj.ortho(0.0f, width(), height(), 0.0f, -1.0f, 1.0f);
-
-    m_shaders->setUniforms(proj, frame.size(), 0.6f);
-
-    m_texture->bind(0);
-    m_vao.bind();
-
-    glDrawArrays(GL_TRIANGLES, 0, 6);
-
-    m_vao.release();
-    m_texture->release();
-    if (m_shaders->activeProgram()) {
-        m_shaders->activeProgram()->release();
-    }
+    // GPU Hardware Accelerated Shader Rendering directly onto full-screen targetRect
+    m_shaders->render(m_texture->textureId(), frame.size(), m_targetRect, size());
 }
 
 QPoint OverlayWindow::mapToGame(const QPointF &screenPos) const
 {
-    if (m_targetRect.width() <= 0 || m_targetRect.height() <= 0 || m_scale <= 0.0) {
+    if (m_targetRect.width() <= 0 || m_targetRect.height() <= 0 || m_origRect.width() <= 0) {
         return QPoint();
     }
 
+    const qreal scale = (qreal)m_targetRect.width() / m_origRect.width();
     const qreal relX = screenPos.x() - m_targetRect.x();
     const qreal relY = screenPos.y() - m_targetRect.y();
 
     const qreal clampedX = std::clamp(relX, 0.0, (qreal)m_targetRect.width());
     const qreal clampedY = std::clamp(relY, 0.0, (qreal)m_targetRect.height());
 
-    // Local coordinates inside game window: (0, 0) is top-left
-    const int localX = (int)std::clamp(std::lround(clampedX / m_scale), 0L, (long)m_origRect.width() - 1);
-    const int localY = (int)std::clamp(std::lround(clampedY / m_scale), 0L, (long)m_origRect.height() - 1);
+    const int localX = (int)std::clamp(std::lround(clampedX / scale), 0L, (long)m_origRect.width() - 1);
+    const int localY = (int)std::clamp(std::lround(clampedY / scale), 0L, (long)m_origRect.height() - 1);
 
     return QPoint(localX, localY);
 }
@@ -282,8 +181,6 @@ void OverlayWindow::mousePressEvent(QMouseEvent *event)
 void OverlayWindow::mouseMoveEvent(QMouseEvent *event)
 {
     if (!m_active) return;
-    // CRITICAL FIX: Only forward pointer motion when dragging (holding down a mouse button)!
-    // If no button is pressed, allow cursor to move smoothly and freely across full screen without warping.
     if (event->buttons() != Qt::NoButton) {
         QPoint gamePos = mapToGame(event->position());
         m_input.sendMotion(gamePos);
@@ -295,6 +192,7 @@ void OverlayWindow::mouseReleaseEvent(QMouseEvent *event)
     if (!m_active) return;
     QPoint gamePos = mapToGame(event->position());
     m_input.sendButton(event->button(), false, gamePos);
+    m_input.restackOverlayAbove(this->winId());
     this->raise();
 }
 
@@ -326,20 +224,12 @@ bool OverlayWindow::event(QEvent *event)
         if (!te->points().isEmpty()) {
             QPoint gamePos = mapToGame(te->points().first().position());
             m_input.sendTouchUp(gamePos);
+            m_input.restackOverlayAbove(this->winId());
             this->raise();
             return true;
         }
     }
     return QOpenGLWindow::event(event);
-}
-
-void OverlayWindow::setScaler(ScalerType type)
-{
-    if (m_shaders) {
-        m_shaders->setScaler(type);
-        sendOverlayNotification(QStringLiteral("超分算法已切换"), QString::fromUtf8(m_shaders->currentScalerName()));
-        requestUpdate();
-    }
 }
 
 void OverlayWindow::keyPressEvent(QKeyEvent *event)
@@ -352,18 +242,28 @@ void OverlayWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    if (event->key() == Qt::Key_1) {
-        setScaler(ScalerType::Bilinear);
-        return;
-    } else if (event->key() == Qt::Key_2) {
-        setScaler(ScalerType::Lanczos);
-        return;
-    } else if (event->key() == Qt::Key_3) {
-        setScaler(ScalerType::CAS);
-        return;
-    } else if (event->key() == Qt::Key_4) {
-        setScaler(ScalerType::AnimeThin);
-        return;
+    if (m_shaders) {
+        if (event->key() == Qt::Key_1) {
+            m_shaders->setScaler(ScalerType::Bilinear);
+            sendNotification(QStringLiteral("超分算法切换"), QString::fromUtf8(m_shaders->currentScalerName()));
+            requestUpdate();
+            return;
+        } else if (event->key() == Qt::Key_2) {
+            m_shaders->setScaler(ScalerType::Lanczos);
+            sendNotification(QStringLiteral("超分算法切换"), QString::fromUtf8(m_shaders->currentScalerName()));
+            requestUpdate();
+            return;
+        } else if (event->key() == Qt::Key_3) {
+            m_shaders->setScaler(ScalerType::CAS);
+            sendNotification(QStringLiteral("超分算法切换"), QString::fromUtf8(m_shaders->currentScalerName()));
+            requestUpdate();
+            return;
+        } else if (event->key() == Qt::Key_4) {
+            m_shaders->setScaler(ScalerType::Anime4K);
+            sendNotification(QStringLiteral("超分算法切换"), QString::fromUtf8(m_shaders->currentScalerName()));
+            requestUpdate();
+            return;
+        }
     }
 
     QOpenGLWindow::keyPressEvent(event);

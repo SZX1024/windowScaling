@@ -1,5 +1,7 @@
 #include "shader_pipeline.h"
 #include <QDebug>
+#include <cmath>
+#include <algorithm>
 
 static const char *commonVS = R"(#version 330 core
 layout (location = 0) in vec2 aPos;
@@ -22,7 +24,7 @@ void main() {
 }
 )";
 
-// 2. Lanczos3 Sinc Resampler
+// 2. Lanczos3 Sinc
 static const char *lanczosFS = R"(#version 330 core
 in vec2 TexCoord;
 out vec4 FragColor;
@@ -67,44 +69,41 @@ void main() {
 }
 )";
 
-// 3. AMD Contrast Adaptive Sharpening (CAS)
+// 3. AMD FidelityFX CAS
 static const char *casFS = R"(#version 330 core
 in vec2 TexCoord;
 out vec4 FragColor;
 uniform sampler2D uTexture;
 uniform vec2 uSourceSize;
-uniform float uSharpness; // 0.0 to 1.0
+uniform float uSharpness;
 
 void main() {
     vec2 texel = 1.0 / uSourceSize;
 
-    // Fetch cross neighborhood
     vec3 a = texture(uTexture, TexCoord + vec2(0.0, -texel.y)).rgb;
     vec3 b = texture(uTexture, TexCoord + vec2(-texel.x, 0.0)).rgb;
     vec3 e = texture(uTexture, TexCoord).rgb;
     vec3 d = texture(uTexture, TexCoord + vec2(texel.x, 0.0)).rgb;
     vec3 c = texture(uTexture, TexCoord + vec2(0.0, texel.y)).rgb;
 
-    // Soft minimum and maximum
     vec3 minRGB = min(min(min(a, b), min(c, d)), e);
     vec3 maxRGB = max(max(max(a, b), max(c, d)), e);
 
-    // Smooth limits
     vec3 ampRGB = clamp(min(minRGB, 2.0 - maxRGB) / max(maxRGB, 1e-5), 0.0, 1.0);
-    vec3 wRGB = -sqrt(ampRGB) * (uSharpness * 0.18);
+    vec3 wRGB = -sqrt(ampRGB) * (uSharpness * 0.22);
 
-    // Filter
     vec3 res = (wRGB * (a + b + c + d) + e) / (1.0 + 4.0 * wRGB);
     FragColor = vec4(clamp(res, 0.0, 1.0), 1.0);
 }
 )";
 
-// 4. Anime4K Line Thinning / Edge Enhancement
+// 4. Anime4K Line Reconstruction
 static const char *animeFS = R"(#version 330 core
 in vec2 TexCoord;
 out vec4 FragColor;
 uniform sampler2D uTexture;
 uniform vec2 uSourceSize;
+uniform float uAnimeStrength;
 
 float getLum(vec3 c) {
     return dot(c, vec3(0.299, 0.587, 0.114));
@@ -128,11 +127,11 @@ void main() {
     float minL = min(min(lu, ld), min(ll, lr));
     float maxL = max(max(lu, ld), max(ll, lr));
 
-    // Dark line thinning for anime art
-    if (maxL - minL > 0.08) {
-        // High contrast line edge: reconstruct sharper transition
-        vec3 bestColor = (lc < (minL + maxL) * 0.5) ? min(c, min(min(u, d), min(l, r))) : max(c, max(max(u, d), max(l, r)));
-        c = mix(c, bestColor, 0.4);
+    if (maxL - minL > 0.06) {
+        vec3 bestColor = (lc < (minL + maxL) * 0.5)
+            ? min(c, min(min(u, d), min(l, r)))
+            : max(c, max(max(u, d), max(l, r)));
+        c = mix(c, bestColor, uAnimeStrength * 0.6);
     }
 
     FragColor = vec4(c, 1.0);
@@ -149,6 +148,7 @@ ShaderPipeline::~ShaderPipeline()
 
 bool ShaderPipeline::init()
 {
+    initializeOpenGLFunctions();
     return buildShaders();
 }
 
@@ -172,7 +172,7 @@ bool ShaderPipeline::buildShaders()
     m_casProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, casFS);
     if (!m_casProgram->link()) return false;
 
-    // Anime
+    // Anime4K
     m_animeProgram = std::make_unique<QOpenGLShaderProgram>();
     m_animeProgram->addShaderFromSourceCode(QOpenGLShader::Vertex, commonVS);
     m_animeProgram->addShaderFromSourceCode(QOpenGLShader::Fragment, animeFS);
@@ -191,31 +191,107 @@ const char *ShaderPipeline::currentScalerName() const
     switch (m_currentScaler) {
     case ScalerType::Bilinear: return "Bilinear (Fast)";
     case ScalerType::Lanczos: return "Lanczos3 Sinc Resampler";
-    case ScalerType::CAS: return "AMD CAS (Adaptive Sharpening)";
-    case ScalerType::AnimeThin: return "Anime4K Line Reconstruction";
+    case ScalerType::CAS: return "AMD FidelityFX CAS (Adaptive Sharpening)";
+    case ScalerType::Anime4K: return "Anime4K Line Reconstruction (2D Anime)";
     default: return "Unknown";
     }
 }
 
-QOpenGLShaderProgram *ShaderPipeline::activeProgram()
+QRect ShaderPipeline::calculateTargetRect(const QSize &sourceSize, const QSize &viewportSize) const
 {
-    switch (m_currentScaler) {
-    case ScalerType::Bilinear: return m_bilinearProgram.get();
-    case ScalerType::Lanczos: return m_lanczosProgram.get();
-    case ScalerType::CAS: return m_casProgram.get();
-    case ScalerType::AnimeThin: return m_animeProgram.get();
-    default: return m_casProgram.get();
+    if (sourceSize.width() <= 0 || sourceSize.height() <= 0 ||
+        viewportSize.width() <= 0 || viewportSize.height() <= 0) {
+        return QRect();
     }
+
+    const int screenW = viewportSize.width();
+    const int screenH = viewportSize.height();
+
+    int scaledW = screenW;
+    int scaledH = screenH;
+
+    switch (m_scalingMode) {
+    case ScalingMode::Fit: {
+        const qreal scale = std::min((qreal)screenW / sourceSize.width(),
+                                     (qreal)screenH / sourceSize.height());
+        scaledW = std::lround(sourceSize.width() * scale);
+        scaledH = std::lround(sourceSize.height() * scale);
+        break;
+    }
+    case ScalingMode::Integer: {
+        int intScale = std::max(1, std::min(screenW / sourceSize.width(),
+                                            screenH / sourceSize.height()));
+        scaledW = sourceSize.width() * intScale;
+        scaledH = sourceSize.height() * intScale;
+        break;
+    }
+    case ScalingMode::Stretch:
+        scaledW = screenW;
+        scaledH = screenH;
+        break;
+    }
+
+    const int targetX = (screenW - scaledW) / 2;
+    const int targetY = (screenH - scaledH) / 2;
+
+    return QRect(targetX, targetY, scaledW, scaledH);
 }
 
-void ShaderPipeline::setUniforms(const QMatrix4x4 &proj, const QSize &sourceSize, float sharpness)
+void ShaderPipeline::render(GLuint inputTextureId, const QSize &sourceSize, const QRect &targetRect, const QSize &viewportSize)
 {
-    auto *prog = activeProgram();
+    QOpenGLShaderProgram *prog = nullptr;
+    switch (m_currentScaler) {
+    case ScalerType::Bilinear: prog = m_bilinearProgram.get(); break;
+    case ScalerType::Lanczos:  prog = m_lanczosProgram.get(); break;
+    case ScalerType::CAS:      prog = m_casProgram.get(); break;
+    case ScalerType::Anime4K:  prog = m_animeProgram.get(); break;
+    default: prog = m_casProgram.get(); break;
+    }
+
     if (!prog) return;
+
+    // Viewport is screen
+    glViewport(0, 0, viewportSize.width(), viewportSize.height());
+
+    QMatrix4x4 proj;
+    proj.ortho(0.0f, viewportSize.width(), viewportSize.height(), 0.0f, -1.0f, 1.0f);
 
     prog->bind();
     prog->setUniformValue("uProjection", proj);
     prog->setUniformValue("uTexture", 0);
     prog->setUniformValue("uSourceSize", QVector2D(sourceSize.width(), sourceSize.height()));
-    prog->setUniformValue("uSharpness", sharpness);
+    prog->setUniformValue("uSharpness", m_sharpness);
+    prog->setUniformValue("uAnimeStrength", m_animeStrength);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, inputTextureId);
+
+    // Quad coordinates for targetRect
+    const float x1 = targetRect.left();
+    const float y1 = targetRect.top();
+    const float x2 = targetRect.right() + 1.0f;
+    const float y2 = targetRect.bottom() + 1.0f;
+
+    const float quadVertices[] = {
+        x1, y1, 0.0f, 0.0f,
+        x1, y2, 0.0f, 1.0f,
+        x2, y1, 1.0f, 0.0f,
+        x2, y1, 1.0f, 0.0f,
+        x1, y2, 0.0f, 1.0f,
+        x2, y2, 1.0f, 1.0f,
+    };
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, quadVertices);
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, &quadVertices[2]);
+
+    glDrawArrays(GL_TRIANGLES, 0, 6);
+
+    glDisableVertexAttribArray(0);
+    glDisableVertexAttribArray(1);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+    prog->release();
 }

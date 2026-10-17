@@ -354,5 +354,18 @@ CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o: \
  /usr/include/qt6/QtCore/qshareddata_impl.h \
  /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
  /usr/include/qt6/QtCore/qvarlengtharray.h \
- /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtGui/QMatrix4x4 \
- /usr/include/qt6/QtCore/QSize /usr/include/qt6/QtCore/QDebug
+ /usr/include/qt6/QtCore/qalloc.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject \
+ /usr/include/qt6/QtOpenGL/qopenglframebufferobject.h \
+ /usr/include/qt6/QtGui/qpaintdevice.h \
+ /usr/include/qt6/QtGui/qwindowdefs.h \
+ /usr/include/qt6/QtGui/QOpenGLFunctions \
+ /usr/include/qt6/QtGui/qopenglfunctions.h \
+ /usr/include/qt6/QtGui/qopenglcontext.h \
+ /usr/include/qt6/QtCore/qnativeinterface.h \
+ /usr/include/qt6/QtGui/QSurfaceFormat \
+ /usr/include/qt6/QtGui/qsurfaceformat.h \
+ /usr/include/qt6/QtCore/qvariant.h \
+ /usr/include/qt6/QtGui/qopenglcontext_platform.h \
+ /usr/include/qt6/QtGui/QMatrix4x4 /usr/include/qt6/QtCore/QSize \
+ /usr/include/qt6/QtCore/QRect /usr/include/qt6/QtCore/QDebug

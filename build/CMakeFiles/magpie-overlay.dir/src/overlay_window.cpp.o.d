@@ -1,9 +1,11 @@
 CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp \
- /usr/include/stdc-predef.h /usr/include/qt6/QtDBus/QDBusMessage \
- /usr/include/qt6/QtDBus/qdbusmessage.h \
- /usr/include/qt6/QtDBus/qtdbusglobal.h /usr/include/qt6/QtCore/qglobal.h \
- /usr/include/c++/16/type_traits \
+ /usr/include/stdc-predef.h \
+ /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLWindow \
+ /usr/include/qt6/QtOpenGL/qopenglwindow.h \
+ /usr/include/qt6/QtOpenGL/qtopenglglobal.h \
+ /usr/include/qt6/QtCore/qglobal.h /usr/include/c++/16/type_traits \
  /usr/include/c++/16/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/os_defines.h \
@@ -165,9 +167,16 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/qt6/QtCore/qtresource.h \
  /usr/include/qt6/QtCore/qttranslation.h \
  /usr/include/qt6/QtCore/qversiontagging.h \
- /usr/include/qt6/QtCore/qmetatype.h /usr/include/qt6/QtCore/qbytearray.h \
- /usr/include/qt6/QtCore/qrefcount.h /usr/include/qt6/QtCore/qnamespace.h \
- /usr/include/qt6/QtCore/qcompare.h \
+ /usr/include/qt6/QtGui/qtguiglobal.h \
+ /usr/include/qt6/QtGui/qtgui-config.h \
+ /usr/include/qt6/QtGui/qtguiexports.h \
+ /usr/include/qt6/QtOpenGL/qtopenglexports.h \
+ /usr/include/qt6/QtGui/QPaintDeviceWindow \
+ /usr/include/qt6/QtGui/qpaintdevicewindow.h \
+ /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
+ /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtCore/qobjectdefs.h \
+ /usr/include/qt6/QtCore/qnamespace.h /usr/include/qt6/QtCore/qcompare.h \
  /usr/include/qt6/QtCore/qstdlibdetection.h \
  /usr/include/qt6/QtCore/qcomparehelpers.h /usr/include/c++/16/functional \
  /usr/include/c++/16/bits/refwrap.h \
@@ -195,23 +204,20 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/c++/16/bits/vector.tcc /usr/include/c++/16/array \
  /usr/include/c++/16/bits/binders.h \
  /usr/include/qt6/QtCore/qtmetamacros.h \
- /usr/include/qt6/QtCore/qarraydata.h /usr/include/qt6/QtCore/qpair.h \
- /usr/include/string.h /usr/include/strings.h \
- /usr/include/qt6/QtCore/qarraydatapointer.h \
- /usr/include/qt6/QtCore/qarraydataops.h \
- /usr/include/qt6/QtCore/qcontainertools_impl.h \
- /usr/include/qt6/QtCore/qxptype_traits.h \
- /usr/include/qt6/QtCore/q23type_traits.h /usr/include/c++/16/cstring \
- /usr/include/c++/16/iterator /usr/include/c++/16/bits/stream_iterator.h \
+ /usr/include/qt6/QtCore/qobjectdefs_impl.h \
+ /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
+ /usr/include/c++/16/memory \
+ /usr/include/c++/16/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/16/bits/align.h /usr/include/c++/16/bits/unique_ptr.h \
+ /usr/include/c++/16/bits/ostream.h /usr/include/c++/16/ios \
  /usr/include/c++/16/iosfwd /usr/include/c++/16/bits/stringfwd.h \
  /usr/include/c++/16/bits/postypes.h /usr/include/c++/16/cwchar \
  /usr/include/wchar.h \
  /usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h \
  /usr/include/bits/types/wint_t.h /usr/include/bits/types/mbstate_t.h \
  /usr/include/bits/types/__mbstate_t.h /usr/include/bits/types/__FILE.h \
- /usr/include/bits/types/FILE.h \
- /usr/include/c++/16/bits/streambuf_iterator.h \
- /usr/include/c++/16/streambuf /usr/include/c++/16/bits/localefwd.h \
+ /usr/include/bits/types/FILE.h /usr/include/c++/16/bits/char_traits.h \
+ /usr/include/c++/16/bits/localefwd.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/c++locale.h \
  /usr/include/c++/16/clocale /usr/include/locale.h \
  /usr/include/bits/locale.h /usr/include/c++/16/cctype \
@@ -220,7 +226,6 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/c++/16/x86_64-redhat-linux/bits/atomic_word.h \
  /usr/include/sys/single_threaded.h \
  /usr/include/c++/16/bits/locale_classes.h /usr/include/c++/16/string \
- /usr/include/c++/16/bits/char_traits.h \
  /usr/include/c++/16/bits/ostream_insert.h \
  /usr/include/c++/16/bits/cxxabi_forced.h \
  /usr/include/c++/16/bits/basic_string.h /usr/include/c++/16/string_view \
@@ -242,14 +247,12 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/c++/16/x86_64-redhat-linux/bits/error_constants.h \
  /usr/include/c++/16/stdexcept \
  /usr/include/c++/16/bits/stdexcept_except.h \
- /usr/include/c++/16/bits/streambuf.tcc /usr/include/c++/16/memory \
- /usr/include/c++/16/bits/stl_raw_storage_iter.h \
- /usr/include/c++/16/bits/align.h /usr/include/c++/16/bits/unique_ptr.h \
- /usr/include/c++/16/bits/ostream.h /usr/include/c++/16/ios \
+ /usr/include/c++/16/streambuf /usr/include/c++/16/bits/streambuf.tcc \
  /usr/include/c++/16/bits/basic_ios.h \
  /usr/include/c++/16/bits/locale_facets.h /usr/include/c++/16/cwctype \
  /usr/include/wctype.h /usr/include/bits/wctype-wchar.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/ctype_base.h \
+ /usr/include/c++/16/bits/streambuf_iterator.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/ctype_inline.h \
  /usr/include/c++/16/bits/locale_facets.tcc \
  /usr/include/c++/16/bits/basic_ios.tcc \
@@ -261,22 +264,23 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/c++/16/backward/auto_ptr.h \
  /usr/include/c++/16/bits/ranges_uninitialized.h \
  /usr/include/c++/16/pstl/glue_memory_defs.h \
+ /usr/include/qt6/QtCore/qstring.h /usr/include/qt6/QtCore/qchar.h \
+ /usr/include/qt6/QtCore/qstringview.h \
+ /usr/include/qt6/QtCore/qbytearray.h /usr/include/qt6/QtCore/qrefcount.h \
+ /usr/include/qt6/QtCore/qarraydata.h /usr/include/qt6/QtCore/qpair.h \
+ /usr/include/string.h /usr/include/strings.h \
+ /usr/include/qt6/QtCore/qarraydatapointer.h \
+ /usr/include/qt6/QtCore/qarraydataops.h \
+ /usr/include/qt6/QtCore/qcontainertools_impl.h \
+ /usr/include/qt6/QtCore/qxptype_traits.h \
+ /usr/include/qt6/QtCore/q23type_traits.h /usr/include/c++/16/cstring \
+ /usr/include/c++/16/iterator /usr/include/c++/16/bits/stream_iterator.h \
  /usr/include/qt6/QtCore/q20functional.h \
  /usr/include/qt6/QtCore/q20memory.h /usr/include/qt6/QtCore/q17memory.h \
  /usr/include/qt6/QtCore/qbytearrayalgorithms.h \
  /usr/include/qt6/QtCore/qbytearrayview.h \
  /usr/include/qt6/QtCore/qstringfwd.h /usr/include/c++/16/stdlib.h \
- /usr/include/qt6/QtCore/qdatastream.h \
- /usr/include/qt6/QtCore/qobjectdefs.h \
- /usr/include/qt6/QtCore/qobjectdefs_impl.h \
- /usr/include/qt6/QtCore/qfunctionaltools_impl.h \
- /usr/include/qt6/QtCore/qchar.h /usr/include/qt6/QtCore/qstringview.h \
  /usr/include/qt6/QtCore/qstringalgorithms.h \
- /usr/include/qt6/QtCore/qiodevicebase.h \
- /usr/include/qt6/QtCore/qscopedpointer.h \
- /usr/include/qt6/QtCore/qfloat16.h \
- /usr/include/qt6/QtCore/qhashfunctions.h \
- /usr/include/qt6/QtCore/qstring.h \
  /usr/include/qt6/QtCore/qlatin1stringview.h \
  /usr/include/qt6/QtCore/qanystringview.h \
  /usr/include/qt6/QtCore/qutf8stringview.h \
@@ -284,18 +288,27 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/qt6/QtCore/qstringbuilder.h \
  /usr/include/qt6/QtCore/qstringconverter.h \
  /usr/include/qt6/QtCore/qstringconverter_base.h \
+ /usr/include/qt6/QtCore/qlist.h /usr/include/qt6/QtCore/qhashfunctions.h \
  /usr/include/c++/16/numeric /usr/include/c++/16/bits/stl_numeric.h \
  /usr/include/c++/16/pstl/glue_numeric_defs.h \
- /usr/include/qt6/QtCore/qmath.h /usr/include/qt6/QtCore/qalgorithms.h \
- /usr/include/qt6/QtCore/q20bit.h /usr/include/qt6/QtCore/qtformat_impl.h \
- /usr/include/c++/16/format /usr/include/c++/16/charconv \
- /usr/include/c++/16/locale \
+ /usr/include/qt6/QtCore/qiterator.h /usr/include/c++/16/ranges \
+ /usr/include/c++/16/span /usr/include/qt6/QtCore/qbytearraylist.h \
+ /usr/include/qt6/QtCore/qstringlist.h \
+ /usr/include/qt6/QtCore/qalgorithms.h /usr/include/qt6/QtCore/q20bit.h \
+ /usr/include/qt6/QtCore/qstringmatcher.h \
+ /usr/include/qt6/QtCore/qscopedpointer.h \
+ /usr/include/qt6/QtCore/qmetatype.h \
+ /usr/include/qt6/QtCore/qdatastream.h \
+ /usr/include/qt6/QtCore/qiodevicebase.h \
+ /usr/include/qt6/QtCore/qfloat16.h /usr/include/qt6/QtCore/qmath.h \
+ /usr/include/qt6/QtCore/qtformat_impl.h /usr/include/c++/16/format \
+ /usr/include/c++/16/charconv /usr/include/c++/16/locale \
  /usr/include/c++/16/bits/locale_facets_nonio.h /usr/include/c++/16/ctime \
  /usr/include/c++/16/x86_64-redhat-linux/bits/time_members.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/messages_members.h \
  /usr/include/libintl.h /usr/include/c++/16/bits/codecvt.h \
  /usr/include/c++/16/bits/locale_facets_nonio.tcc \
- /usr/include/c++/16/bits/locale_conv.h /usr/include/c++/16/span \
+ /usr/include/c++/16/bits/locale_conv.h \
  /usr/include/c++/16/bits/formatfwd.h /usr/include/c++/16/bits/unicode.h \
  /usr/include/c++/16/bits/unicode-data.h \
  /usr/include/qt6/QtCore/qiterable.h \
@@ -307,62 +320,24 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/c++/16/map /usr/include/c++/16/bits/stl_tree.h \
  /usr/include/c++/16/bits/stl_map.h \
  /usr/include/c++/16/bits/stl_multimap.h \
- /usr/include/qt6/QtCore/qvariant.h /usr/include/qt6/QtCore/qdebug.h \
- /usr/include/qt6/QtCore/qtextstream.h \
- /usr/include/qt6/QtCore/qcontiguouscache.h /usr/include/c++/16/climits \
- /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
- /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h \
- /usr/include/limits.h /usr/include/bits/posix1_lim.h \
- /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
- /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
- /usr/include/bits/uio_lim.h /usr/include/qt6/QtCore/qsharedpointer.h \
- /usr/include/qt6/QtCore/qshareddata.h \
- /usr/include/qt6/QtCore/qsharedpointer_impl.h /usr/include/c++/16/chrono \
+ /usr/include/qt6/QtCore/qobject_impl.h \
+ /usr/include/qt6/QtCore/qbindingstorage.h /usr/include/c++/16/chrono \
  /usr/include/c++/16/bits/chrono.h /usr/include/c++/16/ratio \
  /usr/include/c++/16/sstream /usr/include/c++/16/istream \
  /usr/include/c++/16/ostream /usr/include/c++/16/bits/ostream_print.h \
  /usr/include/c++/16/bits/ostream.tcc \
  /usr/include/c++/16/bits/istream.tcc \
  /usr/include/c++/16/bits/sstream.tcc \
- /usr/include/c++/16/bits/chrono_io.h /usr/include/c++/16/set \
- /usr/include/c++/16/bits/stl_set.h \
- /usr/include/c++/16/bits/stl_multiset.h \
- /usr/include/c++/16/unordered_set \
- /usr/include/c++/16/bits/unordered_set.h /usr/include/qt6/QtCore/qlist.h \
- /usr/include/qt6/QtCore/qiterator.h /usr/include/c++/16/ranges \
- /usr/include/qt6/QtCore/qbytearraylist.h \
- /usr/include/qt6/QtCore/qstringlist.h \
- /usr/include/qt6/QtCore/qstringmatcher.h /usr/include/qt6/QtCore/qmap.h \
- /usr/include/qt6/QtCore/qshareddata_impl.h \
- /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
- /usr/include/qt6/QtCore/qvarlengtharray.h \
- /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtCore/q23utility.h \
- /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/qobject.h \
- /usr/include/qt6/QtCore/qobject_impl.h \
- /usr/include/qt6/QtCore/qbindingstorage.h \
- /usr/include/qt6/QtDBus/qtdbusexports.h \
- /usr/include/qt6/QtDBus/qdbuserror.h \
- /usr/include/qt6/QtDBus/QDBusConnection \
- /usr/include/qt6/QtDBus/qdbusconnection.h \
- /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h \
- /usr/include/qt6/QtOpenGL/QOpenGLWindow \
- /usr/include/qt6/QtOpenGL/qopenglwindow.h \
- /usr/include/qt6/QtOpenGL/qtopenglglobal.h \
- /usr/include/qt6/QtGui/qtguiglobal.h \
- /usr/include/qt6/QtGui/qtgui-config.h \
- /usr/include/qt6/QtGui/qtguiexports.h \
- /usr/include/qt6/QtOpenGL/qtopenglexports.h \
- /usr/include/qt6/QtGui/QPaintDeviceWindow \
- /usr/include/qt6/QtGui/qpaintdevicewindow.h \
- /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
- /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/QEvent \
+ /usr/include/c++/16/bits/chrono_io.h /usr/include/qt6/QtCore/QEvent \
  /usr/include/qt6/QtCore/qcoreevent.h \
  /usr/include/qt6/QtCore/qbasictimer.h \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
  /usr/include/qt6/QtCore/qeventloop.h \
  /usr/include/qt6/QtCore/qdeadlinetimer.h \
  /usr/include/qt6/QtCore/QMargins /usr/include/qt6/QtCore/qmargins.h \
- /usr/include/qt6/QtCore/qcheckedint_impl.h /usr/include/qt6/QtCore/QRect \
+ /usr/include/qt6/QtCore/qcheckedint_impl.h \
+ /usr/include/qt6/QtCore/q23utility.h \
+ /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/QRect \
  /usr/include/qt6/QtCore/qrect.h /usr/include/qt6/QtCore/qsize.h \
  /usr/include/qt6/QtCore/qpoint.h \
  /usr/include/qt6/QtCore/qnativeinterface.h \
@@ -371,40 +346,57 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/qt6/QtGui/qwindowdefs.h /usr/include/qt6/QtGui/qicon.h \
  /usr/include/qt6/QtGui/qpixmap.h /usr/include/qt6/QtGui/qpaintdevice.h \
  /usr/include/qt6/QtGui/qcolor.h /usr/include/qt6/QtGui/qrgb.h \
- /usr/include/qt6/QtGui/qrgba64.h /usr/include/qt6/QtGui/qimage.h \
- /usr/include/qt6/QtGui/qpixelformat.h \
+ /usr/include/qt6/QtGui/qrgba64.h \
+ /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
+ /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h \
+ /usr/include/limits.h /usr/include/bits/posix1_lim.h \
+ /usr/include/bits/local_lim.h /usr/include/linux/limits.h \
+ /usr/include/bits/posix2_lim.h /usr/include/bits/xopen_lim.h \
+ /usr/include/bits/uio_lim.h /usr/include/qt6/QtCore/qshareddata.h \
+ /usr/include/qt6/QtGui/qimage.h /usr/include/qt6/QtGui/qpixelformat.h \
  /usr/include/qt6/QtGui/qtransform.h /usr/include/qt6/QtGui/qpolygon.h \
  /usr/include/qt6/QtGui/qregion.h /usr/include/qt6/QtCore/qspan.h \
  /usr/include/c++/16/cassert /usr/include/qt6/QtCore/q20iterator.h \
  /usr/include/qt6/QtCore/qline.h /usr/include/qt6/QtGui/qcursor.h \
  /usr/include/qt6/QtGui/qbitmap.h /usr/include/qt6/QtGui/QPaintDevice \
  /usr/include/qt6/QtGui/QOpenGLContext \
- /usr/include/qt6/QtGui/qopenglcontext.h \
- /usr/include/qt6/QtGui/QSurfaceFormat /usr/include/qt6/QtGui/qopengl.h \
- /usr/include/GL/gl.h /usr/include/qt6/QtGui/qopenglext.h \
- /usr/include/inttypes.h /usr/include/qt6/QtGui/qopenglcontext_platform.h \
+ /usr/include/qt6/QtGui/qopenglcontext.h /usr/include/qt6/QtCore/qset.h \
+ /usr/include/qt6/QtCore/qhash.h /usr/include/qt6/QtGui/QSurfaceFormat \
+ /usr/include/qt6/QtGui/qopengl.h /usr/include/GL/gl.h \
+ /usr/include/qt6/QtGui/qopenglext.h /usr/include/inttypes.h \
+ /usr/include/qt6/QtCore/qvariant.h /usr/include/qt6/QtCore/qdebug.h \
+ /usr/include/qt6/QtCore/qtextstream.h \
+ /usr/include/qt6/QtCore/qcontiguouscache.h /usr/include/c++/16/climits \
+ /usr/include/qt6/QtCore/qsharedpointer.h \
+ /usr/include/qt6/QtCore/qsharedpointer_impl.h /usr/include/c++/16/set \
+ /usr/include/c++/16/bits/stl_set.h \
+ /usr/include/c++/16/bits/stl_multiset.h \
+ /usr/include/c++/16/unordered_set \
+ /usr/include/c++/16/bits/unordered_set.h /usr/include/qt6/QtCore/qmap.h \
+ /usr/include/qt6/QtCore/qshareddata_impl.h \
+ /usr/include/qt6/QtCore/qvarlengtharray.h \
+ /usr/include/qt6/QtCore/qalloc.h \
+ /usr/include/qt6/QtGui/qopenglcontext_platform.h \
  /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtGui/QOpenGLFunctions \
  /usr/include/qt6/QtGui/qopenglfunctions.h \
  /usr/include/qt6/QtOpenGL/QOpenGLTexture \
  /usr/include/qt6/QtOpenGL/qopengltexture.h \
- /usr/include/qt6/QtCore/QScopedPointer \
+ /usr/include/qt6/QtCore/QScopedPointer /usr/include/qt6/QtCore/QTimer \
+ /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtGui/QImage \
+ /usr/include/qt6/QtCore/QRect \
+ /home/SZX10246/Projects/software/windowScaling/src/capture.h \
+ /usr/include/qt6/QtCore/QString \
+ /home/SZX10246/Projects/software/windowScaling/src/input.h \
+ /usr/include/qt6/QtCore/QPoint /usr/include/qt6/QtCore/Qt \
+ /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h \
  /usr/include/qt6/QtOpenGL/QOpenGLShaderProgram \
  /usr/include/qt6/QtOpenGL/qopenglshaderprogram.h \
  /usr/include/qt6/QtGui/qvector2d.h /usr/include/qt6/QtGui/qvectornd.h \
  /usr/include/qt6/QtGui/qvector3d.h /usr/include/qt6/QtGui/qvector4d.h \
  /usr/include/qt6/QtGui/qmatrix4x4.h \
  /usr/include/qt6/QtGui/qgenericmatrix.h \
- /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
- /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
- /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
- /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h \
- /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
- /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtCore/QRect \
- /home/SZX10246/Projects/software/windowScaling/src/capture.h \
- /usr/include/qt6/QtCore/QString \
- /home/SZX10246/Projects/software/windowScaling/src/input.h \
- /usr/include/qt6/QtCore/QPoint /usr/include/qt6/QtCore/Qt \
- /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject \
+ /usr/include/qt6/QtOpenGL/qopenglframebufferobject.h \
  /usr/include/qt6/QtGui/QMatrix4x4 /usr/include/qt6/QtCore/QSize \
  /usr/include/qt6/QtGui/QMouseEvent /usr/include/qt6/QtGui/qevent.h \
  /usr/include/qt6/QtCore/qiodevice.h /usr/include/qt6/QtCore/qurl.h \
@@ -422,4 +414,10 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: \
  /usr/include/qt6/QtGui/qkeysequence.h /usr/include/qt6/QtGui/QTouchEvent \
  /usr/include/qt6/QtGui/QKeyEvent /usr/include/qt6/QtGui/QWheelEvent \
  /usr/include/qt6/QtGui/QGuiApplication /usr/include/qt6/QtGui/QScreen \
- /usr/include/qt6/QtCore/QDebug
+ /usr/include/qt6/QtCore/QDebug /usr/include/qt6/QtDBus/QDBusMessage \
+ /usr/include/qt6/QtDBus/qdbusmessage.h \
+ /usr/include/qt6/QtDBus/qtdbusglobal.h \
+ /usr/include/qt6/QtDBus/qtdbusexports.h \
+ /usr/include/qt6/QtDBus/qdbuserror.h \
+ /usr/include/qt6/QtDBus/QDBusConnection \
+ /usr/include/qt6/QtDBus/qdbusconnection.h

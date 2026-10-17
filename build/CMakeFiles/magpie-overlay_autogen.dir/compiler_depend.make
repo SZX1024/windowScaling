@@ -10,6 +10,8 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /home/SZX10246/Projects/software/windowScaling/src/input.cpp \
   /home/SZX10246/Projects/software/windowScaling/src/input.h \
   /home/SZX10246/Projects/software/windowScaling/src/main.cpp \
+  /home/SZX10246/Projects/software/windowScaling/src/main_window.cpp \
+  /home/SZX10246/Projects/software/windowScaling/src/main_window.h \
   /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp \
   /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h \
   /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp \
@@ -319,12 +321,14 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/locale.h \
   /usr/include/pthread.h \
   /usr/include/qt6/QtCore/QEvent \
+  /usr/include/qt6/QtCore/QList \
   /usr/include/qt6/QtCore/QMargins \
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QPoint \
   /usr/include/qt6/QtCore/QRect \
   /usr/include/qt6/QtCore/QScopedPointer \
   /usr/include/qt6/QtCore/QSize \
+  /usr/include/qt6/QtCore/QSizeF \
   /usr/include/qt6/QtCore/QString \
   /usr/include/qt6/QtCore/QTimer \
   /usr/include/qt6/QtCore/Qt \
@@ -338,6 +342,7 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtCore/q23type_traits.h \
   /usr/include/qt6/QtCore/q23utility.h \
   /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+  /usr/include/qt6/QtCore/qabstractitemmodel.h \
   /usr/include/qt6/QtCore/qalgorithms.h \
   /usr/include/qt6/QtCore/qalloc.h \
   /usr/include/qt6/QtCore/qanystringview.h \
@@ -367,11 +372,14 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtCore/qcontainerinfo.h \
   /usr/include/qt6/QtCore/qcontainertools_impl.h \
   /usr/include/qt6/QtCore/qcontiguouscache.h \
+  /usr/include/qt6/QtCore/qcoreapplication.h \
+  /usr/include/qt6/QtCore/qcoreapplication_platform.h \
   /usr/include/qt6/QtCore/qcoreevent.h \
   /usr/include/qt6/QtCore/qdarwinhelpers.h \
   /usr/include/qt6/QtCore/qdatastream.h \
   /usr/include/qt6/QtCore/qdeadlinetimer.h \
   /usr/include/qt6/QtCore/qdebug.h \
+  /usr/include/qt6/QtCore/qendian.h \
   /usr/include/qt6/QtCore/qeventloop.h \
   /usr/include/qt6/QtCore/qexceptionhandling.h \
   /usr/include/qt6/QtCore/qflags.h \
@@ -384,12 +392,14 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtCore/qglobalstatic.h \
   /usr/include/qt6/QtCore/qhash.h \
   /usr/include/qt6/QtCore/qhashfunctions.h \
+  /usr/include/qt6/QtCore/qiodevice.h \
   /usr/include/qt6/QtCore/qiodevicebase.h \
   /usr/include/qt6/QtCore/qiterable.h \
   /usr/include/qt6/QtCore/qiterator.h \
   /usr/include/qt6/QtCore/qlatin1stringview.h \
   /usr/include/qt6/QtCore/qline.h \
   /usr/include/qt6/QtCore/qlist.h \
+  /usr/include/qt6/QtCore/qlocale.h \
   /usr/include/qt6/QtCore/qlogging.h \
   /usr/include/qt6/QtCore/qmalloc.h \
   /usr/include/qt6/QtCore/qmap.h \
@@ -411,6 +421,7 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtCore/qprocessordetection.h \
   /usr/include/qt6/QtCore/qrect.h \
   /usr/include/qt6/QtCore/qrefcount.h \
+  /usr/include/qt6/QtCore/qregularexpression.h \
   /usr/include/qt6/QtCore/qscopedpointer.h \
   /usr/include/qt6/QtCore/qscopeguard.h \
   /usr/include/qt6/QtCore/qset.h \
@@ -457,12 +468,14 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtCore/qtversionchecks.h \
   /usr/include/qt6/QtCore/qtypeinfo.h \
   /usr/include/qt6/QtCore/qtypes.h \
+  /usr/include/qt6/QtCore/qurl.h \
   /usr/include/qt6/QtCore/qutf8stringview.h \
   /usr/include/qt6/QtCore/qvariant.h \
   /usr/include/qt6/QtCore/qvarlengtharray.h \
   /usr/include/qt6/QtCore/qversiontagging.h \
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
+  /usr/include/qt6/QtGui/QCloseEvent \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QMatrix4x4 \
   /usr/include/qt6/QtGui/QOpenGLContext \
@@ -470,13 +483,27 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtGui/QPaintDevice \
   /usr/include/qt6/QtGui/QPaintDeviceWindow \
   /usr/include/qt6/QtGui/QSurfaceFormat \
+  /usr/include/qt6/QtGui/QTransform \
   /usr/include/qt6/QtGui/QWindow \
+  /usr/include/qt6/QtGui/qaction.h \
   /usr/include/qt6/QtGui/qbitmap.h \
+  /usr/include/qt6/QtGui/qbrush.h \
   /usr/include/qt6/QtGui/qcolor.h \
   /usr/include/qt6/QtGui/qcursor.h \
+  /usr/include/qt6/QtGui/qevent.h \
+  /usr/include/qt6/QtGui/qeventpoint.h \
+  /usr/include/qt6/QtGui/qfont.h \
+  /usr/include/qt6/QtGui/qfontinfo.h \
+  /usr/include/qt6/QtGui/qfontmetrics.h \
+  /usr/include/qt6/QtGui/qfontvariableaxis.h \
   /usr/include/qt6/QtGui/qgenericmatrix.h \
+  /usr/include/qt6/QtGui/qguiapplication.h \
+  /usr/include/qt6/QtGui/qguiapplication_platform.h \
   /usr/include/qt6/QtGui/qicon.h \
   /usr/include/qt6/QtGui/qimage.h \
+  /usr/include/qt6/QtGui/qinputdevice.h \
+  /usr/include/qt6/QtGui/qinputmethod.h \
+  /usr/include/qt6/QtGui/qkeysequence.h \
   /usr/include/qt6/QtGui/qmatrix4x4.h \
   /usr/include/qt6/QtGui/qopengl.h \
   /usr/include/qt6/QtGui/qopenglcontext.h \
@@ -485,36 +512,68 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/include/qt6/QtGui/qopenglfunctions.h \
   /usr/include/qt6/QtGui/qpaintdevice.h \
   /usr/include/qt6/QtGui/qpaintdevicewindow.h \
+  /usr/include/qt6/QtGui/qpalette.h \
+  /usr/include/qt6/QtGui/qpicture.h \
   /usr/include/qt6/QtGui/qpixelformat.h \
   /usr/include/qt6/QtGui/qpixmap.h \
+  /usr/include/qt6/QtGui/qpointingdevice.h \
   /usr/include/qt6/QtGui/qpolygon.h \
   /usr/include/qt6/QtGui/qregion.h \
   /usr/include/qt6/QtGui/qrgb.h \
   /usr/include/qt6/QtGui/qrgba64.h \
+  /usr/include/qt6/QtGui/qscreen.h \
+  /usr/include/qt6/QtGui/qscreen_platform.h \
   /usr/include/qt6/QtGui/qsurface.h \
   /usr/include/qt6/QtGui/qsurfaceformat.h \
+  /usr/include/qt6/QtGui/qtextdocument.h \
   /usr/include/qt6/QtGui/qtgui-config.h \
   /usr/include/qt6/QtGui/qtguiexports.h \
   /usr/include/qt6/QtGui/qtguiglobal.h \
   /usr/include/qt6/QtGui/qtransform.h \
+  /usr/include/qt6/QtGui/qvalidator.h \
   /usr/include/qt6/QtGui/qvector2d.h \
   /usr/include/qt6/QtGui/qvector3d.h \
   /usr/include/qt6/QtGui/qvector4d.h \
   /usr/include/qt6/QtGui/qvectornd.h \
   /usr/include/qt6/QtGui/qwindow.h \
   /usr/include/qt6/QtGui/qwindowdefs.h \
-  /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
+  /usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject \
   /usr/include/qt6/QtOpenGL/QOpenGLShaderProgram \
   /usr/include/qt6/QtOpenGL/QOpenGLTexture \
-  /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
   /usr/include/qt6/QtOpenGL/QOpenGLWindow \
-  /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
+  /usr/include/qt6/QtOpenGL/qopenglframebufferobject.h \
   /usr/include/qt6/QtOpenGL/qopenglshaderprogram.h \
   /usr/include/qt6/QtOpenGL/qopengltexture.h \
-  /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h \
   /usr/include/qt6/QtOpenGL/qopenglwindow.h \
   /usr/include/qt6/QtOpenGL/qtopenglexports.h \
   /usr/include/qt6/QtOpenGL/qtopenglglobal.h \
+  /usr/include/qt6/QtWidgets/QComboBox \
+  /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QMainWindow \
+  /usr/include/qt6/QtWidgets/QPushButton \
+  /usr/include/qt6/QtWidgets/QSlider \
+  /usr/include/qt6/QtWidgets/QSystemTrayIcon \
+  /usr/include/qt6/QtWidgets/qabstractbutton.h \
+  /usr/include/qt6/QtWidgets/qabstractitemdelegate.h \
+  /usr/include/qt6/QtWidgets/qabstractslider.h \
+  /usr/include/qt6/QtWidgets/qabstractspinbox.h \
+  /usr/include/qt6/QtWidgets/qcombobox.h \
+  /usr/include/qt6/QtWidgets/qframe.h \
+  /usr/include/qt6/QtWidgets/qlabel.h \
+  /usr/include/qt6/QtWidgets/qmainwindow.h \
+  /usr/include/qt6/QtWidgets/qpushbutton.h \
+  /usr/include/qt6/QtWidgets/qrubberband.h \
+  /usr/include/qt6/QtWidgets/qsizepolicy.h \
+  /usr/include/qt6/QtWidgets/qslider.h \
+  /usr/include/qt6/QtWidgets/qstyle.h \
+  /usr/include/qt6/QtWidgets/qstyleoption.h \
+  /usr/include/qt6/QtWidgets/qsystemtrayicon.h \
+  /usr/include/qt6/QtWidgets/qtabbar.h \
+  /usr/include/qt6/QtWidgets/qtabwidget.h \
+  /usr/include/qt6/QtWidgets/qtwidgets-config.h \
+  /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
+  /usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
+  /usr/include/qt6/QtWidgets/qwidget.h \
   /usr/include/sched.h \
   /usr/include/stdc-predef.h \
   /usr/include/stdint.h \
@@ -876,6 +935,26 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
   /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLTargets.cmake \
   /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLTargetsPrecheck.cmake \
   /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLVersionlessAliasTargets.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersionImpl.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargets-relwithdebinfo.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargetsPrecheck.cmake \
+  /usr/lib64/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsAdditionalTargetInfo.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfig.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersionImpl.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsDependencies.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-relwithdebinfo.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargetsPrecheck.cmake \
+  /usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake \
   /usr/share/cmake/Modules/CMakeCXXInformation.cmake \
   /usr/share/cmake/Modules/CMakeCheckCompilerFlagCommonPatterns.cmake \
   /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake \
@@ -925,13 +1004,9 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/share/cmake/Modules/Platform/Linker/Linux-GNU.cmake:
 
-/usr/share/cmake/Modules/Linker/GNU.cmake:
-
 /usr/share/cmake/Modules/Platform/Linker/Linux-GNU-CXX.cmake:
 
 /usr/share/cmake/Modules/Internal/CheckSourceCompiles.cmake:
-
-/usr/share/cmake/Modules/Internal/CheckFlagCommonConfig.cmake:
 
 /usr/share/cmake/Modules/GNUInstallDirs.cmake:
 
@@ -956,6 +1031,20 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/share/cmake/Modules/CMakeFindDependencyMacro.cmake:
 
 /usr/share/cmake/Modules/CMakeCXXInformation.cmake:
+
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsDependencies.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsMacros.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersionImpl.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsAdditionalTargetInfo.cmake:
 
 /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLVersionlessAliasTargets.cmake:
 
@@ -997,8 +1086,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6Gui/Qt6QXcbIntegrationPluginConfig.cmake:
 
-/usr/lib64/cmake/Qt6Gui/Qt6QXcbIntegrationPluginAdditionalTargetInfo.cmake:
-
 /usr/lib64/cmake/Qt6Gui/Qt6QXcbGlxIntegrationPluginTargetsPrecheck.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QXcbGlxIntegrationPluginTargets.cmake:
@@ -1016,8 +1103,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/lib64/cmake/Qt6Gui/Qt6QXcbEglIntegrationPluginConfig.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QXcbEglIntegrationPluginAdditionalTargetInfo.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QWebpPluginTargetsPrecheck.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QWebpPluginTargets.cmake:
 
@@ -1040,6 +1125,8 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/lib64/cmake/Qt6Gui/Qt6QWaylandWlShellIntegrationPluginAdditionalTargetInfo.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QWaylandIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QWaylandIntegrationPluginAdditionalTargetInfo.cmake:
 
@@ -1129,11 +1216,11 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6Gui/Qt6QJpegPluginTargets-relwithdebinfo.cmake:
 
-/usr/lib64/cmake/Qt6Gui/Qt6QJpegPluginConfig.cmake:
-
 /usr/lib64/cmake/Qt6Gui/Qt6QJpegPluginAdditionalTargetInfo.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QJp2PluginTargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsVersionlessAliasTargets.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QJp2PluginAdditionalTargetInfo.cmake:
 
@@ -1146,8 +1233,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/lib64/cmake/Qt6Gui/Qt6QGtk3ThemePluginTargetsPrecheck.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QGtk3ThemePluginConfig.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QGifPluginTargetsPrecheck.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QGifPluginTargets.cmake:
 
@@ -1163,14 +1248,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6Gui/Qt6QEvdevTouchScreenPluginAdditionalTargetInfo.cmake:
 
-/usr/lib64/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargets.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QGtk3ThemePluginTargets.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargets-relwithdebinfo.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QEvdevTabletPluginAdditionalTargetInfo.cmake:
-
 /usr/lib64/cmake/Qt6Gui/Qt6QEvdevMousePluginTargetsPrecheck.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QLinuxFbIntegrationPluginTargets-relwithdebinfo.cmake:
@@ -1182,6 +1259,8 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/lib64/cmake/Qt6Gui/Qt6QEvdevMousePluginConfig.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QEvdevMousePluginAdditionalTargetInfo.cmake:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsTargets-relwithdebinfo.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QTsLibPluginTargets-relwithdebinfo.cmake:
 
@@ -1219,6 +1298,10 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6Gui/Qt6QEglFSEmulatorIntegrationPluginTargets-relwithdebinfo.cmake:
 
+/usr/lib64/cmake/Qt6Gui/Qt6QEglFSKmsGbmIntegrationPluginTargets-relwithdebinfo.cmake:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QEglFSEmulatorIntegrationPluginConfig.cmake:
+
 /usr/lib64/cmake/Qt6Gui/Qt6QEglFSEmulatorIntegrationPluginAdditionalTargetInfo.cmake:
 
 /usr/share/cmake/Modules/CMakeCommonLanguageInclude.cmake:
@@ -1249,10 +1332,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6Gui/Qt6DmaBufServerBufferPluginConfig.cmake:
 
-/usr/lib64/cmake/Qt6Gui/Qt6QEglFSIntegrationPluginTargetsPrecheck.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6DmaBufServerBufferPluginAdditionalTargetInfo.cmake:
-
 /usr/lib64/cmake/Qt6Gui/Qt6QTsLibPluginConfig.cmake:
 
 /usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsVersionlessTargets.cmake:
@@ -1262,8 +1341,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersion.cmake:
 
 /usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsConfig.cmake:
-
-/usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsAdditionalTargetInfo.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QVncIntegrationPluginTargetsPrecheck.cmake:
 
@@ -1319,10 +1396,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6/QtPublicSbomGenerationHelpers.cmake:
 
-/usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersionImpl.cmake:
-
-/usr/lib64/cmake/Qt6/QtPublicSbomFileHelpers.cmake:
-
 /usr/lib64/cmake/Qt6/QtPublicSbomCycloneDXHelpers.cmake:
 
 /usr/lib64/cmake/Qt6/QtPublicSbomCpeHelpers.cmake:
@@ -1357,9 +1430,89 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/lib64/cmake/Qt6/QtFeature.cmake:
 
-/usr/include/c++/16/ostream:
+/usr/lib64/cmake/Qt6/Qt6Dependencies.cmake:
 
-/usr/include/c++/16/pstl/pstl_config.h:
+/usr/lib64/cmake/Qt6/QtPublicSbomLicenseHelpers.cmake:
+
+/usr/lib64/cmake/Qt6/Qt6ConfigVersion.cmake:
+
+/usr/lib64/cmake/Qt6/Qt6ConfigExtras.cmake:
+
+/usr/lib64/cmake/Qt6/Qt6Config.cmake:
+
+/usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h:
+
+/usr/include/wctype.h:
+
+/usr/lib64/cmake/Qt6/FindWrapAtomic.cmake:
+
+/usr/include/wchar.h:
+
+/usr/include/sys/types.h:
+
+/usr/include/sys/select.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/strings.h:
+
+/usr/include/string.h:
+
+/usr/include/stdio.h:
+
+/usr/include/stdint.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6GuiTargetsPrecheck.cmake:
+
+/usr/include/stdc-predef.h:
+
+/usr/include/qt6/QtWidgets/qwidget.h:
+
+/usr/include/qt6/QtWidgets/qtwidgetsglobal.h:
+
+/usr/include/qt6/QtWidgets/qtabbar.h:
+
+/usr/include/qt6/QtWidgets/qstyleoption.h:
+
+/usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsAdditionalTargetInfo.cmake:
+
+/usr/include/qt6/QtWidgets/qstyle.h:
+
+/usr/include/qt6/QtWidgets/qsizepolicy.h:
+
+/usr/include/qt6/QtWidgets/qpushbutton.h:
+
+/usr/include/qt6/QtWidgets/qmainwindow.h:
+
+/usr/include/qt6/QtWidgets/qlabel.h:
+
+/usr/include/qt6/QtWidgets/qcombobox.h:
+
+/usr/include/qt6/QtWidgets/qabstractspinbox.h:
+
+/usr/include/qt6/QtWidgets/qabstractitemdelegate.h:
+
+/usr/share/cmake/Modules/Internal/CheckFlagCommonConfig.cmake:
+
+/usr/include/qt6/QtWidgets/QSystemTrayIcon:
+
+/usr/include/qt6/QtWidgets/QSlider:
+
+/usr/include/qt6/QtWidgets/QPushButton:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QXcbIntegrationPluginAdditionalTargetInfo.cmake:
+
+/usr/include/qt6/QtWidgets/QMainWindow:
+
+/usr/include/qt6/QtWidgets/QComboBox:
+
+/usr/include/qt6/QtOpenGL/qtopenglglobal.h:
+
+/usr/include/qt6/QtOpenGL/qtopenglexports.h:
+
+/usr/include/qt6/QtOpenGL/qopenglwindow.h:
+
+/usr/include/qt6/QtOpenGL/qopenglshaderprogram.h:
 
 /usr/include/c++/16/memory:
 
@@ -1385,8 +1538,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/c++/16/ext/concurrence.h:
 
-/usr/include/c++/16/exception:
-
 /usr/include/c++/16/debug/debug.h:
 
 /usr/include/asm-generic/types.h:
@@ -1409,8 +1560,6 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/c++/16/cstdio:
 
-/usr/include/qt6/QtOpenGL/qtopenglexports.h:
-
 /usr/include/c++/16/cstdint:
 
 /usr/include/c++/16/bits/basic_ios.tcc:
@@ -1420,6 +1569,8 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/lib64/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
 
 /usr/include/c++/16/concepts:
+
+/usr/include/qt6/QtWidgets/qsystemtrayicon.h:
 
 /usr/include/c++/16/bits/ranges_util.h:
 
@@ -1445,11 +1596,21 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/bits/types/__sigset_t.h:
 
+/usr/lib64/cmake/Qt6Gui/Qt6QEglFSIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6Gui/Qt6DmaBufServerBufferPluginAdditionalTargetInfo.cmake:
+
+/usr/include/qt6/QtGui/qguiapplication_platform.h:
+
 /usr/include/c++/16/bits/streambuf.tcc:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginTargetsPrecheck.cmake:
 
 /usr/include/c++/16/bits/stl_vector.h:
+
+/usr/include/sys/single_threaded.h:
+
+/usr/include/asm-generic/errno.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QJpegPluginTargets.cmake:
 
@@ -1461,11 +1622,19 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/c++/16/bits/stl_pair.h:
 
+/usr/lib64/cmake/Qt6/FindWrapVulkanHeaders.cmake:
+
+/usr/include/bits/locale.h:
+
 /usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsDependencies.cmake:
 
 /usr/include/c++/16/bits/stl_multimap.h:
 
 /usr/include/qt6/QtCore/qhashfunctions.h:
+
+/usr/include/time.h:
+
+/usr/include/qt6/QtCore/qlocale.h:
 
 /usr/include/c++/16/ext/numeric_traits.h:
 
@@ -1480,6 +1649,8 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 /usr/include/asm-generic/posix_types.h:
 
 /usr/include/c++/16/bits/stl_iterator_base_funcs.h:
+
+/usr/include/qt6/QtOpenGL/qopenglframebufferobject.h:
 
 /usr/include/c++/16/cassert:
 
@@ -1497,15 +1668,11 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/c++/16/limits:
 
+/usr/include/qt6/QtWidgets/qtwidgets-config.h:
+
 /usr/include/c++/16/cmath:
 
 /usr/include/c++/16/bits/align.h:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QEglFSKmsGbmIntegrationPluginTargets-relwithdebinfo.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QEglFSEmulatorIntegrationPluginConfig.cmake:
-
-/usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject:
 
 /usr/lib64/cmake/Qt6/QtPublicSbomAttributionHelpers.cmake:
 
@@ -1527,13 +1694,9 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/c++/16/bits/ranges_algobase.h:
 
-/usr/include/sys/types.h:
-
 /usr/include/c++/16/bits/range_access.h:
 
 /usr/include/c++/16/bits/postypes.h:
-
-/usr/lib/gcc/x86_64-redhat-linux/16/include/stdarg.h:
 
 /usr/include/c++/16/bits/parse_numbers.h:
 
@@ -1571,6 +1734,12 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 /usr/include/qt6/QtCore/qyieldcpu.h:
 
+/usr/lib64/cmake/Qt6Gui/Qt6GuiVersionlessAliasTargets.cmake:
+
+/usr/lib64/cmake/Qt6/FindWrapOpenGL.cmake:
+
+/usr/include/c++/16/bits/ios_base.h:
+
 /usr/include/qt6/QtGui/qsurface.h:
 
 /usr/include/qt6/QtOpenGL/QOpenGLShaderProgram:
@@ -1591,11 +1760,7 @@ magpie-overlay_autogen/timestamp: /home/SZX10246/Projects/software/windowScaling
 
 magpie-overlay_autogen/moc_predefs.h:
 
-/usr/include/c++/16/bits/stl_bvector.h:
-
-/usr/include/c++/16/bits/functional_hash.h:
-
-/usr/include/asm/errno.h:
+/usr/include/c++/16/bits/functexcept.h:
 
 /usr/include/c++/16/cerrno:
 
@@ -1605,19 +1770,25 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qtcore-config.h:
 
+/usr/include/qt6/QtWidgets/QLabel:
+
 /usr/include/bits/types/__FILE.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QICOPluginTargets-relwithdebinfo.cmake:
 
 /usr/include/c++/16/bits/locale_classes.tcc:
 
+/usr/include/bits/types/struct_timeval.h:
+
+/usr/include/c++/16/ostream:
+
+/usr/include/c++/16/pstl/pstl_config.h:
+
 /usr/lib64/cmake/Qt6Gui/Qt6GuiPlugins.cmake:
 
 /usr/include/bits/select.h:
 
 /usr/include/c++/16/ext/aligned_buffer.h:
-
-/usr/include/sys/select.h:
 
 /usr/include/bits/types/cookie_io_functions_t.h:
 
@@ -1643,10 +1814,6 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /usr/include/c++/16/bits/exception_defines.h:
 
-/usr/include/c++/16/bits/invoke.h:
-
-/usr/include/bits/floatn-common.h:
-
 /usr/lib64/cmake/Qt6Gui/Qt6QLibInputPluginTargets.cmake:
 
 /usr/include/qt6/QtCore/q17memory.h:
@@ -1658,6 +1825,8 @@ magpie-overlay_autogen/moc_predefs.h:
 /usr/lib64/cmake/Qt6Gui/Qt6QWbmpPluginConfig.cmake:
 
 /usr/include/bits/endianness.h:
+
+/usr/include/asm/errno.h:
 
 /usr/include/c++/16/bits/allocated_ptr.h:
 
@@ -1675,6 +1844,16 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /usr/include/bits/time.h:
 
+/usr/include/c++/16/bits/exception_ptr.h:
+
+/usr/include/qt6/QtCore/qsharedpointer.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QLibInputPluginAdditionalTargetInfo.cmake:
+
+/usr/include/c++/16/bits/stl_set.h:
+
+/usr/include/asm/posix_types_64.h:
+
 /usr/lib64/cmake/Qt6Gui/Qt6DrmEglServerBufferPluginAdditionalTargetInfo.cmake:
 
 /usr/include/c++/16/bits/requires_hosted.h:
@@ -1685,23 +1864,29 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /usr/include/bits/byteswap.h:
 
-/usr/include/c++/16/new:
+/usr/lib64/cmake/Qt6Gui/Qt6QComposePlatformInputContextPluginTargets.cmake:
+
+/usr/include/c++/16/x86_64-redhat-linux/bits/gthr.h:
+
+/usr/include/qt6/QtCore/qbytearray.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QWaylandBradientDecorationPluginTargets-relwithdebinfo.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QMinimalEglIntegrationPluginTargets-relwithdebinfo.cmake:
 
+/usr/include/qt6/QtWidgets/qabstractbutton.h:
+
 /usr/include/bits/types/wint_t.h:
+
+/usr/include/qt6/QtGui/qguiapplication.h:
 
 /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake:
 
 /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h:
 
-/usr/lib64/cmake/Qt6Gui/Qt6GuiVersionlessAliasTargets.cmake:
+/usr/include/c++/16/bits/stl_heap.h:
 
-/usr/include/c++/16/bits/ios_base.h:
-
-/usr/lib64/cmake/Qt6/FindWrapOpenGL.cmake:
+/usr/include/bits/types/clockid_t.h:
 
 /usr/share/cmake/Modules/CheckLibraryExists.cmake:
 
@@ -1715,6 +1900,14 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qstringalgorithms.h:
 
+/usr/lib64/cmake/Qt6Gui/Qt6QGtk3ThemePluginTargets.cmake:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargets-relwithdebinfo.cmake:
+
+/usr/include/qt6/QtGui/qfontinfo.h:
+
+/usr/include/qt6/QtGui/qtextdocument.h:
+
 /usr/include/c++/16/bits/unique_ptr.h:
 
 /usr/include/c++/16/bits/stl_iterator_base_types.h:
@@ -1723,7 +1916,15 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /home/SZX10246/Projects/software/windowScaling/src/main.cpp:
 
+/usr/lib64/cmake/Qt6Gui/Qt6QWebpPluginTargetsPrecheck.cmake:
+
+/usr/include/qt6/QtCore/qurl.h:
+
 /usr/include/c++/16/bits/std_function.h:
+
+/usr/include/c++/16/bits/chrono_io.h:
+
+/usr/include/c++/16/bits/exception.h:
 
 /usr/include/c++/16/iterator:
 
@@ -1735,13 +1936,17 @@ magpie-overlay_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtGui/qregion.h:
 
-/usr/include/stdint.h:
-
 /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLConfigVersion.cmake:
 
 /usr/include/c++/16/bits/concept_check.h:
 
 /usr/include/qt6/QtCore/QPoint:
+
+/usr/include/c++/16/bits/stl_bvector.h:
+
+/usr/include/c++/16/bits/functional_hash.h:
+
+/usr/include/qt6/QtGui/qaction.h:
 
 /usr/include/asm/bitsperlong.h:
 
@@ -1750,6 +1955,8 @@ magpie-overlay_autogen/moc_predefs.h:
 /usr/include/bits/pthreadtypes.h:
 
 /usr/include/c++/16/bits/chrono.h:
+
+/usr/include/qt6/QtWidgets/qtwidgetsexports.h:
 
 /usr/include/inttypes.h:
 
@@ -1762,6 +1969,8 @@ magpie-overlay_autogen/moc_predefs.h:
 /usr/lib64/cmake/Qt6Gui/Qt6QXdgDesktopPortalThemePluginAdditionalTargetInfo.cmake:
 
 /usr/include/c++/16/bits/refwrap.h:
+
+/usr/include/qt6/QtGui/qkeysequence.h:
 
 /usr/include/qt6/QtGui/qpixelformat.h:
 
@@ -1778,16 +1987,6 @@ magpie-overlay_autogen/moc_predefs.h:
 /usr/include/qt6/QtGui/qicon.h:
 
 /usr/include/c++/16/bits/specfun.h:
-
-/usr/include/bits/types/clockid_t.h:
-
-/usr/include/c++/16/bits/stl_heap.h:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QComposePlatformInputContextPluginTargets.cmake:
-
-/usr/include/c++/16/x86_64-redhat-linux/bits/gthr.h:
-
-/usr/include/qt6/QtCore/qbytearray.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6ShmServerBufferPluginTargets.cmake:
 
@@ -1825,6 +2024,14 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/16/bits/cpp_type_traits.h:
 
+/usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLConfig.cmake:
+
+/usr/lib64/cmake/Qt6CoreTools/Qt6CoreToolsTargets-relwithdebinfo.cmake:
+
+/usr/include/sched.h:
+
+/usr/include/c++/16/bits/hashtable.h:
+
 /usr/include/c++/16/x86_64-redhat-linux/bits/cpu_defines.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QICNSPluginTargetsPrecheck.cmake:
@@ -1849,7 +2056,45 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/bits/types/struct_FILE.h:
 
+/usr/include/c++/16/bits/iterator_concepts.h:
+
+/usr/include/qt6/QtGui/qpicture.h:
+
+/usr/bin/cmake:
+
+/usr/include/qt6/QtGui/qrgb.h:
+
+/usr/lib64/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
+
+/usr/include/bits/local_lim.h:
+
+/usr/include/qt6/QtCore/qtcoreexports.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/c++/16/bits/stream_iterator.h:
+
+/usr/include/bits/types/__mbstate_t.h:
+
+/usr/include/c++/16/bits/stl_construct.h:
+
+/usr/include/bits/xopen_lim.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QVkKhrDisplayIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QICOPluginAdditionalTargetInfo.cmake:
+
+/usr/include/c++/16/bits/memoryfwd.h:
+
+/usr/share/cmake/Modules/FindThreads.cmake:
+
+/usr/include/qt6/QtCore/qforeach.h:
+
 /usr/include/bits/setjmp.h:
+
+/home/SZX10246/Projects/software/windowScaling/src/main_window.cpp:
+
+/usr/include/qt6/QtCore/QList:
 
 /usr/share/cmake/Modules/FindOpenGL.cmake:
 
@@ -1881,34 +2126,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qxptype_traits.h:
 
-/usr/include/c++/16/bits/iterator_concepts.h:
-
-/usr/lib64/cmake/Qt6/QtPublicWalkLibsHelpers.cmake:
-
-/usr/include/bits/local_lim.h:
-
-/usr/include/qt6/QtCore/qtcoreexports.h:
-
-/usr/include/bits/stdio_lim.h:
-
-/usr/include/c++/16/bits/stream_iterator.h:
-
-/usr/include/bits/types/__mbstate_t.h:
-
-/usr/include/c++/16/bits/stl_construct.h:
-
-/usr/include/bits/xopen_lim.h:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QVkKhrDisplayIntegrationPluginTargetsPrecheck.cmake:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QICOPluginAdditionalTargetInfo.cmake:
-
-/usr/include/c++/16/bits/memoryfwd.h:
-
-/usr/share/cmake/Modules/FindThreads.cmake:
-
-/usr/include/qt6/QtCore/qforeach.h:
-
 /usr/lib64/cmake/Qt6CoreTools/Qt6CoreToolsConfigVersionImpl.cmake:
 
 /usr/include/bits/errno.h:
@@ -1922,6 +2139,8 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/lib64/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
 
 /usr/include/bits/types.h:
+
+/usr/include/qt6/QtCore/qiodevice.h:
 
 /usr/include/qt6/QtCore/qtaggedpointer.h:
 
@@ -1963,6 +2182,8 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/16/bits/char_traits.h:
 
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake:
+
 /usr/include/bits/types/clock_t.h:
 
 /usr/include/c++/16/bits/unordered_set.h:
@@ -1974,18 +2195,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/share/cmake/Modules/CMakeGenericSystem.cmake:
 
 /usr/include/ctype.h:
-
-/usr/include/qt6/QtGui/qrgb.h:
-
-/usr/bin/cmake:
-
-/usr/include/c++/16/bits/exception.h:
-
-/usr/include/c++/16/bits/chrono_io.h:
-
-/usr/include/c++/16/bits/exception_ptr.h:
-
-/usr/include/qt6/QtCore/qsharedpointer.h:
 
 /usr/include/bits/types/locale_t.h:
 
@@ -2025,11 +2234,23 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qcompilerdetection.h:
 
+/usr/lib64/cmake/Qt6DBusTools/Qt6DBusToolsConfigVersionImpl.cmake:
+
+/usr/lib64/cmake/Qt6/QtPublicSbomFileHelpers.cmake:
+
+/usr/include/qt6/QtGui/QTransform:
+
 /usr/include/bits/types/struct_timespec.h:
 
 /usr/lib64/cmake/Qt6CoreTools/Qt6CoreToolsTargets.cmake:
 
 /usr/include/qt6/QtOpenGL/QOpenGLTexture:
+
+/usr/include/c++/16/bits/ranges_algo.h:
+
+/usr/include/c++/16/bits/ostream_insert.h:
+
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersionImpl.cmake:
 
 /usr/include/c++/16/tr1/riemann_zeta.tcc:
 
@@ -2049,15 +2270,9 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/16/stdexcept:
 
-/usr/include/stdio.h:
-
 /usr/include/c++/16/bits/uses_allocator_args.h:
 
 /usr/include/c++/16/bits/ranges_base.h:
-
-/usr/include/c++/16/bits/ostream_insert.h:
-
-/usr/include/c++/16/bits/ranges_algo.h:
 
 /usr/include/c++/16/initializer_list:
 
@@ -2071,6 +2286,10 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qtnoop.h:
 
+/usr/lib64/cmake/Qt6Gui/Qt6QJpegPluginConfig.cmake:
+
+/usr/include/qt6/QtGui/qinputdevice.h:
+
 /usr/include/qt6/QtCore/QString:
 
 /usr/include/c++/16/bits/basic_ios.h:
@@ -2083,21 +2302,21 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qtmetamacros.h:
 
-/usr/include/asm-generic/errno.h:
-
-/usr/include/sys/single_threaded.h:
-
 /usr/lib64/cmake/Qt6GuiTools/Qt6GuiToolsTargets.cmake:
 
 /usr/include/c++/16/backward/binders.h:
 
 /usr/include/c++/16/bits/alloc_traits.h:
 
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets-relwithdebinfo.cmake:
+
 /usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLAdditionalTargetInfo.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QMinimalEglIntegrationPluginAdditionalTargetInfo.cmake:
 
 /usr/include/c++/16/bits/algorithmfwd.h:
+
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake:
 
 /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp:
 
@@ -2149,6 +2368,10 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/q20memory.h:
 
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfig.cmake:
+
+/usr/include/qt6/QtGui/qfontvariableaxis.h:
+
 /usr/include/qt6/QtCore/qbasictimer.h:
 
 /usr/include/qt6/QtGui/QPaintDevice:
@@ -2164,6 +2387,10 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtCore/qtclasshelpermacros.h:
 
 /usr/include/c++/16/bits/basic_string.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QWaylandXdgShellIntegrationPluginTargets.cmake:
+
+/usr/include/c++/16/bits/basic_string.tcc:
 
 /usr/lib64/cmake/Qt6Gui/Qt6DmaBufServerBufferPluginTargets.cmake:
 
@@ -2193,15 +2420,13 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/16/tr1/gamma.tcc:
 
-/usr/lib64/cmake/Qt6Gui/Qt6QLibInputPluginAdditionalTargetInfo.cmake:
-
-/usr/include/c++/16/bits/stl_set.h:
-
-/usr/include/asm/posix_types_64.h:
-
-/usr/include/c++/16/bits/functexcept.h:
+/usr/include/qt6/QtGui/QCloseEvent:
 
 /usr/include/c++/16/pstl/glue_numeric_defs.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QGifPluginTargetsPrecheck.cmake:
+
+/usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject:
 
 /usr/include/c++/16/ratio:
 
@@ -2229,8 +2454,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qtdeprecationdefinitions.h:
 
-/usr/include/strings.h:
-
 /usr/include/qt6/QtCore/q23utility.h:
 
 /usr/include/c++/16/tr1/beta_function.tcc:
@@ -2247,15 +2470,7 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/16/tr1/hypergeometric.tcc:
 
-/usr/lib64/cmake/Qt6OpenGL/Qt6OpenGLConfig.cmake:
-
-/usr/lib64/cmake/Qt6CoreTools/Qt6CoreToolsTargets-relwithdebinfo.cmake:
-
-/usr/include/c++/16/bits/hashtable.h:
-
-/usr/include/sched.h:
-
-/usr/include/wctype.h:
+/usr/include/qt6/QtWidgets/qrubberband.h:
 
 /usr/include/c++/16/tr1/legendre_function.tcc:
 
@@ -2281,6 +2496,8 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/16/tuple:
 
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsPlugins.cmake:
+
 /usr/lib64/cmake/Qt6Gui/Qt6QWbmpPluginTargets.cmake:
 
 /usr/include/c++/16/bits/shared_ptr.h:
@@ -2305,6 +2522,8 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QWaylandEglClientBufferPluginAdditionalTargetInfo.cmake:
 
+/usr/include/qt6/QtWidgets/qframe.h:
+
 /usr/include/qt6/QtCore/qbytearrayalgorithms.h:
 
 /usr/include/qt6/QtGui/qmatrix4x4.h:
@@ -2324,10 +2543,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtCore/qutf8stringview.h:
 
 /usr/include/errno.h:
-
-/usr/include/bits/types/struct_timeval.h:
-
-/usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h:
 
 /usr/include/gnu/stubs-64.h:
 
@@ -2367,12 +2582,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/locale.h:
 
-/usr/include/qt6/QtCore/QMargins:
-
-/usr/include/bits/locale.h:
-
-/usr/lib64/cmake/Qt6/FindWrapVulkanHeaders.cmake:
-
 /usr/include/qt6/QtCore/QRect:
 
 /usr/include/qt6/QtCore/QSize:
@@ -2385,7 +2594,11 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qtformat_impl.h:
 
+/usr/include/qt6/QtCore/QSizeF:
+
 /usr/include/qt6/QtCore/Qt:
+
+/usr/include/qt6/QtGui/qbrush.h:
 
 /usr/include/qt6/QtCore/q20bit.h:
 
@@ -2396,6 +2609,10 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtCore/q23type_traits.h:
 
 /usr/include/qt6/QtCore/qabstracteventdispatcher.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QEvdevTabletPluginAdditionalTargetInfo.cmake:
+
+/usr/include/qt6/QtCore/qabstractitemmodel.h:
 
 /usr/include/qt6/QtCore/qalloc.h:
 
@@ -2411,11 +2628,13 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qassert.h:
 
-/usr/lib64/cmake/Qt6/QtPublicSbomLicenseHelpers.cmake:
+/usr/include/qt6/QtCore/qatomic_cxx11.h:
 
-/usr/lib64/cmake/Qt6/Qt6ConfigVersion.cmake:
+/usr/lib64/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake:
 
 /usr/include/qt6/QtCore/qbindingstorage.h:
+
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsTargets.cmake:
 
 /usr/include/qt6/QtCore/qbytearraylist.h:
 
@@ -2447,19 +2666,29 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qcontiguouscache.h:
 
-/usr/include/qt6/QtOpenGL/qopengltexture.h:
-
-/usr/include/qt6/QtCore/qdarwinhelpers.h:
+/usr/include/qt6/QtCore/qcoreapplication.h:
 
 /usr/lib64/cmake/Qt6CoreTools/Qt6CoreToolsDependencies.cmake:
 
 /usr/include/qt6/QtCore/qdatastream.h:
+
+/usr/include/qt6/QtCore/qcoreapplication_platform.h:
+
+/usr/include/qt6/QtOpenGL/qopengltexture.h:
+
+/usr/include/qt6/QtCore/qdarwinhelpers.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6QIbusPlatformInputContextPluginTargets.cmake:
 
 /usr/include/c++/16/utility:
 
 /usr/include/qt6/QtCore/qdeadlinetimer.h:
+
+/usr/include/c++/16/exception:
+
+/usr/include/qt6/QtCore/qendian.h:
+
+/home/SZX10246/Projects/software/windowScaling/src/main_window.h:
 
 /usr/include/qt6/QtCore/qexceptionhandling.h:
 
@@ -2475,6 +2704,8 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qsharedpointer_impl.h:
 
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsConfigVersion.cmake:
+
 /usr/include/c++/16/array:
 
 /usr/include/qt6/QtCore/qglobal.h:
@@ -2486,8 +2717,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtCore/qminmax.h:
 
 /usr/include/qt6/QtCore/qiterator.h:
-
-/usr/include/qt6/QtOpenGL/qopenglwindow.h:
 
 /usr/lib64/cmake/Qt6/QtPublicSbomDocumentNamespaceHelpers.cmake:
 
@@ -2545,6 +2774,14 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qpair.h:
 
+/usr/lib64/cmake/Qt6Gui/Qt6QXdgDesktopPortalThemePluginConfig.cmake:
+
+/usr/include/stdlib.h:
+
+/usr/include/qt6/QtWidgets/qslider.h:
+
+/usr/include/qt6/QtCore/qrect.h:
+
 /usr/lib64/cmake/Qt6Gui/Qt6QWaylandFullScreenShellV1IntegrationPluginAdditionalTargetInfo.cmake:
 
 /usr/include/bits/types/struct_tm.h:
@@ -2571,6 +2808,8 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qstring.h:
 
+/usr/include/qt6/QtCore/qregularexpression.h:
+
 /usr/include/qt6/QtCore/qstringconverter.h:
 
 /usr/lib64/cmake/Qt6/QtPublicAppleHelpers.cmake:
@@ -2591,9 +2830,9 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qsysinfo.h:
 
-/usr/include/gnu/stubs.h:
-
 /usr/lib/gcc/x86_64-redhat-linux/16/include/stdbool.h:
+
+/usr/include/gnu/stubs.h:
 
 /usr/include/qt6/QtCore/qtconfigmacros.h:
 
@@ -2603,19 +2842,23 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qtextstream.h:
 
-/usr/include/wchar.h:
-
-/usr/lib64/cmake/Qt6/FindWrapAtomic.cmake:
-
 /usr/include/qt6/QtCore/qtimer.h:
 
 /usr/include/c++/16/bits/nested_exception.h:
 
 /usr/include/qt6/QtCore/qtpreprocessorsupport.h:
 
+/usr/include/qt6/QtWidgets/qabstractslider.h:
+
 /usr/include/c++/16/bit:
 
 /usr/include/qt6/QtCore/qtypeinfo.h:
+
+/usr/lib64/cmake/Qt6/Qt6TargetsPrecheck.cmake:
+
+/usr/lib64/cmake/Qt6/Qt6Targets.cmake:
+
+/usr/include/qt6/QtGui/qpalette.h:
 
 /usr/lib64/cmake/Qt6Gui/Qt6VulkanServerBufferPluginTargets-relwithdebinfo.cmake:
 
@@ -2634,8 +2877,6 @@ CMakeFiles/4.3.0/CMakeCXXCompiler.cmake:
 /usr/lib64/cmake/Qt6Gui/Qt6QMinimalIntegrationPluginTargetsPrecheck.cmake:
 
 /usr/include/qt6/QtCore/qttypetraits.h:
-
-/usr/lib64/cmake/Qt6/Qt6Dependencies.cmake:
 
 /usr/include/qt6/QtCore/qtversion.h:
 
@@ -2663,11 +2904,27 @@ CMakeFiles/4.3.0/CMakeSystem.cmake:
 
 /usr/include/qt6/QtGui/qcursor.h:
 
+/usr/include/qt6/QtWidgets/qtabwidget.h:
+
+/usr/include/c++/16/bits/invoke.h:
+
+/usr/include/bits/floatn-common.h:
+
+/usr/include/qt6/QtGui/qevent.h:
+
+/usr/include/qt6/QtCore/QMargins:
+
+/usr/include/qt6/QtGui/qeventpoint.h:
+
+/usr/include/qt6/QtGui/qsurfaceformat.h:
+
+/usr/include/qt6/QtGui/qfontmetrics.h:
+
 /usr/include/qt6/QtCore/qiterable.h:
 
 /usr/include/qt6/QtGui/qgenericmatrix.h:
 
-/usr/include/qt6/QtOpenGL/qopenglshaderprogram.h:
+/usr/include/qt6/QtGui/qinputmethod.h:
 
 /usr/lib64/cmake/Qt6DBus/Qt6DBusMacros.cmake:
 
@@ -2678,8 +2935,6 @@ CMakeFiles/4.3.0/CMakeSystem.cmake:
 /usr/include/qt6/QtGui/qopengl.h:
 
 /usr/include/qt6/QtGui/qopenglfunctions.h:
-
-/usr/include/sys/cdefs.h:
 
 /usr/include/qt6/QtGui/qpaintdevice.h:
 
@@ -2695,13 +2950,29 @@ CMakeFiles/4.3.0/CMakeSystem.cmake:
 
 /usr/include/qt6/QtGui/qpixmap.h:
 
-/usr/include/qt6/QtGui/qsurfaceformat.h:
+/usr/include/c++/16/new:
+
+/usr/include/qt6/QtGui/qpointingdevice.h:
+
+/usr/lib64/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargets.cmake:
+
+/usr/include/qt6/QtGui/qscreen.h:
+
+/usr/share/cmake/Modules/Linker/GNU.cmake:
+
+/usr/lib64/cmake/Qt6WidgetsTools/Qt6WidgetsToolsAdditionalTargetInfo.cmake:
+
+/usr/include/qt6/QtGui/qscreen_platform.h:
 
 /usr/include/c++/16/optional:
 
 /usr/include/qt6/QtGui/qtguiexports.h:
 
+/usr/include/qt6/QtGui/qfont.h:
+
 /usr/include/qt6/QtGui/qtguiglobal.h:
+
+/usr/include/qt6/QtGui/qvalidator.h:
 
 /home/SZX10246/Projects/software/windowScaling/src/capture.h:
 
@@ -2710,37 +2981,3 @@ CMakeFiles/4.3.0/CMakeSystem.cmake:
 /usr/include/qt6/QtGui/qvector2d.h:
 
 /usr/include/qt6/QtGui/qvector4d.h:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QWaylandXdgShellIntegrationPluginTargets.cmake:
-
-/usr/include/c++/16/bits/basic_string.tcc:
-
-/usr/include/qt6/QtOpenGL/QOpenGLBuffer:
-
-/usr/include/qt6/QtCore/qatomic_cxx11.h:
-
-/usr/include/qt6/QtOpenGL/qopenglbuffer.h:
-
-/usr/include/qt6/QtOpenGL/qtopenglglobal.h:
-
-/usr/lib64/cmake/Qt6Gui/Qt6GuiTargetsPrecheck.cmake:
-
-/usr/include/stdc-predef.h:
-
-/usr/lib64/cmake/Qt6Gui/Qt6QXdgDesktopPortalThemePluginConfig.cmake:
-
-/usr/include/qt6/QtCore/qrect.h:
-
-/usr/include/stdlib.h:
-
-/usr/include/string.h:
-
-/usr/include/time.h:
-
-/usr/lib64/cmake/Qt6/Qt6Config.cmake:
-
-/usr/lib64/cmake/Qt6/Qt6ConfigExtras.cmake:
-
-/usr/lib64/cmake/Qt6/Qt6Targets.cmake:
-
-/usr/lib64/cmake/Qt6/Qt6TargetsPrecheck.cmake:

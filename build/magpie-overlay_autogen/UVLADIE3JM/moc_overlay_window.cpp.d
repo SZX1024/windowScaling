@@ -491,15 +491,13 @@
   /usr/include/qt6/QtGui/qvectornd.h \
   /usr/include/qt6/QtGui/qwindow.h \
   /usr/include/qt6/QtGui/qwindowdefs.h \
-  /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
+  /usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject \
   /usr/include/qt6/QtOpenGL/QOpenGLShaderProgram \
   /usr/include/qt6/QtOpenGL/QOpenGLTexture \
-  /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
   /usr/include/qt6/QtOpenGL/QOpenGLWindow \
-  /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
+  /usr/include/qt6/QtOpenGL/qopenglframebufferobject.h \
   /usr/include/qt6/QtOpenGL/qopenglshaderprogram.h \
   /usr/include/qt6/QtOpenGL/qopengltexture.h \
-  /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h \
   /usr/include/qt6/QtOpenGL/qopenglwindow.h \
   /usr/include/qt6/QtOpenGL/qtopenglexports.h \
   /usr/include/qt6/QtOpenGL/qtopenglglobal.h \

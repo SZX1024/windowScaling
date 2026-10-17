@@ -13,6 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/magpie-overlay.dir/src/input.cpp.o.d"
   "CMakeFiles/magpie-overlay.dir/src/main.cpp.o"
   "CMakeFiles/magpie-overlay.dir/src/main.cpp.o.d"
+  "CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o"
+  "CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o.d"
   "CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o"
   "CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o.d"
   "CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o"

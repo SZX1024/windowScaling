@@ -1,53 +1,116 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QCommandLineParser>
-#include <QDBusMessage>
-#include <QDBusConnection>
-#include <QTimer>
+#include <QAbstractNativeEventFilter>
 #include <QDebug>
 #include <iostream>
+
 #include "capture.h"
 #include "input.h"
-#include "overlay_window.h"
+#include "main_window.h"
 
-static void sendNotification(const QString &summary, const QString &body)
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+
+// X11 Global Hotkey Filter for Ctrl+Alt+M
+class X11GlobalHotkeyFilter : public QAbstractNativeEventFilter
 {
-    QDBusMessage msg = QDBusMessage::createMethodCall(
-        QStringLiteral("org.freedesktop.Notifications"),
-        QStringLiteral("/org/freedesktop/Notifications"),
-        QStringLiteral("org.freedesktop.Notifications"),
-        QStringLiteral("Notify")
-    );
-    msg << QStringLiteral("Magpie Overlay");
-    msg << static_cast<uint>(0);
-    msg << QStringLiteral("preferences-system-windows");
-    msg << summary;
-    msg << body;
-    msg << QStringList();
-    QVariantMap hints;
-    hints[QStringLiteral("transient")] = true;
-    msg << hints;
-    msg << static_cast<int>(2000);
-    QDBusConnection::sessionBus().send(msg);
-}
+public:
+    explicit X11GlobalHotkeyFilter(Display *display, MainWindow *win)
+        : m_display(display)
+        , m_window(win)
+    {
+        if (m_display) {
+            m_root = DefaultRootWindow(m_display);
+            m_keyCode = XKeysymToKeycode(m_display, XK_m);
+            if (m_keyCode != 0) {
+                // Grab Ctrl + Alt + M (Mod1Mask = Alt, ControlMask = Ctrl)
+                unsigned int modifiers[] = {
+                    ControlMask | Mod1Mask,
+                    ControlMask | Mod1Mask | Mod2Mask, // Mod2Mask is NumLock
+                    ControlMask | Mod1Mask | LockMask, // LockMask is CapsLock
+                    ControlMask | Mod1Mask | Mod2Mask | LockMask
+                };
+                for (unsigned int mod : modifiers) {
+                    XGrabKey(m_display, m_keyCode, mod, m_root, True, GrabModeAsync, GrabModeAsync);
+                }
+                XFlush(m_display);
+            }
+        }
+    }
+
+    ~X11GlobalHotkeyFilter() override
+    {
+        if (m_display && m_keyCode != 0) {
+            XUngrabKey(m_display, m_keyCode, AnyModifier, m_root);
+            XFlush(m_display);
+        }
+    }
+
+    bool nativeEventFilter(const QByteArray &eventType, void *message, qintptr *result) override
+    {
+        Q_UNUSED(result);
+        if (eventType == "xcb_generic_event_t" || eventType == "X11") {
+            auto *ev = reinterpret_cast<XEvent*>(message);
+            if (ev && ev->type == KeyPress) {
+                if (ev->xkey.keycode == m_keyCode) {
+                    if (m_window) {
+                        m_window->triggerScaling(0);
+                    }
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+private:
+    Display *m_display{nullptr};
+    Window m_root{None};
+    KeyCode m_keyCode{0};
+    MainWindow *m_window{nullptr};
+};
 
 int main(int argc, char **argv)
 {
-    QGuiApplication app(argc, argv);
+    // Auto-detect XAUTHORITY if needed
+    if (!getenv("XAUTHORITY")) {
+        FILE *fp = popen("ls -t /run/user/1000/xauth_* 2>/dev/null | head -n 1", "r");
+        if (fp) {
+            char path[512] = {0};
+            if (fgets(path, sizeof(path) - 1, fp)) {
+                char *nl = strchr(path, '\n');
+                if (nl) *nl = 0;
+                if (path[0]) setenv("XAUTHORITY", path, 1);
+            }
+            pclose(fp);
+        }
+    }
+
+    if (!getenv("DISPLAY")) {
+        setenv("DISPLAY", ":0", 1);
+    }
+
+    if (!getenv("QT_QPA_PLATFORM")) {
+        setenv("QT_QPA_PLATFORM", "xcb", 1);
+    }
+
+    QApplication app(argc, argv);
     app.setApplicationName(QStringLiteral("magpie-overlay"));
-    app.setApplicationVersion(QStringLiteral("0.1.0"));
+    app.setApplicationVersion(QStringLiteral("0.2.0"));
+    app.setQuitOnLastWindowClosed(false); // Enable running minimized in system tray
 
     QCommandLineParser parser;
-    parser.setApplicationDescription(QStringLiteral("Magpie Independent Scaling Overlay for Linux Galgames"));
+    parser.setApplicationDescription(QStringLiteral("Magpie - Linux 窗口超分辨率放大器"));
     parser.addHelpOption();
     parser.addVersionOption();
 
-    QCommandLineOption listOption(QStringList() << "l" << "list", QStringLiteral("List all detectable XWayland game windows."));
-    QCommandLineOption winOption(QStringList() << "w" << "window", QStringLiteral("Target window ID (hex or dec) or title substring."), QStringLiteral("target"));
-    QCommandLineOption delayOption(QStringList() << "d" << "delay", QStringLiteral("Delay in seconds before capturing focused window (default: 2)."), QStringLiteral("seconds"), QStringLiteral("2"));
+    QCommandLineOption listOption(QStringList() << "l" << "list", QStringLiteral("列出当前所有可检测的 XWayland 游戏窗口"));
+    QCommandLineOption winOption(QStringList() << "w" << "window", QStringLiteral("指定游戏窗口 ID 或标题片段直接放大"), QStringLiteral("target"));
+    QCommandLineOption trayOption(QStringList() << "t" << "tray", QStringLiteral("启动后直接最小化缩进系统托盘后台常驻"));
 
     parser.addOption(listOption);
     parser.addOption(winOption);
-    parser.addOption(delayOption);
+    parser.addOption(trayOption);
     parser.process(app);
 
     X11CaptureEngine capture;
@@ -63,7 +126,7 @@ int main(int argc, char **argv)
             std::cout << "  0x" << std::hex << item.id << std::dec
                       << "  [" << item.width << "x" << item.height << " at (" << item.x << "," << item.y << ")]"
                       << "  " << (item.isViewable ? "[Visible]" : "[Hidden]")
-                      << "  " << (item.title.isEmpty() ? std::string("[Wine / Game Window]") : item.title.toStdString()) << std::endl;
+                      << "  " << (item.title.isEmpty() ? "[Wine / Game Window]" : item.title.toStdString()) << std::endl;
         }
         return 0;
     }
@@ -74,23 +137,15 @@ int main(int argc, char **argv)
         return 1;
     }
 
-    OverlayWindow overlay(capture, input);
+    MainWindow mainWindow(capture, input);
 
-    auto startOverlayWithId = [&](unsigned long id) {
-        if (id == 0) {
-            std::cerr << "No target window found to scale!" << std::endl;
-            app.quit();
-            return;
-        }
-
-        std::cout << "Starting Magpie Scaling on window: 0x" << std::hex << id << std::dec << std::endl;
-        sendNotification(QStringLiteral("Magpie 独立全屏超分"), QStringLiteral("已全屏放大并启动触控/鼠标精确回传\n按 Esc 退出"));
-
-        if (!overlay.startScaling(id)) {
-            std::cerr << "Failed to start scaling window!" << std::endl;
-            app.quit();
-        }
-    };
+    // Install X11 system-wide hotkey listener for Ctrl+Alt+M
+    Display *rawDisplay = XOpenDisplay(":0");
+    std::unique_ptr<X11GlobalHotkeyFilter> hotkeyFilter;
+    if (rawDisplay) {
+        hotkeyFilter = std::make_unique<X11GlobalHotkeyFilter>(rawDisplay, &mainWindow);
+        app.installNativeEventFilter(hotkeyFilter.get());
+    }
 
     if (parser.isSet(winOption)) {
         QString val = parser.value(winOption);
@@ -104,40 +159,21 @@ int main(int argc, char **argv)
         if (!ok || winId == 0) {
             winId = capture.findWindowByTitle(val);
         }
-        startOverlayWithId(winId);
+        mainWindow.triggerScaling(winId);
+    } else if (parser.isSet(trayOption)) {
+        // Start minimized in tray
+        mainWindow.hide();
     } else {
-        int delaySec = parser.value(delayOption).toInt();
-        if (delaySec < 0) delaySec = 0;
-        std::cout << "Magpie Overlay will capture the focused window in " << delaySec << " seconds... Focus your game now!" << std::endl;
-
-        QTimer::singleShot(delaySec * 1000, [&]() {
-            unsigned long activeId = capture.getActiveWindow();
-            if (activeId == 0) {
-                // Pick the largest viewable window that is not a desktop/panel
-                auto list = capture.listWindows();
-                unsigned long bestId = 0;
-                int maxArea = 0;
-                for (const auto &w : list) {
-                    if (w.isViewable && w.width >= 640 && w.height >= 400) {
-                        int area = w.width * w.height;
-                        if (area > maxArea) {
-                            maxArea = area;
-                            bestId = w.id;
-                        }
-                    }
-                }
-                activeId = bestId;
-            }
-            startOverlayWithId(activeId);
-        });
+        // Show main GUI configuration panel
+        mainWindow.show();
     }
 
-    QObject::connect(&overlay, &QWindow::visibilityChanged, [&](QWindow::Visibility v) {
-        if (v == QWindow::Hidden) {
-            sendNotification(QStringLiteral("Magpie 独立全屏超分"), QStringLiteral("已退出全屏"));
-            app.quit();
-        }
-    });
+    int ret = app.exec();
 
-    return app.exec();
+    hotkeyFilter.reset();
+    if (rawDisplay) {
+        XCloseDisplay(rawDisplay);
+    }
+
+    return ret;
 }

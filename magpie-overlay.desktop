@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=Magpie
+Name[zh_CN]=Magpie 窗口超分辨率放大器
+Comment=Magpie Window Scaling & Super Resolution Overlay for Linux Galgames
+Comment[zh_CN]=专为 Linux / Galgame 打造的窗口超分辨率与触控放大工具
+Exec=/home/SZX10246/Projects/software/windowScaling/bin/magpie
+Icon=preferences-system-windows
+Terminal=false
+Type=Application
+Categories=Game;Utility;
+Keywords=magpie;scaling;super-resolution;fsr;anime4k;cas;galgame;

@@ -1,12 +1,13 @@
 CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/mocs_compilation.cpp \
  /usr/include/stdc-predef.h \
- /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/moc_overlay_window.cpp \
- /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/overlay_window.h \
- /usr/include/qt6/QtOpenGL/QOpenGLWindow \
- /usr/include/qt6/QtOpenGL/qopenglwindow.h \
- /usr/include/qt6/QtOpenGL/qtopenglglobal.h \
- /usr/include/qt6/QtCore/qglobal.h /usr/include/c++/16/type_traits \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/moc_main_window.cpp \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/main_window.h \
+ /usr/include/qt6/QtWidgets/QMainWindow \
+ /usr/include/qt6/QtWidgets/qmainwindow.h \
+ /usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
+ /usr/include/qt6/QtGui/qtguiglobal.h /usr/include/qt6/QtCore/qglobal.h \
+ /usr/include/c++/16/type_traits \
  /usr/include/c++/16/x86_64-redhat-linux/bits/c++config.h \
  /usr/include/bits/wordsize.h \
  /usr/include/c++/16/x86_64-redhat-linux/bits/os_defines.h \
@@ -168,14 +169,12 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtCore/qtresource.h \
  /usr/include/qt6/QtCore/qttranslation.h \
  /usr/include/qt6/QtCore/qversiontagging.h \
- /usr/include/qt6/QtGui/qtguiglobal.h \
  /usr/include/qt6/QtGui/qtgui-config.h \
  /usr/include/qt6/QtGui/qtguiexports.h \
- /usr/include/qt6/QtOpenGL/qtopenglexports.h \
- /usr/include/qt6/QtGui/QPaintDeviceWindow \
- /usr/include/qt6/QtGui/qpaintdevicewindow.h \
- /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
- /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/qobject.h \
+ /usr/include/qt6/QtWidgets/qtwidgets-config.h \
+ /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
+ /usr/include/qt6/QtWidgets/qwidget.h \
+ /usr/include/qt6/QtGui/qwindowdefs.h \
  /usr/include/qt6/QtCore/qobjectdefs.h \
  /usr/include/qt6/QtCore/qnamespace.h /usr/include/qt6/QtCore/qcompare.h \
  /usr/include/qt6/QtCore/qstdlibdetection.h \
@@ -265,8 +264,8 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/16/backward/auto_ptr.h \
  /usr/include/c++/16/bits/ranges_uninitialized.h \
  /usr/include/c++/16/pstl/glue_memory_defs.h \
- /usr/include/qt6/QtCore/qstring.h /usr/include/qt6/QtCore/qchar.h \
- /usr/include/qt6/QtCore/qstringview.h \
+ /usr/include/qt6/QtCore/qobject.h /usr/include/qt6/QtCore/qstring.h \
+ /usr/include/qt6/QtCore/qchar.h /usr/include/qt6/QtCore/qstringview.h \
  /usr/include/qt6/QtCore/qbytearray.h /usr/include/qt6/QtCore/qrefcount.h \
  /usr/include/qt6/QtCore/qarraydata.h /usr/include/qt6/QtCore/qpair.h \
  /usr/include/string.h /usr/include/strings.h \
@@ -329,25 +328,15 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/16/bits/ostream.tcc \
  /usr/include/c++/16/bits/istream.tcc \
  /usr/include/c++/16/bits/sstream.tcc \
- /usr/include/c++/16/bits/chrono_io.h /usr/include/qt6/QtCore/QEvent \
- /usr/include/qt6/QtCore/qcoreevent.h \
- /usr/include/qt6/QtCore/qbasictimer.h \
- /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
- /usr/include/qt6/QtCore/qeventloop.h \
- /usr/include/qt6/QtCore/qdeadlinetimer.h \
- /usr/include/qt6/QtCore/QMargins /usr/include/qt6/QtCore/qmargins.h \
+ /usr/include/c++/16/bits/chrono_io.h /usr/include/qt6/QtCore/qmargins.h \
  /usr/include/qt6/QtCore/qcheckedint_impl.h \
  /usr/include/qt6/QtCore/q23utility.h \
- /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/QRect \
- /usr/include/qt6/QtCore/qrect.h /usr/include/qt6/QtCore/qsize.h \
- /usr/include/qt6/QtCore/qpoint.h \
- /usr/include/qt6/QtCore/qnativeinterface.h \
- /usr/include/qt6/QtGui/qsurface.h \
- /usr/include/qt6/QtGui/qsurfaceformat.h \
- /usr/include/qt6/QtGui/qwindowdefs.h /usr/include/qt6/QtGui/qicon.h \
- /usr/include/qt6/QtGui/qpixmap.h /usr/include/qt6/QtGui/qpaintdevice.h \
- /usr/include/qt6/QtGui/qcolor.h /usr/include/qt6/QtGui/qrgb.h \
- /usr/include/qt6/QtGui/qrgba64.h \
+ /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtGui/qaction.h \
+ /usr/include/qt6/QtGui/qkeysequence.h /usr/include/qt6/QtGui/qicon.h \
+ /usr/include/qt6/QtCore/qsize.h /usr/include/qt6/QtGui/qpixmap.h \
+ /usr/include/qt6/QtGui/qpaintdevice.h /usr/include/qt6/QtCore/qrect.h \
+ /usr/include/qt6/QtCore/qpoint.h /usr/include/qt6/QtGui/qcolor.h \
+ /usr/include/qt6/QtGui/qrgb.h /usr/include/qt6/QtGui/qrgba64.h \
  /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h \
  /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h \
  /usr/include/limits.h /usr/include/bits/posix1_lim.h \
@@ -358,15 +347,8 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtGui/qtransform.h /usr/include/qt6/QtGui/qpolygon.h \
  /usr/include/qt6/QtGui/qregion.h /usr/include/qt6/QtCore/qspan.h \
  /usr/include/c++/16/cassert /usr/include/qt6/QtCore/q20iterator.h \
- /usr/include/qt6/QtCore/qline.h /usr/include/qt6/QtGui/qcursor.h \
- /usr/include/qt6/QtGui/qbitmap.h /usr/include/qt6/QtGui/QPaintDevice \
- /usr/include/qt6/QtGui/QOpenGLContext \
- /usr/include/qt6/QtGui/qopenglcontext.h /usr/include/qt6/QtCore/qset.h \
- /usr/include/qt6/QtCore/qhash.h /usr/include/qt6/QtGui/QSurfaceFormat \
- /usr/include/qt6/QtGui/qopengl.h /usr/include/GL/gl.h \
- /usr/include/qt6/QtGui/qopenglext.h /usr/include/inttypes.h \
- /usr/include/qt6/QtCore/qvariant.h /usr/include/qt6/QtCore/qdebug.h \
- /usr/include/qt6/QtCore/qtextstream.h \
+ /usr/include/qt6/QtCore/qline.h /usr/include/qt6/QtCore/qvariant.h \
+ /usr/include/qt6/QtCore/qdebug.h /usr/include/qt6/QtCore/qtextstream.h \
  /usr/include/qt6/QtCore/qcontiguouscache.h /usr/include/c++/16/climits \
  /usr/include/qt6/QtCore/qsharedpointer.h \
  /usr/include/qt6/QtCore/qsharedpointer_impl.h /usr/include/c++/16/set \
@@ -375,32 +357,100 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /usr/include/c++/16/unordered_set \
  /usr/include/c++/16/bits/unordered_set.h /usr/include/qt6/QtCore/qmap.h \
  /usr/include/qt6/QtCore/qshareddata_impl.h \
+ /usr/include/qt6/QtCore/qset.h /usr/include/qt6/QtCore/qhash.h \
  /usr/include/qt6/QtCore/qvarlengtharray.h \
- /usr/include/qt6/QtCore/qalloc.h \
- /usr/include/qt6/QtGui/qopenglcontext_platform.h \
+ /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtGui/qpalette.h \
+ /usr/include/qt6/QtGui/qbrush.h /usr/include/qt6/QtGui/qfont.h \
+ /usr/include/qt6/QtCore/qendian.h /usr/include/qt6/QtGui/qfontmetrics.h \
+ /usr/include/qt6/QtGui/qfontinfo.h \
+ /usr/include/qt6/QtGui/qfontvariableaxis.h \
+ /usr/include/qt6/QtWidgets/qsizepolicy.h \
+ /usr/include/qt6/QtGui/qcursor.h /usr/include/qt6/QtGui/qbitmap.h \
+ /usr/include/qt6/QtWidgets/qtabwidget.h \
+ /usr/include/qt6/QtWidgets/QSystemTrayIcon \
+ /usr/include/qt6/QtWidgets/qsystemtrayicon.h \
+ /usr/include/qt6/QtWidgets/QComboBox \
+ /usr/include/qt6/QtWidgets/qcombobox.h \
+ /usr/include/qt6/QtWidgets/qabstractitemdelegate.h \
+ /usr/include/qt6/QtWidgets/qstyleoption.h \
+ /usr/include/qt6/QtCore/qlocale.h \
+ /usr/include/qt6/QtWidgets/qabstractspinbox.h \
+ /usr/include/qt6/QtGui/qvalidator.h \
+ /usr/include/qt6/QtCore/qregularexpression.h \
+ /usr/include/qt6/QtWidgets/qslider.h \
+ /usr/include/qt6/QtWidgets/qabstractslider.h \
+ /usr/include/qt6/QtWidgets/qstyle.h /usr/include/qt6/QtWidgets/qtabbar.h \
+ /usr/include/qt6/QtWidgets/qrubberband.h \
+ /usr/include/qt6/QtWidgets/qframe.h \
+ /usr/include/qt6/QtCore/qabstractitemmodel.h \
+ /usr/include/qt6/QtWidgets/QSlider /usr/include/qt6/QtWidgets/QLabel \
+ /usr/include/qt6/QtWidgets/qlabel.h /usr/include/qt6/QtGui/qpicture.h \
+ /usr/include/qt6/QtCore/qiodevice.h \
+ /usr/include/qt6/QtGui/qtextdocument.h /usr/include/qt6/QtCore/qurl.h \
+ /usr/include/qt6/QtWidgets/QPushButton \
+ /usr/include/qt6/QtWidgets/qpushbutton.h \
+ /usr/include/qt6/QtWidgets/qabstractbutton.h \
+ /usr/include/qt6/QtGui/QCloseEvent /usr/include/qt6/QtGui/qevent.h \
+ /usr/include/qt6/QtCore/qcoreevent.h \
+ /usr/include/qt6/QtCore/qbasictimer.h \
+ /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
+ /usr/include/qt6/QtCore/qeventloop.h \
+ /usr/include/qt6/QtCore/qdeadlinetimer.h \
+ /usr/include/qt6/QtGui/qeventpoint.h /usr/include/qt6/QtGui/qvector2d.h \
+ /usr/include/qt6/QtGui/qvectornd.h \
+ /usr/include/qt6/QtGui/qpointingdevice.h \
+ /usr/include/qt6/QtGui/qinputdevice.h /usr/include/qt6/QtGui/qscreen.h \
+ /usr/include/qt6/QtCore/QList /usr/include/qt6/QtCore/QObject \
+ /usr/include/qt6/QtCore/QRect /usr/include/qt6/QtCore/QSize \
+ /usr/include/qt6/QtCore/QSizeF /usr/include/qt6/QtGui/QTransform \
+ /usr/include/qt6/QtCore/qnativeinterface.h \
+ /usr/include/qt6/QtGui/qscreen_platform.h \
+ /usr/include/qt6/QtGui/qguiapplication.h \
+ /usr/include/qt6/QtCore/qcoreapplication.h \
+ /usr/include/qt6/QtCore/qcoreapplication_platform.h \
+ /usr/include/qt6/QtGui/qinputmethod.h \
+ /usr/include/qt6/QtGui/qguiapplication_platform.h \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/capture.h \
+ /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtCore/QRect \
+ /usr/include/qt6/QtCore/QString \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/input.h \
+ /usr/include/qt6/QtCore/QPoint /usr/include/qt6/QtCore/Qt \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/overlay_window.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLWindow \
+ /usr/include/qt6/QtOpenGL/qopenglwindow.h \
+ /usr/include/qt6/QtOpenGL/qtopenglglobal.h \
+ /usr/include/qt6/QtOpenGL/qtopenglexports.h \
+ /usr/include/qt6/QtGui/QPaintDeviceWindow \
+ /usr/include/qt6/QtGui/qpaintdevicewindow.h \
+ /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
+ /usr/include/qt6/QtCore/QEvent /usr/include/qt6/QtCore/QMargins \
+ /usr/include/qt6/QtGui/qsurface.h \
+ /usr/include/qt6/QtGui/qsurfaceformat.h \
+ /usr/include/qt6/QtGui/QPaintDevice \
+ /usr/include/qt6/QtGui/QOpenGLContext \
+ /usr/include/qt6/QtGui/qopenglcontext.h \
+ /usr/include/qt6/QtGui/QSurfaceFormat /usr/include/qt6/QtGui/qopengl.h \
+ /usr/include/GL/gl.h /usr/include/qt6/QtGui/qopenglext.h \
+ /usr/include/inttypes.h /usr/include/qt6/QtGui/qopenglcontext_platform.h \
  /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtGui/QOpenGLFunctions \
  /usr/include/qt6/QtGui/qopenglfunctions.h \
  /usr/include/qt6/QtOpenGL/QOpenGLTexture \
  /usr/include/qt6/QtOpenGL/qopengltexture.h \
- /usr/include/qt6/QtCore/QScopedPointer \
+ /usr/include/qt6/QtCore/QScopedPointer /usr/include/qt6/QtCore/QTimer \
+ /usr/include/qt6/QtCore/qtimer.h \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/shader_pipeline.h \
  /usr/include/qt6/QtOpenGL/QOpenGLShaderProgram \
  /usr/include/qt6/QtOpenGL/qopenglshaderprogram.h \
- /usr/include/qt6/QtGui/qvector2d.h /usr/include/qt6/QtGui/qvectornd.h \
  /usr/include/qt6/QtGui/qvector3d.h /usr/include/qt6/QtGui/qvector4d.h \
  /usr/include/qt6/QtGui/qmatrix4x4.h \
  /usr/include/qt6/QtGui/qgenericmatrix.h \
- /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
- /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
- /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
- /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h \
- /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
- /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtCore/QRect \
- /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/capture.h \
- /usr/include/qt6/QtCore/QString \
- /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/input.h \
- /usr/include/qt6/QtCore/QPoint /usr/include/qt6/QtCore/Qt \
- /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/shader_pipeline.h \
+ /usr/include/qt6/QtOpenGL/QOpenGLFramebufferObject \
+ /usr/include/qt6/QtOpenGL/qopenglframebufferobject.h \
  /usr/include/qt6/QtGui/QMatrix4x4 /usr/include/qt6/QtCore/QSize \
+ /usr/include/qt6/QtGui/qtextcursor.h \
+ /usr/include/qt6/QtGui/qtextformat.h /usr/include/qt6/QtGui/qpen.h \
+ /usr/include/qt6/QtGui/qtextoption.h \
  /usr/include/qt6/QtCore/qtmochelpers.h \
  /usr/include/qt6/QtCore/qtmocconstants.h \
- /usr/include/qt6/QtCore/q20algorithm.h
+ /usr/include/qt6/QtCore/q20algorithm.h \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/moc_overlay_window.cpp

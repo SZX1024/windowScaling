@@ -128,24 +128,10 @@ CMakeFiles/magpie-overlay.dir/src/input.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/magpie-overlay.dir/src/input.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/SZX10246/Projects/software/windowScaling/src/input.cpp -o CMakeFiles/magpie-overlay.dir/src/input.cpp.s
 
-CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: CMakeFiles/magpie-overlay.dir/flags.make
-CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp
-CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: CMakeFiles/magpie-overlay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o -MF CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o.d -o CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o -c /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp
-
-CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp > CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i
-
-CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp -o CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s
-
 CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o: CMakeFiles/magpie-overlay.dir/flags.make
 CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o: /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp
 CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o: CMakeFiles/magpie-overlay.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o -MF CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o.d -o CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o -c /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp
 
 CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.i: cmake_force
@@ -156,14 +142,43 @@ CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp -o CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.s
 
+CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: CMakeFiles/magpie-overlay.dir/flags.make
+CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp
+CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o: CMakeFiles/magpie-overlay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o -MF CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o.d -o CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o -c /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp
+
+CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp > CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i
+
+CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp -o CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s
+
+CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o: CMakeFiles/magpie-overlay.dir/flags.make
+CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o: /home/SZX10246/Projects/software/windowScaling/src/main_window.cpp
+CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o: CMakeFiles/magpie-overlay.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o -MF CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o.d -o CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o -c /home/SZX10246/Projects/software/windowScaling/src/main_window.cpp
+
+CMakeFiles/magpie-overlay.dir/src/main_window.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/magpie-overlay.dir/src/main_window.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/SZX10246/Projects/software/windowScaling/src/main_window.cpp > CMakeFiles/magpie-overlay.dir/src/main_window.cpp.i
+
+CMakeFiles/magpie-overlay.dir/src/main_window.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/magpie-overlay.dir/src/main_window.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/SZX10246/Projects/software/windowScaling/src/main_window.cpp -o CMakeFiles/magpie-overlay.dir/src/main_window.cpp.s
+
 # Object files for target magpie-overlay
 magpie__overlay_OBJECTS = \
 "CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/magpie-overlay.dir/src/main.cpp.o" \
 "CMakeFiles/magpie-overlay.dir/src/capture.cpp.o" \
 "CMakeFiles/magpie-overlay.dir/src/input.cpp.o" \
+"CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o" \
 "CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o" \
-"CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o"
+"CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o"
 
 # External object files for target magpie-overlay
 magpie__overlay_EXTERNAL_OBJECTS =
@@ -172,10 +187,12 @@ magpie__overlay_EXTERNAL_OBJECTS =
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/main.cpp.o
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/capture.cpp.o
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/input.cpp.o
-/home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o
+/home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o
+/home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/src/main_window.cpp.o
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/build.make
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/compiler_depend.ts
+/home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: /usr/lib64/libQt6Widgets.so.6.11.2
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: /usr/lib64/libQt6OpenGL.so.6.11.2
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: /usr/lib64/libQt6Gui.so.6.11.2
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: /usr/lib64/libQt6DBus.so.6.11.2
@@ -183,7 +200,7 @@ magpie__overlay_EXTERNAL_OBJECTS =
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: /usr/lib64/libGLX.so
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: /usr/lib64/libOpenGL.so
 /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay: CMakeFiles/magpie-overlay.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/magpie-overlay.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
