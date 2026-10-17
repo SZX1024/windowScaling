@@ -226,3 +226,12 @@
    - **将 `propagate` 严格设为 `False`**：事件只投递进游戏窗口本身，**绝不向上传播到窗口管理器**。KWin 根本不知道发生了点击，彻底消除“点击自动置顶”的触发源；
    - **赋予覆盖层 `Qt::BypassWindowManagerHint`**：将覆盖层窗口配置为 **Override-Redirect（无视窗口管理器）** 特权窗口，不受任何窗口管理器的层级排序影响，永久钉死在所有普通窗口的绝对顶层；
    - 在按键释放（`mouseReleaseEvent`）与触控抬起（`TouchEnd`）时主动调用 `this->raise()` 进行双重保障，确保无论用户如何高频点击或快速滑动，全屏放大覆盖层始终牢牢居于游戏窗口上方。
+### 覆盖层与游戏同层层级竞争最终攻克记录
+1. **跨协议层级竞争真相**:
+   - 之前 `magpie-overlay` 作为原生 Wayland 窗口运行，而游戏运行在 XWayland。
+   - 当点击注入进游戏时，XWayland 向 KWin 请求激活游戏窗口，由于原生 Wayland 的 xdg-shell 规范**明令删除了 Stays-On-Top 机制**，导致 Wayland 覆盖层无法在协议层面阻挡 XWayland 窗口的向上置顶，游戏瞬间翻到了上方。
+2. **同构 X11 层级压制彻底解决**:
+   - **统合至同一图层协议 (`QT_QPA_PLATFORM=xcb`)**：覆盖层改用与游戏同构的 X11/XWayland 协议启动，两者处于同一窗口管理器排队栈中；
+   - **X11 协议级强制压制 (`_NET_WM_STATE_BELOW`)**：激活全屏时，主动向窗口管理器发送 ClientMessage 将目标游戏窗口置为 **`_NET_WM_STATE_BELOW`（底层常驻）**；退出时再解除；
+   - **XRestackWindows 强行重排**：在每次点击与释放后，显式调用 `XRestackWindows(overlay, game)`，在 X 服务器底层将覆盖层死死钉在游戏窗口正上方。
+   - 彻底解决了点击时底层窗口翻到上方的问题。
