@@ -93,3 +93,14 @@
    - 实现重写 `paintWindow`: 当 Magpie 处于激活状态时，对所有非目标窗口设置 `data.multiplyOpacity(0.0)` 进行遮罩隐藏，赋予放大后的游戏窗口独占置顶的全屏呈现。
 4. **会话稳定性保障**:
    - 严禁使用重启 KWin 服务命令，全部采用平滑的原生 D-Bus 重构：`qdbus-qt6 org.kde.KWin /Effects reconfigureEffect "kwin4_effect_magpie"`。
+### 居中数学推导最终核准结论
+- **KWin 合成管线平移机制**:
+  - `OffscreenEffect` 在生成视图投影矩阵时，底层自动应用了窗口当前坐标平移：`matrix = Projection * Translate(window->pos())`。
+  - 随后乘上 `data.toMatrix()`：`data.toMatrix() = Translate(data.translation()) * Scale(data.scale())`。
+  - 对顶点 `P = (0, 0)`（相对于窗口原点），最终屏幕坐标为：
+    `ScreenPos = window->pos() + data.translation()`。
+  - 要使窗口左上角落到屏幕计算的 `targetPos`，所需平移量**必须且严格**为：
+    `translation = targetPos - window->pos()`。
+  - 原公式错误地减去了 `window->pos() * scale`，导致窗口被向左上方过度偏移了 `window->pos() * (scale - 1)` 个像素，且比例越大偏差越严重。现已彻底修正。
+- **OSD 弹窗清除**:
+  - KWin 的 `showOnScreenMessage` 属于模态/常驻型消息，不会自动超时消失。已彻底移除所有 `showOnScreenMessage` 调用，并在插件构造时显式调用 `hideOnScreenMessage()` 清除屏幕残留。
