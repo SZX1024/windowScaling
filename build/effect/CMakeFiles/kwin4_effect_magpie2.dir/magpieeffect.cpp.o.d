@@ -435,7 +435,34 @@ effect/CMakeFiles/kwin4_effect_magpie2.dir/magpieeffect.cpp.o: \
  /usr/include/qt6/QtCore/QDate /usr/include/xcb/xcb.h \
  /usr/include/sys/uio.h /usr/include/bits/types/struct_iovec.h \
  /usr/include/bits/uio-ext.h /usr/include/xcb/xproto.h \
- /usr/include/xcb/xcb.h /usr/include/qt6/QtGui/QAction \
+ /usr/include/xcb/xcb.h /usr/include/kwin/input_event.h \
+ /usr/include/kwin/input.h /usr/include/kwin/core/inputdevice.h \
+ /usr/include/qt6/QtCore/QPointer /usr/include/qt6/QtCore/qpointer.h \
+ /usr/include/kwin/wayland_server.h /usr/include/kwin/wayland/seat.h \
+ /usr/include/kwin/utils/serial.h /usr/include/kwin/wayland/surface.h \
+ /usr/include/kwin/core/renderbackend.h \
+ /usr/include/kwin/core/drm_formats.h /usr/include/libdrm/drm_fourcc.h \
+ /usr/include/libdrm/drm.h /usr/include/asm/ioctl.h \
+ /usr/include/asm-generic/ioctl.h /usr/include/libdrm/drm_mode.h \
+ /usr/include/vulkan/vulkan_core.h /usr/include/vulkan/vk_platform.h \
+ /usr/include/vk_video/vulkan_video_codec_h264std.h \
+ /usr/include/vk_video/vulkan_video_codecs_common.h \
+ /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
+ /usr/include/vk_video/vulkan_video_codec_h264std.h \
+ /usr/include/vk_video/vulkan_video_codec_h265std.h \
+ /usr/include/vk_video/vulkan_video_codec_h265std_encode.h \
+ /usr/include/vk_video/vulkan_video_codec_h265std.h \
+ /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
+ /usr/include/vk_video/vulkan_video_codec_h265std_decode.h \
+ /usr/include/vk_video/vulkan_video_codec_av1std.h \
+ /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
+ /usr/include/vk_video/vulkan_video_codec_av1std.h \
+ /usr/include/vk_video/vulkan_video_codec_av1std_encode.h \
+ /usr/include/vk_video/vulkan_video_codec_vp9std.h \
+ /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h \
+ /usr/include/vk_video/vulkan_video_codec_vp9std.h \
+ /usr/include/kwin/core/rendertarget.h \
+ /usr/include/kwin/utils/filedescriptor.h /usr/include/qt6/QtGui/QAction \
  /usr/include/qt6/QtGui/qaction.h /usr/include/qt6/QtGui/qkeysequence.h \
  /usr/include/qt6/QtDBus/QDBusConnection \
  /usr/include/qt6/QtDBus/qdbusconnection.h \
@@ -459,8 +486,12 @@ effect/CMakeFiles/kwin4_effect_magpie2.dir/magpieeffect.cpp.o: \
  /usr/include/KF6/KI18n/ki18n_version.h /usr/include/qt6/QtCore/QChar \
  /usr/include/qt6/QtCore/QLatin1Char /usr/include/KF6/KI18n/kuitsetup.h \
  /usr/include/KF6/KI18n/klocalizedcontext.h \
+ /usr/include/kwin/core/renderviewport.h \
+ /usr/include/kwin/opengl/gltexture.h \
+ /usr/include/kwin/opengl/glshadermanager.h \
+ /usr/include/qt6/QtCore/QFlags /usr/include/kwin/opengl/glshader.h \
+ /usr/include/qt6/QtGui/QMatrix3x3 /usr/include/qt6/QtGui/QVector3D \
  /home/SZX10246/Projects/software/windowScaling/build/effect/kwin4_effect_magpie2_autogen/include/magpieeffect.moc \
- /usr/include/qt6/QtCore/qplugin.h /usr/include/qt6/QtCore/qpointer.h \
- /usr/include/qt6/QtCore/q20algorithm.h \
+ /usr/include/qt6/QtCore/qplugin.h /usr/include/qt6/QtCore/q20algorithm.h \
  /usr/include/qt6/QtCore/qtmochelpers.h \
  /usr/include/qt6/QtCore/qtmocconstants.h

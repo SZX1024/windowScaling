@@ -39,10 +39,12 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/asm-generic/int-ll64.h \
+  /usr/include/asm-generic/ioctl.h \
   /usr/include/asm-generic/posix_types.h \
   /usr/include/asm-generic/types.h \
   /usr/include/asm/bitsperlong.h \
   /usr/include/asm/errno.h \
+  /usr/include/asm/ioctl.h \
   /usr/include/asm/posix_types.h \
   /usr/include/asm/posix_types_64.h \
   /usr/include/asm/types.h \
@@ -336,19 +338,37 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/inttypes.h \
   /usr/include/kwin/config-kwin.h \
   /usr/include/kwin/core/colorspace.h \
+  /usr/include/kwin/core/drm_formats.h \
+  /usr/include/kwin/core/inputdevice.h \
   /usr/include/kwin/core/output.h \
   /usr/include/kwin/core/rect.h \
   /usr/include/kwin/core/region.h \
+  /usr/include/kwin/core/renderbackend.h \
   /usr/include/kwin/core/renderloop.h \
+  /usr/include/kwin/core/rendertarget.h \
+  /usr/include/kwin/core/renderviewport.h \
   /usr/include/kwin/effect/effect.h \
   /usr/include/kwin/effect/effecthandler.h \
   /usr/include/kwin/effect/effectwindow.h \
   /usr/include/kwin/effect/globals.h \
   /usr/include/kwin/effect/offscreeneffect.h \
+  /usr/include/kwin/input.h \
+  /usr/include/kwin/input_event.h \
   /usr/include/kwin/kwin_export.h \
+  /usr/include/kwin/opengl/glshader.h \
+  /usr/include/kwin/opengl/glshadermanager.h \
+  /usr/include/kwin/opengl/gltexture.h \
   /usr/include/kwin/opengl/glvertexbuffer.h \
   /usr/include/kwin/scene/itemgeometry.h \
   /usr/include/kwin/utils/edid.h \
+  /usr/include/kwin/utils/filedescriptor.h \
+  /usr/include/kwin/utils/serial.h \
+  /usr/include/kwin/wayland/seat.h \
+  /usr/include/kwin/wayland/surface.h \
+  /usr/include/kwin/wayland_server.h \
+  /usr/include/libdrm/drm.h \
+  /usr/include/libdrm/drm_fourcc.h \
+  /usr/include/libdrm/drm_mode.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/limits.h \
@@ -367,6 +387,7 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/qt6/QtCore/QEasingCurve \
   /usr/include/qt6/QtCore/QEvent \
   /usr/include/qt6/QtCore/QExplicitlySharedDataPointer \
+  /usr/include/qt6/QtCore/QFlags \
   /usr/include/qt6/QtCore/QHash \
   /usr/include/qt6/QtCore/QIODevice \
   /usr/include/qt6/QtCore/QJsonObject \
@@ -379,6 +400,7 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QPair \
   /usr/include/qt6/QtCore/QPoint \
+  /usr/include/qt6/QtCore/QPointer \
   /usr/include/qt6/QtCore/QRect \
   /usr/include/qt6/QtCore/QSet \
   /usr/include/qt6/QtCore/QSharedPointer \
@@ -486,6 +508,7 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/qt6/QtCore/qoverload.h \
   /usr/include/qt6/QtCore/qpair.h \
   /usr/include/qt6/QtCore/qpoint.h \
+  /usr/include/qt6/QtCore/qpointer.h \
   /usr/include/qt6/QtCore/qprocessordetection.h \
   /usr/include/qt6/QtCore/qrect.h \
   /usr/include/qt6/QtCore/qrefcount.h \
@@ -547,9 +570,12 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/qt6/QtCore/qyieldcpu.h \
   /usr/include/qt6/QtDBus/QDBusArgument \
   /usr/include/qt6/QtDBus/QDBusConnection \
+  /usr/include/qt6/QtDBus/QDBusMessage \
   /usr/include/qt6/QtDBus/qdbusargument.h \
   /usr/include/qt6/QtDBus/qdbusconnection.h \
+  /usr/include/qt6/QtDBus/qdbuserror.h \
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
+  /usr/include/qt6/QtDBus/qdbusmessage.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
   /usr/include/qt6/QtGui/QAction \
@@ -557,9 +583,11 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QKeySequence \
+  /usr/include/qt6/QtGui/QMatrix3x3 \
   /usr/include/qt6/QtGui/QMatrix4x4 \
   /usr/include/qt6/QtGui/QRegion \
   /usr/include/qt6/QtGui/QVector2D \
+  /usr/include/qt6/QtGui/QVector3D \
   /usr/include/qt6/QtGui/QWindow \
   /usr/include/qt6/QtGui/qaction.h \
   /usr/include/qt6/QtGui/qbitmap.h \
@@ -601,6 +629,20 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
   /usr/include/sys/types.h \
   /usr/include/sys/uio.h \
   /usr/include/time.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_encode.h \
+  /usr/include/vk_video/vulkan_video_codec_h264std.h \
+  /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
+  /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
+  /usr/include/vk_video/vulkan_video_codec_h265std.h \
+  /usr/include/vk_video/vulkan_video_codec_h265std_decode.h \
+  /usr/include/vk_video/vulkan_video_codec_h265std_encode.h \
+  /usr/include/vk_video/vulkan_video_codec_vp9std.h \
+  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h \
+  /usr/include/vk_video/vulkan_video_codecs_common.h \
+  /usr/include/vulkan/vk_platform.h \
+  /usr/include/vulkan/vulkan_core.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
   /usr/include/xcb/xcb.h \
@@ -617,6 +659,24 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 /usr/include/wctype.h:
 
 /usr/include/wchar.h:
+
+/usr/include/vulkan/vulkan_core.h:
+
+/usr/include/vk_video/vulkan_video_codec_vp9std_decode.h:
+
+/usr/include/vk_video/vulkan_video_codec_vp9std.h:
+
+/usr/include/vk_video/vulkan_video_codec_h265std_encode.h:
+
+/usr/include/vk_video/vulkan_video_codec_h265std.h:
+
+/usr/include/vk_video/vulkan_video_codec_h264std_decode.h:
+
+/usr/include/vk_video/vulkan_video_codec_h264std.h:
+
+/usr/include/vk_video/vulkan_video_codec_av1std_decode.h:
+
+/usr/include/vk_video/vulkan_video_codec_av1std.h:
 
 /usr/include/sys/types.h:
 
@@ -664,6 +724,8 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/qt6/QtGui/QWindow:
 
+/usr/include/qt6/QtGui/QVector3D:
+
 /usr/include/qt6/QtGui/QMatrix4x4:
 
 /usr/include/qt6/QtGui/QKeySequence:
@@ -680,6 +742,8 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/qt6/QtDBus/qdbusconnection.h:
 
+/usr/include/qt6/QtDBus/QDBusMessage:
+
 /usr/include/qt6/QtDBus/QDBusConnection:
 
 /usr/include/qt6/QtDBus/QDBusArgument:
@@ -688,15 +752,39 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/qt6/QtCore/qxptype_traits.h:
 
+/usr/include/qt6/QtCore/qvariant.h:
+
+/usr/include/qt6/QtCore/quuid.h:
+
+/usr/include/qt6/QtCore/qutf8stringview.h:
+
+/usr/include/qt6/QtCore/qurl.h:
+
+/usr/include/qt6/QtCore/qtversionchecks.h:
+
+/usr/include/qt6/QtCore/qtversion.h:
+
+/usr/include/qt6/QtCore/qttypetraits.h:
+
+/usr/include/qt6/QtCore/qtnoop.h:
+
+/usr/include/qt6/QtCore/qtmetamacros.h:
+
+/usr/include/qt6/QtCore/qtextstream.h:
+
+/usr/include/qt6/QtCore/qtenvironmentvariables.h:
+
+/usr/include/qt6/QtCore/qtcoreglobal.h:
+
+/usr/include/qt6/QtCore/qtcoreexports.h:
+
+/usr/include/qt6/QtCore/qtcore-config.h:
+
 /usr/include/asm-generic/types.h:
 
 /usr/include/asm-generic/bitsperlong.h:
 
 /usr/include/qt6/QtCore/qjsonobject.h:
-
-/usr/include/c++/16/ext/alloc_traits.h:
-
-/usr/include/c++/16/bits/unordered_map.h:
 
 /usr/include/qt6/QtCore/qmargins.h:
 
@@ -758,6 +846,10 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/asm-generic/posix_types.h:
 
+/usr/include/qt6/QtCore/qvarlengtharray.h:
+
+/usr/include/c++/16/bits/stl_algobase.h:
+
 /usr/include/c++/16/bits/stl_iterator_base_funcs.h:
 
 /usr/include/c++/16/bits/stdexcept_throw.h:
@@ -782,7 +874,11 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/c++/16/bits/stl_raw_storage_iter.h:
 
+/usr/include/vk_video/vulkan_video_codec_h264std_encode.h:
+
 /usr/include/c++/16/bits/ranges_cmp.h:
+
+/usr/include/kwin/core/renderviewport.h:
 
 /usr/include/qt6/QtGui/qregion.h:
 
@@ -806,6 +902,8 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/c++/16/map:
 
+/usr/include/vk_video/vulkan_video_codecs_common.h:
+
 /usr/include/c++/16/bits/predefined_ops.h:
 
 /usr/include/c++/16/bits/ostream.h:
@@ -819,8 +917,6 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 /usr/include/c++/16/bits/string_view.tcc:
 
 /usr/include/c++/16/ext/atomicity.h:
-
-/usr/include/c++/16/bits/ios_base.h:
 
 /usr/include/qt6/QtCore/QMetaType:
 
@@ -882,10 +978,6 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/c++/16/cwctype:
 
-/usr/include/sys/uio.h:
-
-/usr/include/c++/16/bits/cxxabi_forced.h:
-
 /usr/include/c++/16/bits/std_abs.h:
 
 /usr/include/c++/16/x86_64-redhat-linux/bits/c++locale.h:
@@ -901,6 +993,10 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 /usr/include/bits/types/__fpos_t.h:
 
 /usr/include/c++/16/ranges:
+
+/usr/include/qt6/QtCore/qtpreprocessorsupport.h:
+
+/usr/include/c++/16/bits/nested_exception.h:
 
 /usr/include/qt6/QtCore/QEvent:
 
@@ -921,12 +1017,6 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 /usr/include/qt6/QtCore/QString:
 
 /usr/include/c++/16/bits/basic_ios.h:
-
-/usr/include/qt6/QtCore/qtmetamacros.h:
-
-/usr/include/c++/16/cctype:
-
-/usr/include/bits/posix1_lim.h:
 
 /usr/include/bits/floatn.h:
 
@@ -952,6 +1042,10 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/asm/errno.h:
 
+/usr/include/asm/ioctl.h:
+
+/usr/include/qt6/QtCore/qmath.h:
+
 /usr/include/c++/16/version:
 
 /usr/include/qt6/QtCore/qdatetime.h:
@@ -963,10 +1057,6 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 /usr/include/sched.h:
 
 /usr/include/c++/16/bits/hashtable.h:
-
-/usr/include/xcb/xproto.h:
-
-/home/SZX10246/Projects/software/windowScaling/effect/magpieeffect.h:
 
 /usr/include/c++/16/x86_64-redhat-linux/bits/cpu_defines.h:
 
@@ -1012,6 +1102,16 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/c++/16/pstl/pstl_config.h:
 
+/usr/include/qt6/QtCore/qtdeprecationdefinitions.h:
+
+/usr/include/asm/posix_types.h:
+
+/usr/include/bits/time.h:
+
+/usr/include/qt6/QtCore/qdarwinhelpers.h:
+
+/usr/include/KF6/KI18n/ki18n_version.h:
+
 /usr/include/bits/endian.h:
 
 /usr/include/qt6/QtCore/QSpan:
@@ -1038,19 +1138,29 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 
 /usr/include/qt6/QtCore/qoverload.h:
 
-/usr/include/qt6/QtCore/quuid.h:
-
-/usr/include/c++/16/bits/uses_allocator_args.h:
-
 /usr/include/c++/16/bits/ranges_base.h:
 
 /usr/include/bits/xopen_lim.h:
 
+/usr/include/bits/errno.h:
+
+/usr/include/qt6/QtDBus/qdbuserror.h:
+
+/usr/include/c++/16/bits/atomic_lockfree_defines.h:
+
+/usr/include/qt6/QtCore/qarraydatapointer.h:
+
+/usr/include/bits/cpu-set.h:
+
 /usr/include/bits/typesizes.h:
+
+/usr/include/kwin/opengl/glshader.h:
 
 /usr/include/bits/uintn-identity.h:
 
 /usr/include/qt6/QtCore/qlist.h:
+
+/usr/include/vulkan/vk_platform.h:
 
 /usr/include/c++/16/bits/node_handle.h:
 
@@ -1089,6 +1199,12 @@ effect/kwin4_effect_magpie2_autogen/timestamp: effect/kwin4_effect_magpie2_autog
 /usr/include/bits/types/__sigset_t.h:
 
 /usr/include/KF6/KConfigCore/kconfigbase.h:
+
+/usr/include/bits/types/wint_t.h:
+
+/usr/include/c++/16/new:
+
+/usr/include/c++/16/backward/binders.h:
 
 /usr/include/c++/16/bits/alloc_traits.h:
 
@@ -1134,25 +1250,17 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/bits/local_lim.h:
 
-/usr/include/qt6/QtCore/qtcoreexports.h:
+/usr/include/c++/16/bits/unordered_map.h:
 
-/usr/include/bits/time.h:
-
-/usr/include/bits/stdio_lim.h:
+/usr/include/c++/16/ext/alloc_traits.h:
 
 /usr/include/c++/16/bits/stl_heap.h:
 
 /usr/include/bits/types/clockid_t.h:
 
-/usr/include/KF6/KI18n/ki18n_version.h:
+/usr/include/qt6/QtCore/qtresource.h:
 
-/usr/include/qt6/QtCore/qdarwinhelpers.h:
-
-/usr/include/c++/16/backward/binders.h:
-
-/usr/include/bits/types/wint_t.h:
-
-/usr/include/c++/16/new:
+/usr/include/bits/libc-header-start.h:
 
 /usr/include/qt6/QtCore/QLoggingCategory:
 
@@ -1168,8 +1276,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/QSize:
 
-/usr/include/bits/long-double.h:
-
 /usr/include/c++/16/bits/stl_list.h:
 
 /usr/include/bits/types/error_t.h:
@@ -1177,6 +1283,8 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtGui/qimage.h:
 
 /usr/include/c++/16/tr1/poly_hermite.tcc:
+
+/usr/include/kwin/input.h:
 
 /usr/include/qt6/QtCore/qstringalgorithms.h:
 
@@ -1192,19 +1300,37 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qforeach.h:
 
+/usr/include/sys/uio.h:
+
+/usr/include/c++/16/bits/cxxabi_forced.h:
+
+/usr/include/asm-generic/ioctl.h:
+
 /usr/include/bits/types/__FILE.h:
 
 /usr/include/qt6/QtCore/q20iterator.h:
 
 /usr/include/features.h:
 
-/usr/include/c++/16/ext/aligned_buffer.h:
+/usr/include/c++/16/bits/atomic_wait.h:
+
+/usr/include/c++/16/bits/atomic_base.h:
+
+/usr/include/c++/16/bits/new_throw.h:
+
+/usr/include/qt6/QtCore/qcontainertools_impl.h:
 
 /usr/include/bits/types/cookie_io_functions_t.h:
 
 /usr/include/bits/uio-ext.h:
 
 /usr/include/KF6/KI18n/ki18n_export.h:
+
+/usr/include/bits/long-double.h:
+
+/usr/include/c++/16/cctype:
+
+/usr/include/bits/posix1_lim.h:
 
 /usr/include/bits/posix2_lim.h:
 
@@ -1215,10 +1341,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtGui/qvector3d.h:
 
 /usr/include/qt6/QtCore/qcontainerinfo.h:
-
-/usr/include/bits/pthreadtypes-arch.h:
-
-/usr/include/c++/16/bits/atomic_wait.h:
 
 /usr/include/c++/16/backward/auto_ptr.h:
 
@@ -1237,10 +1359,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/c++/16/bits/istream.tcc:
 
 /usr/include/qt6/QtCore/qjsonparseerror.h:
-
-/usr/include/qt6/QtCore/qtcore-config.h:
-
-/usr/include/c++/16/bits/allocated_ptr.h:
 
 /usr/include/asm/types.h:
 
@@ -1266,11 +1384,13 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/bits/thread-shared-types.h:
 
+/usr/include/bits/uio_lim.h:
+
+/usr/include/c++/16/ext/type_traits.h:
+
 /usr/include/c++/16/bits/requires_hosted.h:
 
 /usr/include/qt6/QtCore/qeasingcurve.h:
-
-/usr/include/bits/errno.h:
 
 /usr/include/bits/timex.h:
 
@@ -1282,6 +1402,8 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qtaggedpointer.h:
 
+/usr/include/vk_video/vulkan_video_codec_h265std_decode.h:
+
 /usr/include/bits/types/FILE.h:
 
 /usr/include/linux/posix_types.h:
@@ -1292,9 +1414,15 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/c++/16/string_view:
 
+/usr/include/qt6/QtGui/QMatrix3x3:
+
 /usr/include/KF6/KConfigCore/KSharedConfig:
 
-/usr/include/bits/types/mbstate_t.h:
+/usr/include/qt6/QtCore/qtypeinfo.h:
+
+/usr/include/c++/16/bit:
+
+/usr/include/KF6/KCoreAddons/kcoreaddons_export.h:
 
 /usr/include/c++/16/bits/memory_resource.h:
 
@@ -1311,8 +1439,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/q20type_traits.h:
 
 /usr/include/bits/types/struct_sched_param.h:
-
-/usr/include/bits/waitflags.h:
 
 /usr/include/qt6/QtGui/qtransform.h:
 
@@ -1336,12 +1462,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/KF6/KGlobalAccel/kglobalaccel.h:
 
-/usr/include/qt6/QtCore/qvariant.h:
-
-/usr/include/c++/16/ext/type_traits.h:
-
-/usr/include/bits/uio_lim.h:
-
 /usr/include/bits/timesize.h:
 
 /usr/include/bits/stdint-intn.h:
@@ -1356,11 +1476,11 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qsize.h:
 
-/usr/include/qt6/QtCore/qtnoop.h:
-
 /usr/include/bits/stdlib-float.h:
 
 /usr/include/bits/time64.h:
+
+/usr/include/vk_video/vulkan_video_codec_av1std_encode.h:
 
 /usr/include/qt6/QtDBus/qtdbusexports.h:
 
@@ -1370,37 +1490,39 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/c++/16/pstl/execution_defs.h:
 
+/usr/include/c++/16/bits/uses_allocator_args.h:
+
+/usr/include/kwin/core/rendertarget.h:
+
 /usr/include/qt6/QtCore/qspan.h:
 
-/usr/include/c++/16/bits/atomic_base.h:
+/usr/include/c++/16/ext/aligned_buffer.h:
 
-/usr/include/c++/16/bits/new_throw.h:
-
-/usr/include/qt6/QtCore/qcontainertools_impl.h:
-
-/usr/include/bits/cpu-set.h:
-
-/usr/include/c++/16/bits/atomic_lockfree_defines.h:
-
-/usr/include/qt6/QtCore/qarraydatapointer.h:
+/usr/include/qt6/QtDBus/qdbusmessage.h:
 
 /usr/include/c++/16/ext/concurrence.h:
 
 /usr/include/c++/16/functional:
 
-/usr/include/c++/16/chrono:
-
-/usr/include/c++/16/initializer_list:
-
 /usr/include/bits/types/timer_t.h:
 
 /usr/include/c++/16/tr1/riemann_zeta.tcc:
+
+/usr/include/xcb/xproto.h:
+
+/home/SZX10246/Projects/software/windowScaling/effect/magpieeffect.h:
+
+/usr/include/kwin/utils/filedescriptor.h:
 
 /usr/include/c++/16/istream:
 
 /usr/include/qt6/QtCore/qpoint.h:
 
 /usr/include/c++/16/limits:
+
+/usr/include/qt6/QtCore/qttranslation.h:
+
+/usr/include/c++/16/list:
 
 /usr/include/c++/16/memory:
 
@@ -1439,10 +1561,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/qgenericatomic.h:
 
 /usr/include/c++/16/system_error:
-
-/usr/include/asm/posix_types.h:
-
-/usr/include/qt6/QtCore/qtdeprecationdefinitions.h:
 
 /usr/include/qt6/QtCore/q23utility.h:
 
@@ -1510,9 +1628,9 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/c++/16/x86_64-redhat-linux/bits/os_defines.h:
 
-/usr/include/qt6/QtCore/qconstructormacros.h:
+/usr/include/kwin/core/inputdevice.h:
 
-/usr/include/qt6/QtCore/qutf8stringview.h:
+/usr/include/qt6/QtCore/qconstructormacros.h:
 
 /usr/include/epoxy/common.h:
 
@@ -1520,13 +1638,15 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/gnu/stubs-64.h:
 
-/usr/include/qt6/QtCore/qtversionchecks.h:
-
 /usr/include/kwin/config-kwin.h:
 
 /usr/include/kwin/core/colorspace.h:
 
 /usr/include/qt6/QtCore/qswap.h:
+
+/usr/include/kwin/core/drm_formats.h:
+
+/usr/include/kwin/core/renderbackend.h:
 
 /usr/include/kwin/core/renderloop.h:
 
@@ -1538,11 +1658,21 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qanystringview.h:
 
+/usr/include/bits/waitflags.h:
+
+/usr/include/kwin/input_event.h:
+
 /usr/include/kwin/kwin_export.h:
+
+/usr/include/kwin/wayland/surface.h:
 
 /usr/include/c++/16/array:
 
 /usr/include/qt6/QtCore/qglobal.h:
+
+/usr/include/c++/16/bits/allocated_ptr.h:
+
+/usr/include/kwin/opengl/gltexture.h:
 
 /usr/include/kwin/core/region.h:
 
@@ -1557,6 +1687,22 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/c++/16/bits/stl_iterator.h:
 
 /usr/include/linux/errno.h:
+
+/usr/include/kwin/utils/serial.h:
+
+/usr/include/kwin/wayland/seat.h:
+
+/usr/include/kwin/wayland_server.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/libdrm/drm.h:
+
+/usr/include/bits/types/mbstate_t.h:
+
+/usr/include/libdrm/drm_fourcc.h:
+
+/usr/include/libdrm/drm_mode.h:
 
 /usr/include/c++/16/atomic:
 
@@ -1573,6 +1719,10 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/qcoreevent.h:
 
 /usr/include/linux/types.h:
+
+/usr/include/qt6/QtCore/qtdeprecationmarkers.h:
+
+/usr/include/locale.h:
 
 /usr/include/qt6/QtCore/QChar:
 
@@ -1610,6 +1760,10 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/QEasingCurve:
 
+/usr/include/c++/16/bits/ios_base.h:
+
+/usr/include/qt6/QtCore/QFlags:
+
 /usr/include/c++/16/debug/debug.h:
 
 /usr/include/qt6/QtCore/QJsonObject:
@@ -1619,6 +1773,16 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/QMargins:
 
 /usr/include/qt6/QtCore/QPair:
+
+/usr/include/c++/16/chrono:
+
+/usr/include/c++/16/initializer_list:
+
+/usr/include/qt6/QtCore/QPointer:
+
+/usr/include/qt6/QtCore/QLatin1StringView:
+
+/usr/include/qt6/QtCore/qstringfwd.h:
 
 /usr/include/qt6/QtCore/QRect:
 
@@ -1633,8 +1797,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/QUuid:
 
 /usr/include/qt6/QtCore/QVariant:
-
-/usr/include/qt6/QtCore/qurl.h:
 
 /usr/include/qt6/QtCore/q20bit.h:
 
@@ -1732,7 +1894,7 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qmap.h:
 
-/usr/include/qt6/QtCore/qmath.h:
+/usr/include/kwin/opengl/glshadermanager.h:
 
 /usr/include/qt6/QtCore/qmetacontainer.h:
 
@@ -1749,6 +1911,10 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/qobject_impl.h:
 
 /usr/include/qt6/QtCore/qpair.h:
+
+/usr/include/bits/pthreadtypes-arch.h:
+
+/usr/include/qt6/QtCore/qpointer.h:
 
 /usr/include/stdlib.h:
 
@@ -1776,10 +1942,6 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qstringconverter_base.h:
 
-/usr/include/qt6/QtCore/QLatin1StringView:
-
-/usr/include/qt6/QtCore/qstringfwd.h:
-
 /usr/include/qt6/QtCore/qstringlist.h:
 
 /usr/include/assert.h:
@@ -1787,39 +1949,3 @@ effect/kwin4_effect_magpie2_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/qstringmatcher.h:
 
 /usr/include/qt6/QtCore/qsysinfo.h:
-
-/usr/include/qt6/QtCore/qtcoreglobal.h:
-
-/usr/include/locale.h:
-
-/usr/include/qt6/QtCore/qtdeprecationmarkers.h:
-
-/usr/include/qt6/QtCore/qtenvironmentvariables.h:
-
-/usr/include/qt6/QtCore/qtextstream.h:
-
-/usr/include/c++/16/bits/nested_exception.h:
-
-/usr/include/qt6/QtCore/qtpreprocessorsupport.h:
-
-/usr/include/c++/16/bit:
-
-/usr/include/KF6/KCoreAddons/kcoreaddons_export.h:
-
-/usr/include/qt6/QtCore/qtypeinfo.h:
-
-/usr/include/bits/libc-header-start.h:
-
-/usr/include/qt6/QtCore/qtresource.h:
-
-/usr/include/c++/16/list:
-
-/usr/include/qt6/QtCore/qttranslation.h:
-
-/usr/include/qt6/QtCore/qttypetraits.h:
-
-/usr/include/qt6/QtCore/qtversion.h:
-
-/usr/include/c++/16/bits/stl_algobase.h:
-
-/usr/include/qt6/QtCore/qvarlengtharray.h:

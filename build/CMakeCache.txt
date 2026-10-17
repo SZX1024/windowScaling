@@ -38,7 +38,7 @@ CMAKE_AR:FILEPATH=/usr/bin/ar
 
 //Choose the type of build, options are: None Debug Release RelWithDebInfo
 // MinSizeRel ...
-CMAKE_BUILD_TYPE:STRING=Debug
+CMAKE_BUILD_TYPE:STRING=Release
 
 //Enable/Disable color output during build.
 CMAKE_COLOR_MAKEFILE:BOOL=ON
@@ -93,8 +93,38 @@ CMAKE_EXPORT_COMPILE_COMMANDS:BOOL=
 //Value Computed by CMake.
 CMAKE_FIND_PACKAGE_REDIRECTS_DIR:STATIC=/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/pkgRedirects
 
+//User executables (bin)
+CMAKE_INSTALL_BINDIR:PATH=bin
+
+//Read-only architecture-independent data (DATAROOTDIR)
+CMAKE_INSTALL_DATADIR:PATH=
+
+//Read-only architecture-independent data root (share)
+CMAKE_INSTALL_DATAROOTDIR:PATH=share
+
 //Documentation root (DATAROOTDIR/doc/PROJECT_NAME)
 CMAKE_INSTALL_DOCDIR:PATH=
+
+//C header files (include)
+CMAKE_INSTALL_INCLUDEDIR:PATH=include
+
+//Info documentation (DATAROOTDIR/info)
+CMAKE_INSTALL_INFODIR:PATH=
+
+//Object code libraries (lib64)
+CMAKE_INSTALL_LIBDIR:PATH=lib64
+
+//Program executables (libexec)
+CMAKE_INSTALL_LIBEXECDIR:PATH=libexec
+
+//Locale-dependent data (DATAROOTDIR/locale)
+CMAKE_INSTALL_LOCALEDIR:PATH=
+
+//Modifiable single-machine data (var)
+CMAKE_INSTALL_LOCALSTATEDIR:PATH=var
+
+//Man documentation (DATAROOTDIR/man)
+CMAKE_INSTALL_MANDIR:PATH=
 
 //C header files for non-gcc (/usr/include)
 CMAKE_INSTALL_OLDINCLUDEDIR:PATH=/usr/include
@@ -104,6 +134,15 @@ CMAKE_INSTALL_PREFIX:PATH=/usr
 
 //Run-time variable data (LOCALSTATEDIR/run)
 CMAKE_INSTALL_RUNSTATEDIR:PATH=
+
+//System admin executables (sbin)
+CMAKE_INSTALL_SBINDIR:PATH=sbin
+
+//Modifiable architecture-independent data (com)
+CMAKE_INSTALL_SHAREDSTATEDIR:PATH=com
+
+//Read-only single-machine data (etc)
+CMAKE_INSTALL_SYSCONFDIR:PATH=etc
 
 //Path to a program.
 CMAKE_LINKER:FILEPATH=/usr/bin/ld
@@ -150,7 +189,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=kwin-effect-magpie
+CMAKE_PROJECT_NAME:STATIC=magpie-overlay
 
 //Value Computed by CMake
 CMAKE_PROJECT_SPDX_LICENSE:STATIC=
@@ -1026,6 +1065,15 @@ kwin-effect-magpie_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 kwin-effect-magpie_SOURCE_DIR:STATIC=/home/SZX10246/Projects/software/windowScaling
 
+//Value Computed by CMake
+magpie-overlay_BINARY_DIR:STATIC=/home/SZX10246/Projects/software/windowScaling/build
+
+//Value Computed by CMake
+magpie-overlay_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+magpie-overlay_SOURCE_DIR:STATIC=/home/SZX10246/Projects/software/windowScaling
+
 //Path to a library.
 pkgcfg_lib_PKG_FONTCONFIG_fontconfig:FILEPATH=/usr/lib64/libfontconfig.so
 
@@ -1040,6 +1088,21 @@ pkgcfg_lib_PKG_Wayland_Server_wayland-server:FILEPATH=/usr/lib64/libwayland-serv
 
 //Path to a library.
 pkgcfg_lib_PKG_epoxy_epoxy:FILEPATH=/usr/lib64/libepoxy.so
+
+//Path to a library.
+pkgcfg_lib_X11_GL:FILEPATH=/usr/lib64/libGL.so
+
+//Path to a library.
+pkgcfg_lib_X11_X11:FILEPATH=/usr/lib64/libX11.so
+
+//Path to a library.
+pkgcfg_lib_X11_Xcomposite:FILEPATH=/usr/lib64/libXcomposite.so
+
+//Path to a library.
+pkgcfg_lib_X11_Xext:FILEPATH=/usr/lib64/libXext.so
+
+//Path to a library.
+pkgcfg_lib_X11_Xtst:FILEPATH=/usr/lib64/libXtst.so
 
 
 ########################
@@ -1123,14 +1186,40 @@ CMAKE_HAVE_SHMAT:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/home/SZX10246/Projects/software/windowScaling
+//ADVANCED property for variable: CMAKE_INSTALL_BINDIR
+CMAKE_INSTALL_BINDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DATADIR
+CMAKE_INSTALL_DATADIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_DATAROOTDIR
+CMAKE_INSTALL_DATAROOTDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_DOCDIR
 CMAKE_INSTALL_DOCDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_INCLUDEDIR
+CMAKE_INSTALL_INCLUDEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_INFODIR
+CMAKE_INSTALL_INFODIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LIBDIR
+CMAKE_INSTALL_LIBDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LIBEXECDIR
+CMAKE_INSTALL_LIBEXECDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LOCALEDIR
+CMAKE_INSTALL_LOCALEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_LOCALSTATEDIR
+CMAKE_INSTALL_LOCALSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_MANDIR
+CMAKE_INSTALL_MANDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_OLDINCLUDEDIR
 CMAKE_INSTALL_OLDINCLUDEDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_INSTALL_RUNSTATEDIR
 CMAKE_INSTALL_RUNSTATEDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SBINDIR
+CMAKE_INSTALL_SBINDIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: CMAKE_INSTALL_SHAREDSTATEDIR
+CMAKE_INSTALL_SHAREDSTATEDIR-ADVANCED:INTERNAL=1
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=0
+//ADVANCED property for variable: CMAKE_INSTALL_SYSCONFDIR
+CMAKE_INSTALL_SYSCONFDIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER
 CMAKE_LINKER-ADVANCED:INTERNAL=1
 //Name of CMakeLists files to read
@@ -1150,7 +1239,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_NM
 CMAKE_NM-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJCOPY
 CMAKE_OBJCOPY-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_OBJDUMP
@@ -1215,6 +1304,8 @@ FIND_PACKAGE_MESSAGE_DETAILS_Libdrm:INTERNAL=[/usr/lib64/libdrm.so][/usr/include
 FIND_PACKAGE_MESSAGE_DETAILS_OpenGL:INTERNAL=[/usr/lib64/libOpenGL.so][/usr/lib64/libGLX.so][/usr/include][ ][v()]
 //Details about finding PkgConfig
 FIND_PACKAGE_MESSAGE_DETAILS_PkgConfig:INTERNAL=[/usr/bin/pkg-config][v2.5.1()]
+//Details about finding Threads
+FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //Details about finding Vulkan
 FIND_PACKAGE_MESSAGE_DETAILS_Vulkan:INTERNAL=[/usr/lib64/libvulkan.so][/usr/include][ missing components: glslc glslangValidator][v1.4.341()]
 //Details about finding Wayland
@@ -2515,16 +2606,47 @@ Vulkan_LIBRARY-ADVANCED:INTERNAL=1
 Wayland_Server_INCLUDE_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: Wayland_Server_LIBRARY
 Wayland_Server_LIBRARY-ADVANCED:INTERNAL=1
+X11_CFLAGS:INTERNAL=-I/usr/include
+X11_CFLAGS_I:INTERNAL=
+X11_CFLAGS_OTHER:INTERNAL=
+X11_FOUND:INTERNAL=1
 //ADVANCED property for variable: X11_ICE_INCLUDE_PATH
 X11_ICE_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_ICE_LIB
 X11_ICE_LIB-ADVANCED:INTERNAL=1
+X11_INCLUDEDIR:INTERNAL=
+X11_INCLUDE_DIRS:INTERNAL=/usr/include
+X11_LDFLAGS:INTERNAL=-L/usr/lib64;-lXcomposite;-lXtst;-lXext;-lX11;-lGL
+X11_LDFLAGS_OTHER:INTERNAL=
+X11_LIBDIR:INTERNAL=
+X11_LIBRARIES:INTERNAL=Xcomposite;Xtst;Xext;X11;GL
+X11_LIBRARY_DIRS:INTERNAL=/usr/lib64
+X11_LIBS:INTERNAL=
+X11_LIBS_L:INTERNAL=
+X11_LIBS_OTHER:INTERNAL=
+X11_LIBS_PATHS:INTERNAL=
 //Have library /usr/lib64/libX11.so;/usr/lib64/libXext.so
 X11_LIB_X11_SOLO:INTERNAL=1
+X11_MODULE_NAME:INTERNAL=
+X11_PREFIX:INTERNAL=
 //ADVANCED property for variable: X11_SM_INCLUDE_PATH
 X11_SM_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_SM_LIB
 X11_SM_LIB-ADVANCED:INTERNAL=1
+X11_STATIC_CFLAGS:INTERNAL=-I/usr/include
+X11_STATIC_CFLAGS_I:INTERNAL=
+X11_STATIC_CFLAGS_OTHER:INTERNAL=
+X11_STATIC_INCLUDE_DIRS:INTERNAL=/usr/include
+X11_STATIC_LDFLAGS:INTERNAL=-L/usr/lib64;-lXcomposite;-lXtst;-lXi;-lXext;-lXfixes;-lX11;-lpthread;-lxcb;-lXau;-lGL
+X11_STATIC_LDFLAGS_OTHER:INTERNAL=
+X11_STATIC_LIBDIR:INTERNAL=
+X11_STATIC_LIBRARIES:INTERNAL=Xcomposite;Xtst;Xi;Xext;Xfixes;X11;pthread;xcb;Xau;GL
+X11_STATIC_LIBRARY_DIRS:INTERNAL=/usr/lib64
+X11_STATIC_LIBS:INTERNAL=
+X11_STATIC_LIBS_L:INTERNAL=
+X11_STATIC_LIBS_OTHER:INTERNAL=
+X11_STATIC_LIBS_PATHS:INTERNAL=
+X11_VERSION:INTERNAL=
 //ADVANCED property for variable: X11_X11_INCLUDE_PATH
 X11_X11_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_X11_LIB
@@ -2647,6 +2769,16 @@ X11_Xxf86vm_INCLUDE_PATH-ADVANCED:INTERNAL=1
 X11_Xxf86vm_LIB-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_dpms_INCLUDE_PATH
 X11_dpms_INCLUDE_PATH-ADVANCED:INTERNAL=1
+X11_gl_INCLUDEDIR:INTERNAL=/usr/include
+X11_gl_LIBDIR:INTERNAL=/usr/lib64
+X11_gl_MODULE_NAME:INTERNAL=gl
+X11_gl_PREFIX:INTERNAL=/usr
+X11_gl_VERSION:INTERNAL=1.2
+X11_x11_INCLUDEDIR:INTERNAL=/usr/include
+X11_x11_LIBDIR:INTERNAL=/usr/lib64
+X11_x11_MODULE_NAME:INTERNAL=x11
+X11_x11_PREFIX:INTERNAL=/usr
+X11_x11_VERSION:INTERNAL=1.8.13
 //ADVANCED property for variable: X11_xcb_INCLUDE_PATH
 X11_xcb_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_xcb_LIB
@@ -2777,6 +2909,16 @@ X11_xcb_xv_LIB-ADVANCED:INTERNAL=1
 X11_xcb_xvmc_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_xcb_xvmc_LIB
 X11_xcb_xvmc_LIB-ADVANCED:INTERNAL=1
+X11_xcomposite_INCLUDEDIR:INTERNAL=/usr/include
+X11_xcomposite_LIBDIR:INTERNAL=/usr/lib64
+X11_xcomposite_MODULE_NAME:INTERNAL=xcomposite
+X11_xcomposite_PREFIX:INTERNAL=/usr
+X11_xcomposite_VERSION:INTERNAL=0.4.6
+X11_xext_INCLUDEDIR:INTERNAL=/usr/include
+X11_xext_LIBDIR:INTERNAL=/usr/lib64
+X11_xext_MODULE_NAME:INTERNAL=xext
+X11_xext_PREFIX:INTERNAL=/usr
+X11_xext_VERSION:INTERNAL=1.3.6
 //ADVANCED property for variable: X11_xkbcommon_INCLUDE_PATH
 X11_xkbcommon_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_xkbcommon_LIB
@@ -2789,6 +2931,11 @@ X11_xkbcommon_X11_LIB-ADVANCED:INTERNAL=1
 X11_xkbfile_INCLUDE_PATH-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: X11_xkbfile_LIB
 X11_xkbfile_LIB-ADVANCED:INTERNAL=1
+X11_xtst_INCLUDEDIR:INTERNAL=/usr/include
+X11_xtst_LIBDIR:INTERNAL=/usr/lib64
+X11_xtst_MODULE_NAME:INTERNAL=xtst
+X11_xtst_PREFIX:INTERNAL=/usr
+X11_xtst_VERSION:INTERNAL=1.2.5
 //CMAKE_INSTALL_PREFIX during last run
 _GNUInstallDirs_LAST_CMAKE_INSTALL_PREFIX:INTERNAL=/usr
 //Test _OFFT_IS_64BIT
@@ -2797,10 +2944,12 @@ __pkg_config_arguments_PKG_FONTCONFIG:INTERNAL=QUIET;fontconfig
 __pkg_config_arguments_PKG_Libdrm:INTERNAL=QUIET;libdrm
 __pkg_config_arguments_PKG_Wayland_Server:INTERNAL=QUIET;wayland-server
 __pkg_config_arguments_PKG_epoxy:INTERNAL=QUIET;epoxy
+__pkg_config_arguments_X11:INTERNAL=REQUIRED;x11;xcomposite;xext;xtst;gl
 __pkg_config_checked_PKG_FONTCONFIG:INTERNAL=1
 __pkg_config_checked_PKG_Libdrm:INTERNAL=1
 __pkg_config_checked_PKG_Wayland_Server:INTERNAL=1
 __pkg_config_checked_PKG_epoxy:INTERNAL=1
+__pkg_config_checked_X11:INTERNAL=1
 __qt_qml_macros_module_base_dir:INTERNAL=/usr/lib64/cmake/Qt6Qml
 //ADVANCED property for variable: epoxy_HAS_GLX
 epoxy_HAS_GLX-ADVANCED:INTERNAL=1
@@ -2818,5 +2967,15 @@ pkgcfg_lib_PKG_Wayland_Server_m-ADVANCED:INTERNAL=1
 pkgcfg_lib_PKG_Wayland_Server_wayland-server-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: pkgcfg_lib_PKG_epoxy_epoxy
 pkgcfg_lib_PKG_epoxy_epoxy-ADVANCED:INTERNAL=1
-prefix_result:INTERNAL=//usr/share/wayland
+//ADVANCED property for variable: pkgcfg_lib_X11_GL
+pkgcfg_lib_X11_GL-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_X11_X11
+pkgcfg_lib_X11_X11-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_X11_Xcomposite
+pkgcfg_lib_X11_Xcomposite-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_X11_Xext
+pkgcfg_lib_X11_Xext-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: pkgcfg_lib_X11_Xtst
+pkgcfg_lib_X11_Xtst-ADVANCED:INTERNAL=1
+prefix_result:INTERNAL=/usr/lib64
 

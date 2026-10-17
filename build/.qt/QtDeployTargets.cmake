@@ -1,2 +1,2 @@
-set(__QT_DEPLOY_TARGET_kwin4_effect_magpie2_FILE /home/SZX10246/Projects/software/windowScaling/build/bin/kwin/effects/plugins/kwin4_effect_magpie2.so)
-set(__QT_DEPLOY_TARGET_kwin4_effect_magpie2_TYPE MODULE_LIBRARY)
+set(__QT_DEPLOY_TARGET_magpie-overlay_FILE /home/SZX10246/Projects/software/windowScaling/bin/magpie-overlay)
+set(__QT_DEPLOY_TARGET_magpie-overlay_TYPE EXECUTABLE)

@@ -1,9 +1,7 @@
 {
 	"InstallScripts" : 
 	[
-		"/home/SZX10246/Projects/software/windowScaling/build/cmake_install.cmake",
-		"/home/SZX10246/Projects/software/windowScaling/build/effect/cmake_install.cmake",
-		"/home/SZX10246/Projects/software/windowScaling/build/shaders/cmake_install.cmake"
+		"/home/SZX10246/Projects/software/windowScaling/build/cmake_install.cmake"
 	],
 	"Parallel" : false
 }

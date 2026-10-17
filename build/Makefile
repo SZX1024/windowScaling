@@ -65,16 +65,6 @@ CMAKE_BINARY_DIR = /home/SZX10246/Projects/software/windowScaling/build
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target test
-test:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running tests..."
-	/usr/bin/ctest $(ARGS)
-.PHONY : test
-
-# Special rule for the target test
-test/fast: test
-.PHONY : test/fast
-
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake cache editor..."
@@ -94,51 +84,6 @@ rebuild_cache:
 # Special rule for the target rebuild_cache
 rebuild_cache/fast: rebuild_cache
 .PHONY : rebuild_cache/fast
-
-# Special rule for the target list_install_components
-list_install_components:
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Available install components are: \"kwin-effect-magpie\""
-.PHONY : list_install_components
-
-# Special rule for the target list_install_components
-list_install_components/fast: list_install_components
-.PHONY : list_install_components/fast
-
-# Special rule for the target install
-install: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install
-
-# Special rule for the target install
-install/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
-.PHONY : install/fast
-
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
-
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
-
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -172,69 +117,163 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named uninstall
+# Target rules for targets named magpie-overlay
 
 # Build rule for target.
-uninstall: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 uninstall
-.PHONY : uninstall
+magpie-overlay: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 magpie-overlay
+.PHONY : magpie-overlay
 
 # fast build rule for target.
-uninstall/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/uninstall.dir/build.make CMakeFiles/uninstall.dir/build
-.PHONY : uninstall/fast
+magpie-overlay/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/build
+.PHONY : magpie-overlay/fast
 
 #=============================================================================
-# Target rules for targets named fetch-translations
+# Target rules for targets named magpie-overlay_autogen_timestamp_deps
 
 # Build rule for target.
-fetch-translations: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 fetch-translations
-.PHONY : fetch-translations
+magpie-overlay_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 magpie-overlay_autogen_timestamp_deps
+.PHONY : magpie-overlay_autogen_timestamp_deps
 
 # fast build rule for target.
-fetch-translations/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/fetch-translations.dir/build.make CMakeFiles/fetch-translations.dir/build
-.PHONY : fetch-translations/fast
+magpie-overlay_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay_autogen_timestamp_deps.dir/build.make CMakeFiles/magpie-overlay_autogen_timestamp_deps.dir/build
+.PHONY : magpie-overlay_autogen_timestamp_deps/fast
 
 #=============================================================================
-# Target rules for targets named kwin4_effect_magpie2
+# Target rules for targets named magpie-overlay_autogen
 
 # Build rule for target.
-kwin4_effect_magpie2: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie2
-.PHONY : kwin4_effect_magpie2
+magpie-overlay_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 magpie-overlay_autogen
+.PHONY : magpie-overlay_autogen
 
 # fast build rule for target.
-kwin4_effect_magpie2/fast:
-	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/build
-.PHONY : kwin4_effect_magpie2/fast
+magpie-overlay_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay_autogen.dir/build.make CMakeFiles/magpie-overlay_autogen.dir/build
+.PHONY : magpie-overlay_autogen/fast
 
-#=============================================================================
-# Target rules for targets named kwin4_effect_magpie2_autogen_timestamp_deps
+magpie-overlay_autogen/mocs_compilation.o: magpie-overlay_autogen/mocs_compilation.cpp.o
+.PHONY : magpie-overlay_autogen/mocs_compilation.o
 
-# Build rule for target.
-kwin4_effect_magpie2_autogen_timestamp_deps: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie2_autogen_timestamp_deps
-.PHONY : kwin4_effect_magpie2_autogen_timestamp_deps
+# target to build an object file
+magpie-overlay_autogen/mocs_compilation.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o
+.PHONY : magpie-overlay_autogen/mocs_compilation.cpp.o
 
-# fast build rule for target.
-kwin4_effect_magpie2_autogen_timestamp_deps/fast:
-	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/build
-.PHONY : kwin4_effect_magpie2_autogen_timestamp_deps/fast
+magpie-overlay_autogen/mocs_compilation.i: magpie-overlay_autogen/mocs_compilation.cpp.i
+.PHONY : magpie-overlay_autogen/mocs_compilation.i
 
-#=============================================================================
-# Target rules for targets named kwin4_effect_magpie2_autogen
+# target to preprocess a source file
+magpie-overlay_autogen/mocs_compilation.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.i
+.PHONY : magpie-overlay_autogen/mocs_compilation.cpp.i
 
-# Build rule for target.
-kwin4_effect_magpie2_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie2_autogen
-.PHONY : kwin4_effect_magpie2_autogen
+magpie-overlay_autogen/mocs_compilation.s: magpie-overlay_autogen/mocs_compilation.cpp.s
+.PHONY : magpie-overlay_autogen/mocs_compilation.s
 
-# fast build rule for target.
-kwin4_effect_magpie2_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/build
-.PHONY : kwin4_effect_magpie2_autogen/fast
+# target to generate assembly for a file
+magpie-overlay_autogen/mocs_compilation.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.s
+.PHONY : magpie-overlay_autogen/mocs_compilation.cpp.s
+
+src/capture.o: src/capture.cpp.o
+.PHONY : src/capture.o
+
+# target to build an object file
+src/capture.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/capture.cpp.o
+.PHONY : src/capture.cpp.o
+
+src/capture.i: src/capture.cpp.i
+.PHONY : src/capture.i
+
+# target to preprocess a source file
+src/capture.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/capture.cpp.i
+.PHONY : src/capture.cpp.i
+
+src/capture.s: src/capture.cpp.s
+.PHONY : src/capture.s
+
+# target to generate assembly for a file
+src/capture.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/capture.cpp.s
+.PHONY : src/capture.cpp.s
+
+src/input.o: src/input.cpp.o
+.PHONY : src/input.o
+
+# target to build an object file
+src/input.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/input.cpp.o
+.PHONY : src/input.cpp.o
+
+src/input.i: src/input.cpp.i
+.PHONY : src/input.i
+
+# target to preprocess a source file
+src/input.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/input.cpp.i
+.PHONY : src/input.cpp.i
+
+src/input.s: src/input.cpp.s
+.PHONY : src/input.s
+
+# target to generate assembly for a file
+src/input.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/input.cpp.s
+.PHONY : src/input.cpp.s
+
+src/main.o: src/main.cpp.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main.cpp.o
+.PHONY : src/main.cpp.o
+
+src/main.i: src/main.cpp.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main.cpp.i
+.PHONY : src/main.cpp.i
+
+src/main.s: src/main.cpp.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/main.cpp.s
+.PHONY : src/main.cpp.s
+
+src/overlay_window.o: src/overlay_window.cpp.o
+.PHONY : src/overlay_window.o
+
+# target to build an object file
+src/overlay_window.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o
+.PHONY : src/overlay_window.cpp.o
+
+src/overlay_window.i: src/overlay_window.cpp.i
+.PHONY : src/overlay_window.i
+
+# target to preprocess a source file
+src/overlay_window.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.i
+.PHONY : src/overlay_window.cpp.i
+
+src/overlay_window.s: src/overlay_window.cpp.s
+.PHONY : src/overlay_window.s
+
+# target to generate assembly for a file
+src/overlay_window.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s
+.PHONY : src/overlay_window.cpp.s
 
 # Help Target
 help:
@@ -243,17 +282,25 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
-	@echo "... install"
-	@echo "... install/local"
-	@echo "... install/strip"
-	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... test"
-	@echo "... fetch-translations"
-	@echo "... kwin4_effect_magpie2_autogen"
-	@echo "... kwin4_effect_magpie2_autogen_timestamp_deps"
-	@echo "... uninstall"
-	@echo "... kwin4_effect_magpie2"
+	@echo "... magpie-overlay_autogen"
+	@echo "... magpie-overlay_autogen_timestamp_deps"
+	@echo "... magpie-overlay"
+	@echo "... magpie-overlay_autogen/mocs_compilation.o"
+	@echo "... magpie-overlay_autogen/mocs_compilation.i"
+	@echo "... magpie-overlay_autogen/mocs_compilation.s"
+	@echo "... src/capture.o"
+	@echo "... src/capture.i"
+	@echo "... src/capture.s"
+	@echo "... src/input.o"
+	@echo "... src/input.i"
+	@echo "... src/input.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/overlay_window.o"
+	@echo "... src/overlay_window.i"
+	@echo "... src/overlay_window.s"
 .PHONY : help
 
 

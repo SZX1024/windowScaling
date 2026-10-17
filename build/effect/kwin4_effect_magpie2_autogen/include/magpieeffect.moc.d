@@ -34,10 +34,12 @@
   /usr/include/asm-generic/errno-base.h \
   /usr/include/asm-generic/errno.h \
   /usr/include/asm-generic/int-ll64.h \
+  /usr/include/asm-generic/ioctl.h \
   /usr/include/asm-generic/posix_types.h \
   /usr/include/asm-generic/types.h \
   /usr/include/asm/bitsperlong.h \
   /usr/include/asm/errno.h \
+  /usr/include/asm/ioctl.h \
   /usr/include/asm/posix_types.h \
   /usr/include/asm/posix_types_64.h \
   /usr/include/asm/types.h \
@@ -331,19 +333,37 @@
   /usr/include/inttypes.h \
   /usr/include/kwin/config-kwin.h \
   /usr/include/kwin/core/colorspace.h \
+  /usr/include/kwin/core/drm_formats.h \
+  /usr/include/kwin/core/inputdevice.h \
   /usr/include/kwin/core/output.h \
   /usr/include/kwin/core/rect.h \
   /usr/include/kwin/core/region.h \
+  /usr/include/kwin/core/renderbackend.h \
   /usr/include/kwin/core/renderloop.h \
+  /usr/include/kwin/core/rendertarget.h \
+  /usr/include/kwin/core/renderviewport.h \
   /usr/include/kwin/effect/effect.h \
   /usr/include/kwin/effect/effecthandler.h \
   /usr/include/kwin/effect/effectwindow.h \
   /usr/include/kwin/effect/globals.h \
   /usr/include/kwin/effect/offscreeneffect.h \
+  /usr/include/kwin/input.h \
+  /usr/include/kwin/input_event.h \
   /usr/include/kwin/kwin_export.h \
+  /usr/include/kwin/opengl/glshader.h \
+  /usr/include/kwin/opengl/glshadermanager.h \
+  /usr/include/kwin/opengl/gltexture.h \
   /usr/include/kwin/opengl/glvertexbuffer.h \
   /usr/include/kwin/scene/itemgeometry.h \
   /usr/include/kwin/utils/edid.h \
+  /usr/include/kwin/utils/filedescriptor.h \
+  /usr/include/kwin/utils/serial.h \
+  /usr/include/kwin/wayland/seat.h \
+  /usr/include/kwin/wayland/surface.h \
+  /usr/include/kwin/wayland_server.h \
+  /usr/include/libdrm/drm.h \
+  /usr/include/libdrm/drm_fourcc.h \
+  /usr/include/libdrm/drm_mode.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/limits.h \
@@ -362,6 +382,7 @@
   /usr/include/qt6/QtCore/QEasingCurve \
   /usr/include/qt6/QtCore/QEvent \
   /usr/include/qt6/QtCore/QExplicitlySharedDataPointer \
+  /usr/include/qt6/QtCore/QFlags \
   /usr/include/qt6/QtCore/QHash \
   /usr/include/qt6/QtCore/QIODevice \
   /usr/include/qt6/QtCore/QJsonObject \
@@ -374,6 +395,7 @@
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QPair \
   /usr/include/qt6/QtCore/QPoint \
+  /usr/include/qt6/QtCore/QPointer \
   /usr/include/qt6/QtCore/QRect \
   /usr/include/qt6/QtCore/QSet \
   /usr/include/qt6/QtCore/QSharedPointer \
@@ -481,6 +503,7 @@
   /usr/include/qt6/QtCore/qoverload.h \
   /usr/include/qt6/QtCore/qpair.h \
   /usr/include/qt6/QtCore/qpoint.h \
+  /usr/include/qt6/QtCore/qpointer.h \
   /usr/include/qt6/QtCore/qprocessordetection.h \
   /usr/include/qt6/QtCore/qrect.h \
   /usr/include/qt6/QtCore/qrefcount.h \
@@ -555,9 +578,11 @@
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QKeySequence \
+  /usr/include/qt6/QtGui/QMatrix3x3 \
   /usr/include/qt6/QtGui/QMatrix4x4 \
   /usr/include/qt6/QtGui/QRegion \
   /usr/include/qt6/QtGui/QVector2D \
+  /usr/include/qt6/QtGui/QVector3D \
   /usr/include/qt6/QtGui/QWindow \
   /usr/include/qt6/QtGui/qaction.h \
   /usr/include/qt6/QtGui/qbitmap.h \
@@ -599,6 +624,20 @@
   /usr/include/sys/types.h \
   /usr/include/sys/uio.h \
   /usr/include/time.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_decode.h \
+  /usr/include/vk_video/vulkan_video_codec_av1std_encode.h \
+  /usr/include/vk_video/vulkan_video_codec_h264std.h \
+  /usr/include/vk_video/vulkan_video_codec_h264std_decode.h \
+  /usr/include/vk_video/vulkan_video_codec_h264std_encode.h \
+  /usr/include/vk_video/vulkan_video_codec_h265std.h \
+  /usr/include/vk_video/vulkan_video_codec_h265std_decode.h \
+  /usr/include/vk_video/vulkan_video_codec_h265std_encode.h \
+  /usr/include/vk_video/vulkan_video_codec_vp9std.h \
+  /usr/include/vk_video/vulkan_video_codec_vp9std_decode.h \
+  /usr/include/vk_video/vulkan_video_codecs_common.h \
+  /usr/include/vulkan/vk_platform.h \
+  /usr/include/vulkan/vulkan_core.h \
   /usr/include/wchar.h \
   /usr/include/wctype.h \
   /usr/include/xcb/xcb.h \
