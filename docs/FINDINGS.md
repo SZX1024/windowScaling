@@ -242,3 +242,18 @@
    - 在 `X11CaptureEngine` 中实现 `isTargetAlive()`：通过 `XGetWindowAttributes` 实时检验目标窗口的物理存活状态及 `map_state == IsViewable`；
    - 在覆盖层主渲染循环 `updateFrame()` 中嵌入该探针：一旦感知到游戏窗口被销毁或隐藏，覆盖层将在 **8 毫秒内自动调用 `stopScaling()` 并关闭窗口**，瞬间平滑返回原生桌面；
    - 注入 X11 静默错误处理器（`silentX11ErrorHandler`），防止游戏突然退出时产生 `BadWindow` 崩溃，确保全流程无缝干净退出。
+---
+
+## Gate 4: 超分辨率着色器管线（CAS / Lanczos3 / Anime4K）实测集成
+
+- **完成时间**: 2026-10-17
+- **实现模块**: `ShaderPipeline` (`src/shader_pipeline.h`, `src/shader_pipeline.cpp`)
+
+### 着色器链特性与实测
+1. **多预设无缝动态切换**:
+   - **快捷键 1**: `Bilinear (Fast)` 标准快速双线性插值；
+   - **快捷键 2**: `Lanczos3 Sinc Resampler` 3阶6抽样 Sinc 重采样滤波（字体与锐利边缘无振铃）；
+   - **快捷键 3 (默认推荐)**: `AMD CAS (Contrast Adaptive Sharpening)` 移植自 AMD 官方 FidelityFX CAS，自适应对比度锐化，专治 Galgame 对话框文字与立绘轮廓发糊；
+   - **快捷键 4**: `Anime4K Line Reconstruction` 针对二次元线条的细线化与深色轮廓重建模型。
+2. **全屏状态热切换**:
+   - 在全屏游戏过程中按下数字键 `1` / `2` / `3` / `4` 即可瞬间实时切换超分着色器，右下角自动弹出 1.5 秒半透明通知提示当前启用的算法，直观对比画质变化。
