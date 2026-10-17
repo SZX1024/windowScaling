@@ -11,7 +11,6 @@
         "Description[zh_CN]": "使用超分辨率着色器放大窗口（类 Magpie 体验）",
         "EnabledByDefault": false,
         "Icon": "preferences-system-windows-effect-magpie",
-        "Id": "kwin4_effect_magpie",
         "License": "GPL-2.0-or-later",
         "Name": "Magpie Scaling",
         "Name[zh_CN]": "Magpie 窗口放大",
