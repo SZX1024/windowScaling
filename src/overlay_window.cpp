@@ -35,6 +35,7 @@ OverlayWindow::OverlayWindow(X11CaptureEngine &capture, X11InputForwarder &input
     : QOpenGLWindow(NoPartialUpdate, parent)
     , m_capture(capture)
     , m_input(input)
+    , m_shaders(std::make_unique<ShaderPipeline>())
 {
     setFlags(Qt::Window | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint | Qt::WindowDoesNotAcceptFocus | Qt::BypassWindowManagerHint);
     connect(&m_renderTimer, &QTimer::timeout, this, &OverlayWindow::updateFrame);
@@ -99,7 +100,7 @@ void OverlayWindow::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    m_shaders = std::make_unique<ShaderPipeline>();
+    if (!m_shaders) m_shaders = std::make_unique<ShaderPipeline>();
     m_shaders->init();
 
     calculateLayout();

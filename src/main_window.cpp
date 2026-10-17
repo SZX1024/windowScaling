@@ -22,8 +22,10 @@ MainWindow::MainWindow(X11CaptureEngine &capture, X11InputForwarder &input, QWid
     refreshWindowList();
 
     // Default to CAS and Fit
-    m_overlay->shaderPipeline()->setScaler(ScalerType::CAS);
-    m_overlay->shaderPipeline()->setScalingMode(ScalingMode::Fit);
+    if (m_overlay && m_overlay->shaderPipeline()) {
+        m_overlay->shaderPipeline()->setScaler(ScalerType::CAS);
+        m_overlay->shaderPipeline()->setScalingMode(ScalingMode::Fit);
+    }
 }
 
 MainWindow::~MainWindow()
