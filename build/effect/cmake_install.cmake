@@ -43,23 +43,23 @@ if(NOT DEFINED CMAKE_OBJDUMP)
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "kwin-effect-magpie" OR NOT CMAKE_INSTALL_COMPONENT)
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie.so")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie2.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie2.so")
     file(RPATH_CHECK
-         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie.so"
+         FILE "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie2.so"
          RPATH "")
   endif()
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins" TYPE MODULE FILES "/home/SZX10246/Projects/software/windowScaling/build/bin/kwin/effects/plugins/kwin4_effect_magpie.so")
-  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie.so" AND
-     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie.so")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins" TYPE MODULE FILES "/home/SZX10246/Projects/software/windowScaling/build/bin/kwin/effects/plugins/kwin4_effect_magpie2.so")
+  if(EXISTS "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie2.so" AND
+     NOT IS_SYMLINK "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie2.so")
     if(CMAKE_INSTALL_DO_STRIP)
-      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie.so")
+      execute_process(COMMAND "/usr/bin/strip" "$ENV{DESTDIR}${CMAKE_INSTALL_PREFIX}/lib64/qt6/plugins/kwin/effects/plugins/kwin4_effect_magpie2.so")
     endif()
   endif()
 endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "kwin-effect-magpie" OR NOT CMAKE_INSTALL_COMPONENT)
-  include("/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie.dir/install-cxx-module-bmi-Debug.cmake" OPTIONAL)
+  include("/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie2.dir/install-cxx-module-bmi-Debug.cmake" OPTIONAL)
 endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT

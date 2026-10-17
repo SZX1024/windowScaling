@@ -28,14 +28,12 @@ MagpieEffect::MagpieEffect()
     if (effects) {
         connect(effects, &EffectsHandler::windowDeleted, this, &MagpieEffect::handleWindowDeleted);
         connect(effects, &EffectsHandler::windowClosed, this, &MagpieEffect::slotWindowClosed);
+        // Dismiss any lingering OSD messages from earlier
+        effects->hideOnScreenMessage();
     }
 
     if (QDBusConnection::sessionBus().isConnected()) {
         QDBusConnection::sessionBus().registerObject(QStringLiteral("/Magpie"), QStringLiteral("org.kde.KWin.Magpie"), this, QDBusConnection::ExportScriptableSlots | QDBusConnection::ExportAllSlots);
-    }
-
-    if (effects) {
-        effects->hideOnScreenMessage();
     }
 }
 
@@ -101,7 +99,8 @@ void MagpieEffect::paintWindow(const RenderTarget &renderTarget, const RenderVie
 {
     if (m_active) {
         if (w != m_targetWindow) {
-            // Hide background and panel windows so the scaled target window is unobstructed on top
+            // Hide all non-target windows (panels, desktop background, other apps)
+            // to ensure exclusive fullscreen presentation of the scaled target window
             data.multiplyOpacity(0.0);
         } else {
             data.setOpacity(1.0);
@@ -129,11 +128,7 @@ void MagpieEffect::postPaintScreen()
 
 void MagpieEffect::activateOnWindow(EffectWindow *window)
 {
-    if (!window) {
-        return;
-    }
-
-    if (window->isSpecialWindow()) {
+    if (!window || window->isSpecialWindow()) {
         return;
     }
 
@@ -168,6 +163,7 @@ void MagpieEffect::toggle()
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
+            // Interactive window selection fallback without any OSD
             effects->startInteractiveWindowSelection([this](EffectWindow *w) {
                 if (w) {
                     activateOnWindow(w);
@@ -231,36 +227,29 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
 
     const qreal winW = winGeom.width();
     const qreal winH = winGeom.height();
-    const qreal winX = winGeom.x();
-    const qreal winY = winGeom.y();
 
-    const qreal outW = outputRect.width();
-    const qreal outH = outputRect.height();
-    const qreal outX = outputRect.x();
-    const qreal outY = outputRect.y();
-
-    if (winW <= 0.0 || winH <= 0.0 || outW <= 0.0 || outH <= 0.0) {
+    if (winW <= 0.0 || winH <= 0.0 || outputRect.width() <= 0.0 || outputRect.height() <= 0.0) {
         OffscreenEffect::apply(window, mask, data, quads);
         return;
     }
 
-    // Aspect-preserving scaling (Galgame pillarbox / letterbox)
-    const qreal scale = std::min(outW / winW, outH / winH);
-    const qreal scaledW = winW * scale;
-    const qreal scaledH = winH * scale;
+    // Aspect-preserving scale
+    const qreal scale = std::min(outputRect.width() / winW, outputRect.height() / winH);
 
-    const qreal targetX = outX + (outW - scaledW) / 2.0;
-    const qreal targetY = outY + (outH - scaledH) / 2.0;
+    // Exact Mathematical Center Alignment:
+    // ScreenCenter = outputRect.center()
+    // Translation = ScreenCenter - window->pos() - scale * (winSize / 2)
+    const QPointF screenCenter(outputRect.x() + outputRect.width() / 2.0,
+                               outputRect.y() + outputRect.height() / 2.0);
+    const QPointF windowPos = window->pos();
+    const QPointF scaledHalfSize(winW * scale / 2.0, winH * scale / 2.0);
 
-    // Because KWin projection matrix already translates by window->pos():
-    // The required data translation is targetPos - window->pos()
-    const qreal tx = targetX - winX;
-    const qreal ty = targetY - winY;
+    const QPointF translation = screenCenter - windowPos - scaledHalfSize;
 
     data.setXScale(scale);
     data.setYScale(scale);
-    data.setXTranslation(tx);
-    data.setYTranslation(ty);
+    data.setXTranslation(translation.x());
+    data.setYTranslation(translation.y());
 
     OffscreenEffect::apply(window, mask, data, quads);
 }

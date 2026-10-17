@@ -172,77 +172,77 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-effect/CMakeFiles/kwin4_effect_magpie.dir/rule:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 effect/CMakeFiles/kwin4_effect_magpie.dir/rule
-.PHONY : effect/CMakeFiles/kwin4_effect_magpie.dir/rule
+effect/CMakeFiles/kwin4_effect_magpie2.dir/rule:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 effect/CMakeFiles/kwin4_effect_magpie2.dir/rule
+.PHONY : effect/CMakeFiles/kwin4_effect_magpie2.dir/rule
 
 # Convenience name for target.
-kwin4_effect_magpie: effect/CMakeFiles/kwin4_effect_magpie.dir/rule
-.PHONY : kwin4_effect_magpie
+kwin4_effect_magpie2: effect/CMakeFiles/kwin4_effect_magpie2.dir/rule
+.PHONY : kwin4_effect_magpie2
 
 # fast build rule for target.
-kwin4_effect_magpie/fast:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/build
-.PHONY : kwin4_effect_magpie/fast
+kwin4_effect_magpie2/fast:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/build
+.PHONY : kwin4_effect_magpie2/fast
 
 # Convenience name for target.
-effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/rule:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/rule
-.PHONY : effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/rule
+effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/rule:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/rule
+.PHONY : effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/rule
 
 # Convenience name for target.
-kwin4_effect_magpie_autogen_timestamp_deps: effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/rule
-.PHONY : kwin4_effect_magpie_autogen_timestamp_deps
+kwin4_effect_magpie2_autogen_timestamp_deps: effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/rule
+.PHONY : kwin4_effect_magpie2_autogen_timestamp_deps
 
 # fast build rule for target.
-kwin4_effect_magpie_autogen_timestamp_deps/fast:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/build.make effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/build
-.PHONY : kwin4_effect_magpie_autogen_timestamp_deps/fast
+kwin4_effect_magpie2_autogen_timestamp_deps/fast:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/build
+.PHONY : kwin4_effect_magpie2_autogen_timestamp_deps/fast
 
 # Convenience name for target.
-effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/rule:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/rule
-.PHONY : effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/rule
+effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/rule:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/rule
+.PHONY : effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/rule
 
 # Convenience name for target.
-kwin4_effect_magpie_autogen: effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/rule
-.PHONY : kwin4_effect_magpie_autogen
+kwin4_effect_magpie2_autogen: effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/rule
+.PHONY : kwin4_effect_magpie2_autogen
 
 # fast build rule for target.
-kwin4_effect_magpie_autogen/fast:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/build.make effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/build
-.PHONY : kwin4_effect_magpie_autogen/fast
+kwin4_effect_magpie2_autogen/fast:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/build
+.PHONY : kwin4_effect_magpie2_autogen/fast
 
-kwin4_effect_magpie_autogen/mocs_compilation.o: kwin4_effect_magpie_autogen/mocs_compilation.cpp.o
-.PHONY : kwin4_effect_magpie_autogen/mocs_compilation.o
+kwin4_effect_magpie2_autogen/mocs_compilation.o: kwin4_effect_magpie2_autogen/mocs_compilation.cpp.o
+.PHONY : kwin4_effect_magpie2_autogen/mocs_compilation.o
 
 # target to build an object file
-kwin4_effect_magpie_autogen/mocs_compilation.cpp.o:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compilation.cpp.o
-.PHONY : kwin4_effect_magpie_autogen/mocs_compilation.cpp.o
+kwin4_effect_magpie2_autogen/mocs_compilation.cpp.o:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/kwin4_effect_magpie2_autogen/mocs_compilation.cpp.o
+.PHONY : kwin4_effect_magpie2_autogen/mocs_compilation.cpp.o
 
-kwin4_effect_magpie_autogen/mocs_compilation.i: kwin4_effect_magpie_autogen/mocs_compilation.cpp.i
-.PHONY : kwin4_effect_magpie_autogen/mocs_compilation.i
+kwin4_effect_magpie2_autogen/mocs_compilation.i: kwin4_effect_magpie2_autogen/mocs_compilation.cpp.i
+.PHONY : kwin4_effect_magpie2_autogen/mocs_compilation.i
 
 # target to preprocess a source file
-kwin4_effect_magpie_autogen/mocs_compilation.cpp.i:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compilation.cpp.i
-.PHONY : kwin4_effect_magpie_autogen/mocs_compilation.cpp.i
+kwin4_effect_magpie2_autogen/mocs_compilation.cpp.i:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/kwin4_effect_magpie2_autogen/mocs_compilation.cpp.i
+.PHONY : kwin4_effect_magpie2_autogen/mocs_compilation.cpp.i
 
-kwin4_effect_magpie_autogen/mocs_compilation.s: kwin4_effect_magpie_autogen/mocs_compilation.cpp.s
-.PHONY : kwin4_effect_magpie_autogen/mocs_compilation.s
+kwin4_effect_magpie2_autogen/mocs_compilation.s: kwin4_effect_magpie2_autogen/mocs_compilation.cpp.s
+.PHONY : kwin4_effect_magpie2_autogen/mocs_compilation.s
 
 # target to generate assembly for a file
-kwin4_effect_magpie_autogen/mocs_compilation.cpp.s:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/kwin4_effect_magpie_autogen/mocs_compilation.cpp.s
-.PHONY : kwin4_effect_magpie_autogen/mocs_compilation.cpp.s
+kwin4_effect_magpie2_autogen/mocs_compilation.cpp.s:
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/kwin4_effect_magpie2_autogen/mocs_compilation.cpp.s
+.PHONY : kwin4_effect_magpie2_autogen/mocs_compilation.cpp.s
 
 magpieeffect.o: magpieeffect.cpp.o
 .PHONY : magpieeffect.o
 
 # target to build an object file
 magpieeffect.cpp.o:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.o
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/magpieeffect.cpp.o
 .PHONY : magpieeffect.cpp.o
 
 magpieeffect.i: magpieeffect.cpp.i
@@ -250,7 +250,7 @@ magpieeffect.i: magpieeffect.cpp.i
 
 # target to preprocess a source file
 magpieeffect.cpp.i:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.i
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/magpieeffect.cpp.i
 .PHONY : magpieeffect.cpp.i
 
 magpieeffect.s: magpieeffect.cpp.s
@@ -258,7 +258,7 @@ magpieeffect.s: magpieeffect.cpp.s
 
 # target to generate assembly for a file
 magpieeffect.cpp.s:
-	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/magpieeffect.cpp.s
+	cd /home/SZX10246/Projects/software/windowScaling/build && $(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/magpieeffect.cpp.s
 .PHONY : magpieeffect.cpp.s
 
 # Help Target
@@ -274,12 +274,12 @@ help:
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... kwin4_effect_magpie_autogen"
-	@echo "... kwin4_effect_magpie_autogen_timestamp_deps"
-	@echo "... kwin4_effect_magpie"
-	@echo "... kwin4_effect_magpie_autogen/mocs_compilation.o"
-	@echo "... kwin4_effect_magpie_autogen/mocs_compilation.i"
-	@echo "... kwin4_effect_magpie_autogen/mocs_compilation.s"
+	@echo "... kwin4_effect_magpie2_autogen"
+	@echo "... kwin4_effect_magpie2_autogen_timestamp_deps"
+	@echo "... kwin4_effect_magpie2"
+	@echo "... kwin4_effect_magpie2_autogen/mocs_compilation.o"
+	@echo "... kwin4_effect_magpie2_autogen/mocs_compilation.i"
+	@echo "... kwin4_effect_magpie2_autogen/mocs_compilation.s"
 	@echo "... magpieeffect.o"
 	@echo "... magpieeffect.i"
 	@echo "... magpieeffect.s"

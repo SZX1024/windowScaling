@@ -7,7 +7,7 @@
 /home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/install.dir
 /home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/install/local.dir
 /home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/install/strip.dir
-/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie.dir
+/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie2.dir
 /home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/test.dir
 /home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/edit_cache.dir
 /home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/rebuild_cache.dir
@@ -15,8 +15,8 @@
 /home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/install.dir
 /home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/install/local.dir
 /home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/install/strip.dir
-/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir
-/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie_autogen.dir
+/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir
+/home/SZX10246/Projects/software/windowScaling/build/effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir
 /home/SZX10246/Projects/software/windowScaling/build/shaders/CMakeFiles/test.dir
 /home/SZX10246/Projects/software/windowScaling/build/shaders/CMakeFiles/edit_cache.dir
 /home/SZX10246/Projects/software/windowScaling/build/shaders/CMakeFiles/rebuild_cache.dir

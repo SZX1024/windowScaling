@@ -894,7 +894,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   ".qt/QtDeploySupport.cmake"
   ".qt/QtDeployTargets.cmake"
   "CMakeFiles/CMakeDirectoryInformation.cmake"
-  "effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/AutogenInfo.json"
+  "effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/AutogenInfo.json"
   "effect/CMakeFiles/CMakeDirectoryInformation.cmake"
   "shaders/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
@@ -903,7 +903,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/uninstall.dir/DependInfo.cmake"
   "CMakeFiles/fetch-translations.dir/DependInfo.cmake"
-  "effect/CMakeFiles/kwin4_effect_magpie.dir/DependInfo.cmake"
-  "effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/DependInfo.cmake"
-  "effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/DependInfo.cmake"
+  "effect/CMakeFiles/kwin4_effect_magpie2.dir/DependInfo.cmake"
+  "effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/DependInfo.cmake"
+  "effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/DependInfo.cmake"
   )

@@ -1,0 +1,242 @@
+/****************************************************************************
+** Meta object code from reading C++ file 'magpieeffect.cpp'
+**
+** Created by: The Qt Meta Object Compiler version 69 (Qt 6.11.2)
+**
+** WARNING! All changes made in this file will be lost!
+*****************************************************************************/
+
+#include <QtCore/qmetatype.h>
+#include <QtCore/qplugin.h>
+
+#include <QtCore/qtmochelpers.h>
+
+#include <memory>
+
+
+#include <QtCore/qxptype_traits.h>
+#if !defined(Q_MOC_OUTPUT_REVISION)
+#error "The header file 'magpieeffect.cpp' doesn't include <QObject>."
+#elif Q_MOC_OUTPUT_REVISION != 69
+#error "This file was generated using the moc from 6.11.2. It"
+#error "cannot be used with the include files from this version of Qt."
+#error "(The moc has changed too much.)"
+#endif
+
+#ifndef Q_CONSTINIT
+#define Q_CONSTINIT
+#endif
+
+QT_WARNING_PUSH
+QT_WARNING_DISABLE_DEPRECATED
+QT_WARNING_DISABLE_GCC("-Wuseless-cast")
+namespace {
+struct qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t {};
+} // unnamed namespace
+
+template <> constexpr inline auto KWin::MagpieEffectFactory::qt_create_metaobjectdata<qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t>()
+{
+    namespace QMC = QtMocConstants;
+    QtMocHelpers::StringRefStorage qt_stringData {
+        "KWin::MagpieEffectFactory"
+    };
+
+    QtMocHelpers::UintData qt_methods {
+    };
+    QtMocHelpers::UintData qt_properties {
+    };
+    QtMocHelpers::UintData qt_enums {
+    };
+    return QtMocHelpers::metaObjectData<MagpieEffectFactory, qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t>(QMC::MetaObjectFlag{}, qt_stringData,
+            qt_methods, qt_properties, qt_enums);
+}
+Q_CONSTINIT const QMetaObject KWin::MagpieEffectFactory::staticMetaObject = { {
+    QMetaObject::SuperData::link<EffectPluginFactory::staticMetaObject>(),
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t>.stringdata,
+    qt_staticMetaObjectStaticContent<qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t>.data,
+    qt_static_metacall,
+    nullptr,
+    qt_staticMetaObjectRelocatingContent<qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t>.metaTypes,
+    nullptr
+} };
+
+void KWin::MagpieEffectFactory::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
+{
+    auto *_t = static_cast<MagpieEffectFactory *>(_o);
+    (void)_t;
+    (void)_c;
+    (void)_id;
+    (void)_a;
+}
+
+const QMetaObject *KWin::MagpieEffectFactory::metaObject() const
+{
+    return QObject::d_ptr->metaObject ? QObject::d_ptr->dynamicMetaObject() : &staticMetaObject;
+}
+
+void *KWin::MagpieEffectFactory::qt_metacast(const char *_clname)
+{
+    if (!_clname) return nullptr;
+    if (!strcmp(_clname, qt_staticMetaObjectStaticContent<qt_meta_tag_ZN4KWin19MagpieEffectFactoryE_t>.strings))
+        return static_cast<void*>(this);
+    if (!strcmp(_clname, "org.kde.KPluginFactory"))
+        return static_cast< KPluginFactory*>(this);
+    return EffectPluginFactory::qt_metacast(_clname);
+}
+
+int KWin::MagpieEffectFactory::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
+{
+    _id = EffectPluginFactory::qt_metacall(_c, _id, _a);
+    return _id;
+}
+using namespace KWin;
+
+#ifdef QT_MOC_EXPORT_PLUGIN_V2
+static constexpr unsigned char qt_pluginMetaDataV2_MagpieEffectFactory[] = {
+    0xbf, 
+    // "IID"
+    0x02,  0x78,  0x25,  'o',  'r',  'g',  '.',  'k', 
+    'd',  'e',  '.',  'k',  'w',  'i',  'n',  '.', 
+    'E',  'f',  'f',  'e',  'c',  't',  'P',  'l', 
+    'u',  'g',  'i',  'n',  'F',  'a',  'c',  't', 
+    'o',  'r',  'y',  '6',  '.',  '7',  '.',  '5', 
+    // "className"
+    0x03,  0x73,  'M',  'a',  'g',  'p',  'i',  'e', 
+    'E',  'f',  'f',  'e',  'c',  't',  'F',  'a', 
+    'c',  't',  'o',  'r',  'y', 
+    // "MetaData"
+    0x04,  0xa2,  0x67,  'K',  'P',  'l',  'u',  'g', 
+    'i',  'n',  0xaa,  0x67,  'A',  'u',  't',  'h', 
+    'o',  'r',  's',  0x81,  0xa2,  0x65,  'E',  'm', 
+    'a',  'i',  'l',  0x6f,  's',  'z',  'x',  '@', 
+    'e',  'x',  'a',  'm',  'p',  'l',  'e',  '.', 
+    'c',  'o',  'm',  0x64,  'N',  'a',  'm',  'e', 
+    0x68,  'S',  'Z',  'X',  '1',  '0',  '2',  '4', 
+    '6',  0x68,  'C',  'a',  't',  'e',  'g',  'o', 
+    'r',  'y',  0x6d,  'A',  'c',  'c',  'e',  's', 
+    's',  'i',  'b',  'i',  'l',  'i',  't',  'y', 
+    0x6b,  'D',  'e',  's',  'c',  'r',  'i',  'p', 
+    't',  'i',  'o',  'n',  0x78,  0x3a,  'W',  'i', 
+    'n',  'd',  'o',  'w',  ' ',  's',  'c',  'a', 
+    'l',  'i',  'n',  'g',  ' ',  'w',  'i',  't', 
+    'h',  ' ',  's',  'u',  'p',  'e',  'r',  '-', 
+    'r',  'e',  's',  'o',  'l',  'u',  't',  'i', 
+    'o',  'n',  ' ',  's',  'h',  'a',  'd',  'e', 
+    'r',  's',  ' ',  '(',  'M',  'a',  'g',  'p', 
+    'i',  'e',  '-',  'l',  'i',  'k',  'e',  ')', 
+    0x72,  'D',  'e',  's',  'c',  'r',  'i',  'p', 
+    't',  'i',  'o',  'n',  '[',  'z',  'h',  '_', 
+    'C',  'N',  ']',  0x78,  0x3e,  uchar('\xe4'), uchar('\xbd'), uchar('\xbf'),
+    uchar('\xe7'), uchar('\x94'), uchar('\xa8'), uchar('\xe8'), uchar('\xb6'), uchar('\x85'), uchar('\xe5'), uchar('\x88'),
+    uchar('\x86'), uchar('\xe8'), uchar('\xbe'), uchar('\xa8'), uchar('\xe7'), uchar('\x8e'), uchar('\x87'), uchar('\xe7'),
+    uchar('\x9d'), uchar('\x80'), uchar('\xe8'), uchar('\x89'), uchar('\xb2'), uchar('\xe5'), uchar('\x99'), uchar('\xa8'),
+    uchar('\xe6'), uchar('\x94'), uchar('\xbe'), uchar('\xe5'), uchar('\xa4'), uchar('\xa7'), uchar('\xe7'), uchar('\xaa'),
+    uchar('\x97'), uchar('\xe5'), uchar('\x8f'), uchar('\xa3'), uchar('\xef'), uchar('\xbc'), uchar('\x88'), uchar('\xe7'),
+    uchar('\xb1'), uchar('\xbb'), ' ',  'M',  'a',  'g',  'p',  'i', 
+    'e',  ' ',  uchar('\xe4'), uchar('\xbd'), uchar('\x93'), uchar('\xe9'), uchar('\xaa'), uchar('\x8c'),
+    uchar('\xef'), uchar('\xbc'), uchar('\x89'), 0x70,  'E',  'n',  'a',  'b', 
+    'l',  'e',  'd',  'B',  'y',  'D',  'e',  'f', 
+    'a',  'u',  'l',  't',  0xf5,  0x64,  'I',  'c', 
+    'o',  'n',  0x78,  0x28,  'p',  'r',  'e',  'f', 
+    'e',  'r',  'e',  'n',  'c',  'e',  's',  '-', 
+    's',  'y',  's',  't',  'e',  'm',  '-',  'w', 
+    'i',  'n',  'd',  'o',  'w',  's',  '-',  'e', 
+    'f',  'f',  'e',  'c',  't',  '-',  'm',  'a', 
+    'g',  'p',  'i',  'e',  0x67,  'L',  'i',  'c', 
+    'e',  'n',  's',  'e',  0x70,  'G',  'P',  'L', 
+    '-',  '2',  '.',  '0',  '-',  'o',  'r',  '-', 
+    'l',  'a',  't',  'e',  'r',  0x64,  'N',  'a', 
+    'm',  'e',  0x6e,  'M',  'a',  'g',  'p',  'i', 
+    'e',  ' ',  'S',  'c',  'a',  'l',  'i',  'n', 
+    'g',  0x6b,  'N',  'a',  'm',  'e',  '[',  'z', 
+    'h',  '_',  'C',  'N',  ']',  0x73,  'M',  'a', 
+    'g',  'p',  'i',  'e',  ' ',  uchar('\xe7'), uchar('\xaa'), uchar('\x97'),
+    uchar('\xe5'), uchar('\x8f'), uchar('\xa3'), uchar('\xe6'), uchar('\x94'), uchar('\xbe'), uchar('\xe5'), uchar('\xa4'),
+    uchar('\xa7'), 0x67,  'V',  'e',  'r',  's',  'i',  'o', 
+    'n',  0x65,  '0',  '.',  '1',  '.',  '0',  0x73, 
+    'o',  'r',  'g',  '.',  'k',  'd',  'e',  '.', 
+    'k',  'w',  'i',  'n',  '.',  'e',  'f',  'f', 
+    'e',  'c',  't',  0xa1,  0x6e,  'e',  'x',  'c', 
+    'l',  'u',  's',  'i',  'v',  'e',  'G',  'r', 
+    'o',  'u',  'p',  0x60, 
+    0xff, 
+};
+QT_MOC_EXPORT_PLUGIN_V2(KWin::MagpieEffectFactory, MagpieEffectFactory, qt_pluginMetaDataV2_MagpieEffectFactory)
+#else
+QT_PLUGIN_METADATA_SECTION
+Q_CONSTINIT static constexpr unsigned char qt_pluginMetaData_MagpieEffectFactory[] = {
+    'Q', 'T', 'M', 'E', 'T', 'A', 'D', 'A', 'T', 'A', ' ', '!',
+    // metadata version, Qt version, architectural requirements
+    0, QT_VERSION_MAJOR, QT_VERSION_MINOR, qPluginArchRequirements(),
+    0xbf, 
+    // "IID"
+    0x02,  0x78,  0x25,  'o',  'r',  'g',  '.',  'k', 
+    'd',  'e',  '.',  'k',  'w',  'i',  'n',  '.', 
+    'E',  'f',  'f',  'e',  'c',  't',  'P',  'l', 
+    'u',  'g',  'i',  'n',  'F',  'a',  'c',  't', 
+    'o',  'r',  'y',  '6',  '.',  '7',  '.',  '5', 
+    // "className"
+    0x03,  0x73,  'M',  'a',  'g',  'p',  'i',  'e', 
+    'E',  'f',  'f',  'e',  'c',  't',  'F',  'a', 
+    'c',  't',  'o',  'r',  'y', 
+    // "MetaData"
+    0x04,  0xa2,  0x67,  'K',  'P',  'l',  'u',  'g', 
+    'i',  'n',  0xaa,  0x67,  'A',  'u',  't',  'h', 
+    'o',  'r',  's',  0x81,  0xa2,  0x65,  'E',  'm', 
+    'a',  'i',  'l',  0x6f,  's',  'z',  'x',  '@', 
+    'e',  'x',  'a',  'm',  'p',  'l',  'e',  '.', 
+    'c',  'o',  'm',  0x64,  'N',  'a',  'm',  'e', 
+    0x68,  'S',  'Z',  'X',  '1',  '0',  '2',  '4', 
+    '6',  0x68,  'C',  'a',  't',  'e',  'g',  'o', 
+    'r',  'y',  0x6d,  'A',  'c',  'c',  'e',  's', 
+    's',  'i',  'b',  'i',  'l',  'i',  't',  'y', 
+    0x6b,  'D',  'e',  's',  'c',  'r',  'i',  'p', 
+    't',  'i',  'o',  'n',  0x78,  0x3a,  'W',  'i', 
+    'n',  'd',  'o',  'w',  ' ',  's',  'c',  'a', 
+    'l',  'i',  'n',  'g',  ' ',  'w',  'i',  't', 
+    'h',  ' ',  's',  'u',  'p',  'e',  'r',  '-', 
+    'r',  'e',  's',  'o',  'l',  'u',  't',  'i', 
+    'o',  'n',  ' ',  's',  'h',  'a',  'd',  'e', 
+    'r',  's',  ' ',  '(',  'M',  'a',  'g',  'p', 
+    'i',  'e',  '-',  'l',  'i',  'k',  'e',  ')', 
+    0x72,  'D',  'e',  's',  'c',  'r',  'i',  'p', 
+    't',  'i',  'o',  'n',  '[',  'z',  'h',  '_', 
+    'C',  'N',  ']',  0x78,  0x3e,  uchar('\xe4'), uchar('\xbd'), uchar('\xbf'),
+    uchar('\xe7'), uchar('\x94'), uchar('\xa8'), uchar('\xe8'), uchar('\xb6'), uchar('\x85'), uchar('\xe5'), uchar('\x88'),
+    uchar('\x86'), uchar('\xe8'), uchar('\xbe'), uchar('\xa8'), uchar('\xe7'), uchar('\x8e'), uchar('\x87'), uchar('\xe7'),
+    uchar('\x9d'), uchar('\x80'), uchar('\xe8'), uchar('\x89'), uchar('\xb2'), uchar('\xe5'), uchar('\x99'), uchar('\xa8'),
+    uchar('\xe6'), uchar('\x94'), uchar('\xbe'), uchar('\xe5'), uchar('\xa4'), uchar('\xa7'), uchar('\xe7'), uchar('\xaa'),
+    uchar('\x97'), uchar('\xe5'), uchar('\x8f'), uchar('\xa3'), uchar('\xef'), uchar('\xbc'), uchar('\x88'), uchar('\xe7'),
+    uchar('\xb1'), uchar('\xbb'), ' ',  'M',  'a',  'g',  'p',  'i', 
+    'e',  ' ',  uchar('\xe4'), uchar('\xbd'), uchar('\x93'), uchar('\xe9'), uchar('\xaa'), uchar('\x8c'),
+    uchar('\xef'), uchar('\xbc'), uchar('\x89'), 0x70,  'E',  'n',  'a',  'b', 
+    'l',  'e',  'd',  'B',  'y',  'D',  'e',  'f', 
+    'a',  'u',  'l',  't',  0xf5,  0x64,  'I',  'c', 
+    'o',  'n',  0x78,  0x28,  'p',  'r',  'e',  'f', 
+    'e',  'r',  'e',  'n',  'c',  'e',  's',  '-', 
+    's',  'y',  's',  't',  'e',  'm',  '-',  'w', 
+    'i',  'n',  'd',  'o',  'w',  's',  '-',  'e', 
+    'f',  'f',  'e',  'c',  't',  '-',  'm',  'a', 
+    'g',  'p',  'i',  'e',  0x67,  'L',  'i',  'c', 
+    'e',  'n',  's',  'e',  0x70,  'G',  'P',  'L', 
+    '-',  '2',  '.',  '0',  '-',  'o',  'r',  '-', 
+    'l',  'a',  't',  'e',  'r',  0x64,  'N',  'a', 
+    'm',  'e',  0x6e,  'M',  'a',  'g',  'p',  'i', 
+    'e',  ' ',  'S',  'c',  'a',  'l',  'i',  'n', 
+    'g',  0x6b,  'N',  'a',  'm',  'e',  '[',  'z', 
+    'h',  '_',  'C',  'N',  ']',  0x73,  'M',  'a', 
+    'g',  'p',  'i',  'e',  ' ',  uchar('\xe7'), uchar('\xaa'), uchar('\x97'),
+    uchar('\xe5'), uchar('\x8f'), uchar('\xa3'), uchar('\xe6'), uchar('\x94'), uchar('\xbe'), uchar('\xe5'), uchar('\xa4'),
+    uchar('\xa7'), 0x67,  'V',  'e',  'r',  's',  'i',  'o', 
+    'n',  0x65,  '0',  '.',  '1',  '.',  '0',  0x73, 
+    'o',  'r',  'g',  '.',  'k',  'd',  'e',  '.', 
+    'k',  'w',  'i',  'n',  '.',  'e',  'f',  'f', 
+    'e',  'c',  't',  0xa1,  0x6e,  'e',  'x',  'c', 
+    'l',  'u',  's',  'i',  'v',  'e',  'G',  'r', 
+    'o',  'u',  'p',  0x60, 
+    0xff, 
+};
+QT_MOC_EXPORT_PLUGIN(KWin::MagpieEffectFactory, MagpieEffectFactory)
+#endif  // QT_MOC_EXPORT_PLUGIN_V2
+
+QT_WARNING_POP

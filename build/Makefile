@@ -198,43 +198,43 @@ fetch-translations/fast:
 .PHONY : fetch-translations/fast
 
 #=============================================================================
-# Target rules for targets named kwin4_effect_magpie
+# Target rules for targets named kwin4_effect_magpie2
 
 # Build rule for target.
-kwin4_effect_magpie: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie
-.PHONY : kwin4_effect_magpie
+kwin4_effect_magpie2: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie2
+.PHONY : kwin4_effect_magpie2
 
 # fast build rule for target.
-kwin4_effect_magpie/fast:
-	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie.dir/build.make effect/CMakeFiles/kwin4_effect_magpie.dir/build
-.PHONY : kwin4_effect_magpie/fast
+kwin4_effect_magpie2/fast:
+	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2.dir/build
+.PHONY : kwin4_effect_magpie2/fast
 
 #=============================================================================
-# Target rules for targets named kwin4_effect_magpie_autogen_timestamp_deps
+# Target rules for targets named kwin4_effect_magpie2_autogen_timestamp_deps
 
 # Build rule for target.
-kwin4_effect_magpie_autogen_timestamp_deps: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie_autogen_timestamp_deps
-.PHONY : kwin4_effect_magpie_autogen_timestamp_deps
+kwin4_effect_magpie2_autogen_timestamp_deps: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie2_autogen_timestamp_deps
+.PHONY : kwin4_effect_magpie2_autogen_timestamp_deps
 
 # fast build rule for target.
-kwin4_effect_magpie_autogen_timestamp_deps/fast:
-	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/build.make effect/CMakeFiles/kwin4_effect_magpie_autogen_timestamp_deps.dir/build
-.PHONY : kwin4_effect_magpie_autogen_timestamp_deps/fast
+kwin4_effect_magpie2_autogen_timestamp_deps/fast:
+	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2_autogen_timestamp_deps.dir/build
+.PHONY : kwin4_effect_magpie2_autogen_timestamp_deps/fast
 
 #=============================================================================
-# Target rules for targets named kwin4_effect_magpie_autogen
+# Target rules for targets named kwin4_effect_magpie2_autogen
 
 # Build rule for target.
-kwin4_effect_magpie_autogen: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie_autogen
-.PHONY : kwin4_effect_magpie_autogen
+kwin4_effect_magpie2_autogen: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 kwin4_effect_magpie2_autogen
+.PHONY : kwin4_effect_magpie2_autogen
 
 # fast build rule for target.
-kwin4_effect_magpie_autogen/fast:
-	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/build.make effect/CMakeFiles/kwin4_effect_magpie_autogen.dir/build
-.PHONY : kwin4_effect_magpie_autogen/fast
+kwin4_effect_magpie2_autogen/fast:
+	$(MAKE) $(MAKESILENT) -f effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/build.make effect/CMakeFiles/kwin4_effect_magpie2_autogen.dir/build
+.PHONY : kwin4_effect_magpie2_autogen/fast
 
 # Help Target
 help:
@@ -250,10 +250,10 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... test"
 	@echo "... fetch-translations"
-	@echo "... kwin4_effect_magpie_autogen"
-	@echo "... kwin4_effect_magpie_autogen_timestamp_deps"
+	@echo "... kwin4_effect_magpie2_autogen"
+	@echo "... kwin4_effect_magpie2_autogen_timestamp_deps"
 	@echo "... uninstall"
-	@echo "... kwin4_effect_magpie"
+	@echo "... kwin4_effect_magpie2"
 .PHONY : help
 
 
