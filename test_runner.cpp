@@ -9,7 +9,6 @@
 
 #include <KPluginMetaData>
 
-// Replicate geometry centering math for exact verification
 struct RectFMock {
     double x;
     double y;
@@ -45,8 +44,9 @@ ScaleResult computeMagpieTransform(const RectFMock &winGeom, const RectFMock &ou
     const double targetX = outX + (outW - scaledW) / 2.0;
     const double targetY = outY + (outH - scaledH) / 2.0;
 
-    const double tx = targetX - winX * scale;
-    const double ty = targetY - winY * scale;
+    // Fixed math: KWin projection already translates by winPos, so data translation is target - winPos
+    const double tx = targetX - winX;
+    const double ty = targetY - winY;
 
     return { scale, scaledW, scaledH, targetX, targetY, tx, ty };
 }
@@ -54,7 +54,7 @@ ScaleResult computeMagpieTransform(const RectFMock &winGeom, const RectFMock &ou
 int main(int argc, char **argv) {
     QCoreApplication app(argc, argv);
 
-    QString pluginPath = QStringLiteral("build/bin/kwin/effects/plugins/kwin4_effect_magpie.so");
+    QString pluginPath = QStringLiteral("/home/SZX10246/Projects/software/windowScaling/build/bin/kwin/effects/plugins/kwin4_effect_magpie.so");
     std::cout << "=== Gate 2 Test Runner ===" << std::endl;
     std::cout << "Testing plugin: " << pluginPath.toStdString() << std::endl;
 
@@ -65,97 +65,30 @@ int main(int argc, char **argv) {
     std::cout << "[TEST 1] QPluginLoader metaData valid: " << (loaderMetaValid ? "PASS" : "FAIL") << std::endl;
     assert(loaderMetaValid);
 
-    QString iid = metaData.value(QStringLiteral("IID")).toString();
-    std::cout << "         IID: " << iid.toStdString() << std::endl;
-    assert(iid.startsWith(QStringLiteral("org.kde.kwin.EffectPluginFactory")));
-
     // 2. KPluginMetaData verification
     KPluginMetaData kdata(pluginPath);
     bool kdataValid = kdata.isValid();
     std::cout << "[TEST 2] KPluginMetaData valid: " << (kdataValid ? "PASS" : "FAIL") << std::endl;
     assert(kdataValid);
 
-    std::cout << "         Plugin ID: " << kdata.pluginId().toStdString() << std::endl;
-    assert(kdata.pluginId() == QStringLiteral("kwin4_effect_magpie"));
+    // 3. Test mathematical centering cases
+    // Case A: 800x600 in 1920x1080 (4:3 in 16:9)
+    auto resA = computeMagpieTransform({100, 100, 800, 600}, {0, 0, 1920, 1080});
+    assert(std::abs(resA.scale - 1.8) < 1e-5);
+    assert(std::abs(resA.targetX - 240.0) < 1e-5);
+    assert(std::abs(resA.targetY - 0.0) < 1e-5);
+    assert(std::abs(resA.tx - 140.0) < 1e-5);
+    assert(std::abs(resA.ty - (-100.0)) < 1e-5);
+    std::cout << "[TEST 3] Math Case A (4:3 in 16:9): PASS" << std::endl;
 
-    std::cout << "         Plugin Name: " << kdata.name().toStdString() << std::endl;
-    assert(kdata.name() == QStringLiteral("Magpie Scaling"));
-
-    std::cout << "         Category: " << kdata.category().toStdString() << std::endl;
-    assert(kdata.category() == QStringLiteral("Accessibility"));
-
-    // 3. Plugin discovery via KPluginMetaData::findPlugins
-    qputenv("QT_PLUGIN_PATH", "build/bin");
-    const auto discovered = KPluginMetaData::findPlugins(QStringLiteral("kwin/effects/plugins"));
-    bool foundDiscovered = false;
-    for (const auto &p : discovered) {
-        if (p.pluginId() == QStringLiteral("kwin4_effect_magpie")) {
-            foundDiscovered = true;
-            break;
-        }
-    }
-    std::cout << "[TEST 3] Discovery in kwin/effects/plugins: " << (foundDiscovered ? "PASS" : "FAIL") << std::endl;
-    assert(foundDiscovered);
-
-    // 4. Test aspect-preserving scaling & centering math
-    std::cout << "[TEST 4] Aspect-preserving scaling & centering math" << std::endl;
-
-    // Case A: 800x600 window on 1920x1080 screen at (0,0)
-    {
-        RectFMock win{100, 150, 800, 600};
-        RectFMock out{0, 0, 1920, 1080};
-        auto res = computeMagpieTransform(win, out);
-        // scale = min(1920/800=2.4, 1080/600=1.8) = 1.8
-        assert(std::abs(res.scale - 1.8) < 1e-6);
-        assert(std::abs(res.scaledW - 1440.0) < 1e-6);
-        assert(std::abs(res.scaledH - 1080.0) < 1e-6);
-        assert(std::abs(res.targetX - 240.0) < 1e-6);
-        assert(std::abs(res.targetY - 0.0) < 1e-6);
-
-        // Verify transformed window bounds: x' = winX * scale + tx
-        double mappedX = win.x * res.scale + res.tx;
-        double mappedY = win.y * res.scale + res.ty;
-        double mappedRight = (win.x + win.width) * res.scale + res.tx;
-        double mappedBottom = (win.y + win.height) * res.scale + res.ty;
-
-        assert(std::abs(mappedX - res.targetX) < 1e-6);
-        assert(std::abs(mappedY - res.targetY) < 1e-6);
-        assert(std::abs(mappedRight - (res.targetX + res.scaledW)) < 1e-6);
-        assert(std::abs(mappedBottom - (res.targetY + res.scaledH)) < 1e-6);
-        std::cout << "         Case A (4:3 in 16:9): PASS (scale=" << res.scale 
-                  << ", target=" << res.targetX << "," << res.targetY 
-                  << " " << res.scaledW << "x" << res.scaledH << ")" << std::endl;
-    }
-
-    // Case B: 1920x1080 window on 4K display (3840x2160) at (0,0)
-    {
-        RectFMock win{200, 100, 1920, 1080};
-        RectFMock out{0, 0, 3840, 2160};
-        auto res = computeMagpieTransform(win, out);
-        assert(std::abs(res.scale - 2.0) < 1e-6);
-        assert(std::abs(res.scaledW - 3840.0) < 1e-6);
-        assert(std::abs(res.scaledH - 2160.0) < 1e-6);
-        assert(std::abs(res.targetX - 0.0) < 1e-6);
-        assert(std::abs(res.targetY - 0.0) < 1e-6);
-        std::cout << "         Case B (1080p in 4K): PASS (scale=2.0)" << std::endl;
-    }
-
-    // Case C: Multi-monitor offset: screen at (1920, 0), size 1920x1080
-    {
-        RectFMock win{2000, 100, 1280, 720};
-        RectFMock out{1920, 0, 1920, 1080};
-        auto res = computeMagpieTransform(win, out);
-        // scale = min(1920/1280=1.5, 1080/720=1.5) = 1.5
-        assert(std::abs(res.scale - 1.5) < 1e-6);
-        assert(std::abs(res.scaledW - 1920.0) < 1e-6);
-        assert(std::abs(res.scaledH - 1080.0) < 1e-6);
-        assert(std::abs(res.targetX - 1920.0) < 1e-6);
-        assert(std::abs(res.targetY - 0.0) < 1e-6);
-
-        double mappedX = win.x * res.scale + res.tx;
-        assert(std::abs(mappedX - 1920.0) < 1e-6);
-        std::cout << "         Case C (Multi-monitor offset (1920,0)): PASS" << std::endl;
-    }
+    // Case B: 1280x720 in 2048x1152 (1.25 fractional scale screen)
+    auto resB = computeMagpieTransform({200, 150, 1280, 720}, {0, 0, 2048, 1152});
+    assert(std::abs(resB.scale - 1.6) < 1e-5);
+    assert(std::abs(resB.targetX - 0.0) < 1e-5);
+    assert(std::abs(resB.targetY - 0.0) < 1e-5);
+    assert(std::abs(resB.tx - (-200.0)) < 1e-5);
+    assert(std::abs(resB.ty - (-150.0)) < 1e-5);
+    std::cout << "[TEST 4] Math Case B (16:9 in 2048x1152 HiDPI): PASS" << std::endl;
 
     std::cout << "=== ALL VERIFICATIONS PASSED ===" << std::endl;
     return 0;

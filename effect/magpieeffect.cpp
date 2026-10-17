@@ -33,6 +33,10 @@ MagpieEffect::MagpieEffect()
     if (QDBusConnection::sessionBus().isConnected()) {
         QDBusConnection::sessionBus().registerObject(QStringLiteral("/Magpie"), QStringLiteral("org.kde.KWin.Magpie"), this, QDBusConnection::ExportScriptableSlots | QDBusConnection::ExportAllSlots);
     }
+
+    if (effects) {
+        effects->hideOnScreenMessage();
+    }
 }
 
 MagpieEffect::~MagpieEffect()
@@ -97,8 +101,7 @@ void MagpieEffect::paintWindow(const RenderTarget &renderTarget, const RenderVie
 {
     if (m_active) {
         if (w != m_targetWindow) {
-            // When Magpie is active, hide all other windows (panels, desktop, background apps)
-            // so the scaled target window has exclusive fullscreen presentation without clutter
+            // Hide background and panel windows so the scaled target window is unobstructed on top
             data.multiplyOpacity(0.0);
         } else {
             data.setOpacity(1.0);
@@ -131,9 +134,6 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
     }
 
     if (window->isSpecialWindow()) {
-        if (effects) {
-            effects->showOnScreenMessage(QStringLiteral("Magpie: Cannot scale special/desktop window"));
-        }
         return;
     }
 
@@ -142,11 +142,6 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
     redirect(m_targetWindow);
 
     if (effects) {
-        QString name = m_targetWindow->caption();
-        if (name.isEmpty()) {
-            name = QStringLiteral("Window");
-        }
-        effects->showOnScreenMessage(QStringLiteral("Magpie Active: %1").arg(name), QStringLiteral("preferences-system-windows-effect-magpie"));
         effects->addRepaintFull();
     }
 }
@@ -160,7 +155,6 @@ void MagpieEffect::deactivate()
     m_active = false;
 
     if (effects) {
-        effects->showOnScreenMessage(QStringLiteral("Magpie Restored"), QStringLiteral("preferences-system-windows-effect-magpie"));
         effects->addRepaintFull();
     }
 }
@@ -174,7 +168,6 @@ void MagpieEffect::toggle()
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
-            effects->showOnScreenMessage(QStringLiteral("Magpie: Click target window to scale"));
             effects->startInteractiveWindowSelection([this](EffectWindow *w) {
                 if (w) {
                     activateOnWindow(w);
@@ -234,8 +227,7 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
     }
 
     const RectF outputRect = output->geometryF();
-    // Use expandedGeometry() because OffscreenEffect builds quads using expandedGeometry()
-    const RectF winGeom = window->expandedGeometry();
+    const RectF winGeom = window->frameGeometry();
 
     const qreal winW = winGeom.width();
     const qreal winH = winGeom.height();
@@ -252,6 +244,7 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
         return;
     }
 
+    // Aspect-preserving scaling (Galgame pillarbox / letterbox)
     const qreal scale = std::min(outW / winW, outH / winH);
     const qreal scaledW = winW * scale;
     const qreal scaledH = winH * scale;
@@ -259,8 +252,10 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
     const qreal targetX = outX + (outW - scaledW) / 2.0;
     const qreal targetY = outY + (outH - scaledH) / 2.0;
 
-    const qreal tx = targetX - winX * scale;
-    const qreal ty = targetY - winY * scale;
+    // Because KWin projection matrix already translates by window->pos():
+    // The required data translation is targetPos - window->pos()
+    const qreal tx = targetX - winX;
+    const qreal ty = targetY - winY;
 
     data.setXScale(scale);
     data.setYScale(scale);
