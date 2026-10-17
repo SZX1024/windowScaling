@@ -498,6 +498,12 @@
 			"Mu",
 			"UVLADIE3JM/moc_overlay_window.cpp",
 			null
+		],
+		[
+			"/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h",
+			"Mu",
+			"UVLADIE3JM/moc_shader_pipeline.cpp",
+			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -584,6 +590,11 @@
 		],
 		[
 			"/home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp",
+			"Mu",
+			null
+		],
+		[
+			"/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp",
 			"Mu",
 			null
 		]

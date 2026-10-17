@@ -18,6 +18,8 @@ add_executable(magpie-overlay
     src/input.cpp
     src/overlay_window.h
     src/overlay_window.cpp
+    src/shader_pipeline.h
+    src/shader_pipeline.cpp
 )
 
 target_include_directories(magpie-overlay PRIVATE

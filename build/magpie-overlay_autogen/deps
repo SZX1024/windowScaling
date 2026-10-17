@@ -10,6 +10,8 @@ magpie-overlay_autogen/timestamp: \
 	/home/SZX10246/Projects/software/windowScaling/src/main.cpp \
 	/home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp \
 	/home/SZX10246/Projects/software/windowScaling/src/overlay_window.h \
+	/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp \
+	/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h \
 	/usr/include/GL/gl.h \
 	/usr/include/alloca.h \
 	/usr/include/asm-generic/bitsperlong.h \
@@ -319,6 +321,7 @@ magpie-overlay_autogen/timestamp: \
 	/usr/include/qt6/QtCore/QPoint \
 	/usr/include/qt6/QtCore/QRect \
 	/usr/include/qt6/QtCore/QScopedPointer \
+	/usr/include/qt6/QtCore/QSize \
 	/usr/include/qt6/QtCore/QString \
 	/usr/include/qt6/QtCore/QTimer \
 	/usr/include/qt6/QtCore/Qt \
@@ -458,6 +461,7 @@ magpie-overlay_autogen/timestamp: \
 	/usr/include/qt6/QtCore/qxptype_traits.h \
 	/usr/include/qt6/QtCore/qyieldcpu.h \
 	/usr/include/qt6/QtGui/QImage \
+	/usr/include/qt6/QtGui/QMatrix4x4 \
 	/usr/include/qt6/QtGui/QOpenGLContext \
 	/usr/include/qt6/QtGui/QOpenGLFunctions \
 	/usr/include/qt6/QtGui/QPaintDevice \

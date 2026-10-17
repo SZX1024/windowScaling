@@ -15,6 +15,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/magpie-overlay.dir/src/main.cpp.o.d"
   "CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o"
   "CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o.d"
+  "CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o"
+  "CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -411,4 +411,6 @@ CMakeFiles/magpie-overlay.dir/src/main.cpp.o: \
  /usr/include/qt6/QtOpenGL/QOpenGLBuffer \
  /usr/include/qt6/QtOpenGL/qopenglbuffer.h \
  /usr/include/qt6/QtOpenGL/QOpenGLVertexArrayObject \
- /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h
+ /usr/include/qt6/QtOpenGL/qopenglvertexarrayobject.h \
+ /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h \
+ /usr/include/qt6/QtGui/QMatrix4x4 /usr/include/qt6/QtCore/QSize

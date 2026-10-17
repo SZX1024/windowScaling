@@ -2,6 +2,7 @@
   /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/moc_predefs.h \
   /home/SZX10246/Projects/software/windowScaling/src/capture.h \
   /home/SZX10246/Projects/software/windowScaling/src/input.h \
+  /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h \
   /usr/include/GL/gl.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
@@ -311,6 +312,7 @@
   /usr/include/qt6/QtCore/QPoint \
   /usr/include/qt6/QtCore/QRect \
   /usr/include/qt6/QtCore/QScopedPointer \
+  /usr/include/qt6/QtCore/QSize \
   /usr/include/qt6/QtCore/QString \
   /usr/include/qt6/QtCore/QTimer \
   /usr/include/qt6/QtCore/Qt \
@@ -450,6 +452,7 @@
   /usr/include/qt6/QtCore/qxptype_traits.h \
   /usr/include/qt6/QtCore/qyieldcpu.h \
   /usr/include/qt6/QtGui/QImage \
+  /usr/include/qt6/QtGui/QMatrix4x4 \
   /usr/include/qt6/QtGui/QOpenGLContext \
   /usr/include/qt6/QtGui/QOpenGLFunctions \
   /usr/include/qt6/QtGui/QPaintDevice \

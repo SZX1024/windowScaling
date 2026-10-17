@@ -7,6 +7,7 @@
   CMakeFiles/magpie-overlay.dir/src/capture.cpp.o \
   CMakeFiles/magpie-overlay.dir/src/input.cpp.o \
   CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o \
+  CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o \
   /usr/lib64/libQt6OpenGL.so.6.11.2 \
   /usr/lib/gcc/x86_64-redhat-linux/16/../../../../lib64/libXcomposite.so \
   /usr/lib/gcc/x86_64-redhat-linux/16/../../../../lib64/libXtst.so \
@@ -98,6 +99,8 @@ CMakeFiles/magpie-overlay.dir/src/capture.cpp.o:
 CMakeFiles/magpie-overlay.dir/src/input.cpp.o:
 
 CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o:
+
+CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o:
 
 /usr/lib64/libQt6OpenGL.so.6.11.2:
 

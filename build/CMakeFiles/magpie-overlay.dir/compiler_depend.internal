@@ -73,6 +73,7 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o
  /home/SZX10246/Projects/software/windowScaling/src/capture.h
  /home/SZX10246/Projects/software/windowScaling/src/input.h
  /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h
+ /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h
  /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/moc_overlay_window.cpp
  /usr/include/GL/gl.h
  /usr/include/alloca.h
@@ -414,6 +415,7 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o
  /usr/include/qt6/QtCore/QPoint
  /usr/include/qt6/QtCore/QRect
  /usr/include/qt6/QtCore/QScopedPointer
+ /usr/include/qt6/QtCore/QSize
  /usr/include/qt6/QtCore/QString
  /usr/include/qt6/QtCore/QTimer
  /usr/include/qt6/QtCore/Qt
@@ -556,6 +558,7 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o
  /usr/include/qt6/QtCore/qxptype_traits.h
  /usr/include/qt6/QtCore/qyieldcpu.h
  /usr/include/qt6/QtGui/QImage
+ /usr/include/qt6/QtGui/QMatrix4x4
  /usr/include/qt6/QtGui/QOpenGLContext
  /usr/include/qt6/QtGui/QOpenGLFunctions
  /usr/include/qt6/QtGui/QPaintDevice
@@ -1148,6 +1151,7 @@ CMakeFiles/magpie-overlay.dir/src/input.cpp.o
  /home/SZX10246/Projects/software/windowScaling/src/input.cpp
  /home/SZX10246/Projects/software/windowScaling/src/input.h
  /usr/include/X11/X.h
+ /usr/include/X11/Xatom.h
  /usr/include/X11/Xfuncproto.h
  /usr/include/X11/Xlib.h
  /usr/include/X11/Xosdefs.h
@@ -1633,6 +1637,7 @@ CMakeFiles/magpie-overlay.dir/src/main.cpp.o
  /home/SZX10246/Projects/software/windowScaling/src/capture.h
  /home/SZX10246/Projects/software/windowScaling/src/input.h
  /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h
+ /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h
  /usr/include/GL/gl.h
  /usr/include/alloca.h
  /usr/include/asm-generic/bitsperlong.h
@@ -1976,6 +1981,7 @@ CMakeFiles/magpie-overlay.dir/src/main.cpp.o
  /usr/include/qt6/QtCore/QPoint
  /usr/include/qt6/QtCore/QRect
  /usr/include/qt6/QtCore/QScopedPointer
+ /usr/include/qt6/QtCore/QSize
  /usr/include/qt6/QtCore/QString
  /usr/include/qt6/QtCore/QTimer
  /usr/include/qt6/QtCore/Qt
@@ -2128,6 +2134,7 @@ CMakeFiles/magpie-overlay.dir/src/main.cpp.o
  /usr/include/qt6/QtDBus/qtdbusglobal.h
  /usr/include/qt6/QtGui/QGuiApplication
  /usr/include/qt6/QtGui/QImage
+ /usr/include/qt6/QtGui/QMatrix4x4
  /usr/include/qt6/QtGui/QOpenGLContext
  /usr/include/qt6/QtGui/QOpenGLFunctions
  /usr/include/qt6/QtGui/QPaintDevice
@@ -2207,6 +2214,7 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o
  /home/SZX10246/Projects/software/windowScaling/src/capture.h
  /home/SZX10246/Projects/software/windowScaling/src/input.h
  /home/SZX10246/Projects/software/windowScaling/src/overlay_window.h
+ /home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h
  /usr/include/GL/gl.h
  /usr/include/alloca.h
  /usr/include/asm-generic/bitsperlong.h
@@ -2694,6 +2702,13 @@ CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.o
  /usr/include/qt6/QtCore/qversiontagging.h
  /usr/include/qt6/QtCore/qxptype_traits.h
  /usr/include/qt6/QtCore/qyieldcpu.h
+ /usr/include/qt6/QtDBus/QDBusConnection
+ /usr/include/qt6/QtDBus/QDBusMessage
+ /usr/include/qt6/QtDBus/qdbusconnection.h
+ /usr/include/qt6/QtDBus/qdbuserror.h
+ /usr/include/qt6/QtDBus/qdbusmessage.h
+ /usr/include/qt6/QtDBus/qtdbusexports.h
+ /usr/include/qt6/QtDBus/qtdbusglobal.h
  /usr/include/qt6/QtGui/QGuiApplication
  /usr/include/qt6/QtGui/QImage
  /usr/include/qt6/QtGui/QKeyEvent

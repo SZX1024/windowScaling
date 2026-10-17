@@ -1,3 +1,5 @@
+#include <QDBusMessage>
+#include <QDBusConnection>
 #include "overlay_window.h"
 
 #include <QMouseEvent>
@@ -10,6 +12,28 @@
 #include <QDebug>
 #include <cmath>
 #include <algorithm>
+
+
+static void sendOverlayNotification(const QString &summary, const QString &body)
+{
+    QDBusMessage msg = QDBusMessage::createMethodCall(
+        QStringLiteral("org.freedesktop.Notifications"),
+        QStringLiteral("/org/freedesktop/Notifications"),
+        QStringLiteral("org.freedesktop.Notifications"),
+        QStringLiteral("Notify")
+    );
+    msg << QStringLiteral("Magpie");
+    msg << static_cast<uint>(0);
+    msg << QStringLiteral("preferences-system-windows");
+    msg << summary;
+    msg << body;
+    msg << QStringList();
+    QVariantMap hints;
+    hints[QStringLiteral("transient")] = true;
+    msg << hints;
+    msg << static_cast<int>(1500);
+    QDBusConnection::sessionBus().send(msg);
+}
 
 static const char *vshaderSource = R"(#version 330 core
 layout (location = 0) in vec2 aPos;
@@ -45,7 +69,7 @@ OverlayWindow::~OverlayWindow()
 {
     makeCurrent();
     m_texture.reset();
-    m_program.reset();
+    m_shaders.reset();
     m_vbo.destroy();
     m_vao.destroy();
     doneCurrent();
@@ -117,10 +141,8 @@ void OverlayWindow::initializeGL()
     initializeOpenGLFunctions();
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    m_program = std::make_unique<QOpenGLShaderProgram>();
-    m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vshaderSource);
-    m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fshaderSource);
-    m_program->link();
+    m_shaders = std::make_unique<ShaderPipeline>();
+    m_shaders->init();
 
     m_vao.create();
     m_vao.bind();
@@ -131,11 +153,11 @@ void OverlayWindow::initializeGL()
     // 6 vertices (2 triangles): pos (x,y), tex (u,v)
     m_vbo.allocate(sizeof(float) * 24);
 
-    m_program->enableAttributeArray(0);
-    m_program->setAttributeBuffer(0, GL_FLOAT, 0, 2, sizeof(float) * 4);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, nullptr);
 
-    m_program->enableAttributeArray(1);
-    m_program->setAttributeBuffer(1, GL_FLOAT, sizeof(float) * 2, 2, sizeof(float) * 4);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 4, reinterpret_cast<void*>(sizeof(float) * 2));
 
     m_vao.release();
     m_vbo.release();
@@ -193,17 +215,15 @@ void OverlayWindow::paintGL()
 {
     glClear(GL_COLOR_BUFFER_BIT);
 
-    if (!m_active || !m_program) {
+    if (!m_active || !m_shaders) {
         return;
     }
 
-    // Capture latest frame from X11 Composite/SHM
     QImage frame = m_capture.captureFrame();
     if (frame.isNull()) {
         return;
     }
 
-    // Allocate or update texture
     if (!m_texture || m_texture->width() != frame.width() || m_texture->height() != frame.height()) {
         m_texture = std::make_unique<QOpenGLTexture>(QOpenGLTexture::Target2D);
         m_texture->setSize(frame.width(), frame.height());
@@ -216,13 +236,10 @@ void OverlayWindow::paintGL()
 
     m_texture->setData(QOpenGLTexture::BGRA, QOpenGLTexture::UInt8, frame.constBits());
 
-    // Setup 2D Orthographic Projection (0 to width, height to 0)
     QMatrix4x4 proj;
     proj.ortho(0.0f, width(), height(), 0.0f, -1.0f, 1.0f);
 
-    m_program->bind();
-    m_program->setUniformValue("uProjection", proj);
-    m_program->setUniformValue("uTexture", 0);
+    m_shaders->setUniforms(proj, frame.size(), 0.6f);
 
     m_texture->bind(0);
     m_vao.bind();
@@ -231,7 +248,9 @@ void OverlayWindow::paintGL()
 
     m_vao.release();
     m_texture->release();
-    m_program->release();
+    if (m_shaders->activeProgram()) {
+        m_shaders->activeProgram()->release();
+    }
 }
 
 QPoint OverlayWindow::mapToGame(const QPointF &screenPos) const
@@ -314,9 +333,17 @@ bool OverlayWindow::event(QEvent *event)
     return QOpenGLWindow::event(event);
 }
 
+void OverlayWindow::setScaler(ScalerType type)
+{
+    if (m_shaders) {
+        m_shaders->setScaler(type);
+        sendOverlayNotification(QStringLiteral("超分算法已切换"), QString::fromUtf8(m_shaders->currentScalerName()));
+        requestUpdate();
+    }
+}
+
 void OverlayWindow::keyPressEvent(QKeyEvent *event)
 {
-    // Esc or Ctrl+Alt+M closes the overlay immediately
     if (event->key() == Qt::Key_Escape ||
         (event->modifiers().testFlag(Qt::ControlModifier) &&
          event->modifiers().testFlag(Qt::AltModifier) &&
@@ -324,5 +351,20 @@ void OverlayWindow::keyPressEvent(QKeyEvent *event)
         stopScaling();
         return;
     }
+
+    if (event->key() == Qt::Key_1) {
+        setScaler(ScalerType::Bilinear);
+        return;
+    } else if (event->key() == Qt::Key_2) {
+        setScaler(ScalerType::Lanczos);
+        return;
+    } else if (event->key() == Qt::Key_3) {
+        setScaler(ScalerType::CAS);
+        return;
+    } else if (event->key() == Qt::Key_4) {
+        setScaler(ScalerType::AnimeThin);
+        return;
+    }
+
     QOpenGLWindow::keyPressEvent(event);
 }

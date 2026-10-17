@@ -11,6 +11,7 @@
 #include <QRect>
 #include "capture.h"
 #include "input.h"
+#include "shader_pipeline.h"
 
 class OverlayWindow : public QOpenGLWindow, protected QOpenGLFunctions
 {
@@ -39,6 +40,7 @@ protected:
 
     // Keyboard (Esc or Ctrl+Alt+M to exit)
     void keyPressEvent(QKeyEvent *event) override;
+    void setScaler(ScalerType type);
 
 private slots:
     void updateFrame();
@@ -52,7 +54,7 @@ private:
     X11InputForwarder &m_input;
     QTimer m_renderTimer;
 
-    std::unique_ptr<QOpenGLShaderProgram> m_program;
+    std::unique_ptr<ShaderPipeline> m_shaders;
     std::unique_ptr<QOpenGLTexture> m_texture;
     QOpenGLBuffer m_vbo;
     QOpenGLVertexArrayObject m_vao;

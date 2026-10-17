@@ -275,6 +275,30 @@ src/overlay_window.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/overlay_window.cpp.s
 .PHONY : src/overlay_window.cpp.s
 
+src/shader_pipeline.o: src/shader_pipeline.cpp.o
+.PHONY : src/shader_pipeline.o
+
+# target to build an object file
+src/shader_pipeline.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.o
+.PHONY : src/shader_pipeline.cpp.o
+
+src/shader_pipeline.i: src/shader_pipeline.cpp.i
+.PHONY : src/shader_pipeline.i
+
+# target to preprocess a source file
+src/shader_pipeline.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.i
+.PHONY : src/shader_pipeline.cpp.i
+
+src/shader_pipeline.s: src/shader_pipeline.cpp.s
+.PHONY : src/shader_pipeline.s
+
+# target to generate assembly for a file
+src/shader_pipeline.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/magpie-overlay.dir/build.make CMakeFiles/magpie-overlay.dir/src/shader_pipeline.cpp.s
+.PHONY : src/shader_pipeline.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -301,6 +325,9 @@ help:
 	@echo "... src/overlay_window.o"
 	@echo "... src/overlay_window.i"
 	@echo "... src/overlay_window.s"
+	@echo "... src/shader_pipeline.o"
+	@echo "... src/shader_pipeline.i"
+	@echo "... src/shader_pipeline.s"
 .PHONY : help
 
 

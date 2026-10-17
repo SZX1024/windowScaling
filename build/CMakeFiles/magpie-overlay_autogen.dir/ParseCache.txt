@@ -8,6 +8,7 @@
  mdp:/home/SZX10246/Projects/software/windowScaling/src/capture.h
  mdp:/home/SZX10246/Projects/software/windowScaling/src/input.h
  mdp:/home/SZX10246/Projects/software/windowScaling/src/overlay_window.h
+ mdp:/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h
  mdp:/usr/include/GL/gl.h
  mdp:/usr/include/alloca.h
  mdp:/usr/include/asm-generic/bitsperlong.h
@@ -317,6 +318,7 @@
  mdp:/usr/include/qt6/QtCore/QPoint
  mdp:/usr/include/qt6/QtCore/QRect
  mdp:/usr/include/qt6/QtCore/QScopedPointer
+ mdp:/usr/include/qt6/QtCore/QSize
  mdp:/usr/include/qt6/QtCore/QString
  mdp:/usr/include/qt6/QtCore/QTimer
  mdp:/usr/include/qt6/QtCore/Qt
@@ -456,6 +458,7 @@
  mdp:/usr/include/qt6/QtCore/qxptype_traits.h
  mdp:/usr/include/qt6/QtCore/qyieldcpu.h
  mdp:/usr/include/qt6/QtGui/QImage
+ mdp:/usr/include/qt6/QtGui/QMatrix4x4
  mdp:/usr/include/qt6/QtGui/QOpenGLContext
  mdp:/usr/include/qt6/QtGui/QOpenGLFunctions
  mdp:/usr/include/qt6/QtGui/QPaintDevice
@@ -526,3 +529,5 @@
 /home/SZX10246/Projects/software/windowScaling/src/capture.cpp
 /home/SZX10246/Projects/software/windowScaling/src/main.cpp
 /home/SZX10246/Projects/software/windowScaling/src/overlay_window.cpp
+/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.h
+/home/SZX10246/Projects/software/windowScaling/src/shader_pipeline.cpp

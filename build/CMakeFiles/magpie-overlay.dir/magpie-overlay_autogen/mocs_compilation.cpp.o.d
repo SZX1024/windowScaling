@@ -399,6 +399,8 @@ CMakeFiles/magpie-overlay.dir/magpie-overlay_autogen/mocs_compilation.cpp.o: \
  /usr/include/qt6/QtCore/QString \
  /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/input.h \
  /usr/include/qt6/QtCore/QPoint /usr/include/qt6/QtCore/Qt \
+ /home/SZX10246/Projects/software/windowScaling/build/magpie-overlay_autogen/UVLADIE3JM/../../../src/shader_pipeline.h \
+ /usr/include/qt6/QtGui/QMatrix4x4 /usr/include/qt6/QtCore/QSize \
  /usr/include/qt6/QtCore/qtmochelpers.h \
  /usr/include/qt6/QtCore/qtmocconstants.h \
  /usr/include/qt6/QtCore/q20algorithm.h
