@@ -1,3 +1,4 @@
+#!/usr/bin/env xdg-open
 [Desktop Entry]
 Name=Magpie
 Name[zh_CN]=Magpie 窗口超分辨率放大器
