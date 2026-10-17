@@ -135,3 +135,9 @@
      - 采用非侵入式 `KWin::InputEventSpy` 监听指针动作，**严格拦截并忽略 `event->warp == true` 的事件**，彻底切断递归反馈回路。
      - **真实指针**：利用 Gate 1 验证的 `input()->warpPointer(origPos)`，使系统底层真实指针动态跟随并稳定驻留在原始窗口对应的像素点内。游戏窗口的原生 Wayland/X11 协议接收 100% 准确的真实悬停、点击与滚轮。
      - **视觉光标**：激活时调用 `effects->hideCursor()` 隐藏系统指针，在 `paintScreen` 阶段根据 `m_visualCursorPos` 以及当前光标图标 (`effects->cursorImage()`) 使用专用着色器在全屏放大层绘制出视觉光标。
+### 触摸与绝对坐标映射实测突破
+- **硬件发现**: 通过系统 `/proc/bus/input/devices` 发现目标机存在 `libvirtualhid Mouse (Absolute)` 绝对指针与触摸屏通道。
+- **痛点根源**: 原逻辑仅处理了传统相对位移鼠标 (`PointerMotionEvent`)，对于触摸屏手指直接触控的 `TouchDownEvent`、`TouchMotionEvent` 以及手写笔/绝对设备 `TabletToolTipEvent` 没有任何拦截映射。导致在全屏放大下，手指每一次点击屏幕，KWin 传下去的都是原始物理屏幕坐标，产生完全不对齐的触控偏移。
+- **修复实现**:
+  - 在 `MagpieInputSpy` 中全量扩展重写了 `touchDown`、`touchMotion`、`pointerButton`、`pointerAxis`、`tabletToolTipEvent`、`tabletToolAxisEvent`。
+  - 所有触控与绝对点击事件在到达合成器分发前，全部经过 `mapScaledToOriginal` 归一化并缩放换算回目标窗口原生坐标，完美支持屏幕触控玩 Galgame。
