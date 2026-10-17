@@ -86,6 +86,7 @@ void OverlayWindow::stopScaling()
     m_input.releaseTarget();
     m_capture.releaseTarget();
     hide();
+    close();
 }
 
 void OverlayWindow::calculateLayout()
@@ -179,6 +180,12 @@ void OverlayWindow::resizeGL(int w, int h)
 void OverlayWindow::updateFrame()
 {
     if (!m_active) return;
+
+    if (!m_capture.isTargetAlive()) {
+        stopScaling();
+        return;
+    }
+
     requestUpdate();
 }
 

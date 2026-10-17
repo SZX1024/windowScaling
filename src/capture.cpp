@@ -1,3 +1,4 @@
+
 #include "capture.h"
 
 #include <QDebug>
@@ -10,6 +11,13 @@
 #include <X11/Xatom.h>
 #include <X11/extensions/Xcomposite.h>
 #include <X11/extensions/XShm.h>
+
+static int silentX11ErrorHandler(Display *disp, XErrorEvent *err)
+{
+    Q_UNUSED(disp);
+    Q_UNUSED(err);
+    return 0;
+}
 
 struct X11CaptureEngine::Impl {
     Display *display = nullptr;
@@ -76,6 +84,7 @@ bool X11CaptureEngine::open(const char *displayName)
         }
     }
 
+    XSetErrorHandler(silentX11ErrorHandler);
     d->display = XOpenDisplay(displayName);
     if (!d->display) {
         qWarning() << "X11CaptureEngine: Failed to open X11 display:" << displayName;
@@ -335,4 +344,17 @@ QImage X11CaptureEngine::captureFrame()
 QRect X11CaptureEngine::targetRect() const
 {
     return d->targetGeometry;
+}
+bool X11CaptureEngine::isTargetAlive()
+{
+    if (!d->display || d->target == None) {
+        return false;
+    }
+
+    XWindowAttributes attrs;
+    if (!XGetWindowAttributes(d->display, d->target, &attrs)) {
+        return false;
+    }
+
+    return (attrs.map_state == IsViewable && attrs.width > 0 && attrs.height > 0);
 }

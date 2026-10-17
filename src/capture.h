@@ -29,6 +29,7 @@ public:
     void releaseTarget();
 
     QImage captureFrame();
+    bool isTargetAlive();
     QRect targetRect() const;
     unsigned long targetId() const { return m_target; }
 
