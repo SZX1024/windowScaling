@@ -82,3 +82,14 @@
    - KPluginMetaData 识别 ID 为 `kwin4_effect_magpie`，分类为 `Accessibility`。
    - `KPluginMetaData::findPlugins` 成功检索。
    - 4:3 窗口在 16:9 输出、1080p 在 4K 输出、多显示器偏移下的缩放和平移计算均精准通过。
+### Gate 2 调试与修复关键记录 (实测排查)
+1. **OSD 弹窗反复出现的原因**:
+   - 构造函数中调用了 `showOnScreenMessage`，导致每次合成器重绘或重构时反复触发。现已彻底移除构造函数中的弹窗，仅在用户显式触发快捷键时提示。
+2. **放大未居中的原因 (HiDPI / 分数缩放与阴影)**:
+   - 宿主机显示屏使用了 **1.25 倍分数缩放** (2048x1152)。
+   - 原代码使用 `window->frameGeometry()`，未包含 KWin 窗口阴影/装饰外框，而 `OffscreenEffect` 内部生成 quads 时使用的是 `window->expandedGeometry()`。两者坐标原点与宽高不一致，导致平移计算出现偏移。现已统一为 `expandedGeometry()`，居中数学对齐。
+3. **窗口处于最底层的排查与解决**:
+   - 原绘制管线仅在 `drawWindow` 中对目标窗口应用形变，但随后合成器按窗口层级依然会继续绘制处于上层的任务栏/面板 (Plasma Panel) 以及其他窗口，将放大后的画面遮挡。
+   - 实现重写 `paintWindow`: 当 Magpie 处于激活状态时，对所有非目标窗口设置 `data.multiplyOpacity(0.0)` 进行遮罩隐藏，赋予放大后的游戏窗口独占置顶的全屏呈现。
+4. **会话稳定性保障**:
+   - 严禁使用重启 KWin 服务命令，全部采用平滑的原生 D-Bus 重构：`qdbus-qt6 org.kde.KWin /Effects reconfigureEffect "kwin4_effect_magpie"`。
