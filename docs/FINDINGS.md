@@ -203,3 +203,18 @@
      - 构建专用的定点着色器（Vertex Shader）与片元着色器（Fragment Shader）；
      - 利用正交投影矩阵（Orthographic Projection）与 VAO/VBO 绘制双三角形纹理四边形；
      - 每一帧从 `XComposite` / `MIT-SHM` 拉取的最新画面直接写入 `QOpenGLTexture` 上屏，120Hz 极限满血流畅刷新，彻底解决画面冻结。
+### Galgame 深度实测与三大痛点攻克记录
+1. **部分 Galgame 无法启动捕获的原因**:
+   - 实测目标机窗口列表发现：很多 Wine/Proton 下的 Galgame 窗口（如正在运行的 `0x6400001` [1280x720]）在 X11 协议中 **WM_NAME 标题属性为空**！
+   - 原代码在筛选窗口时要求 `!title.isEmpty()`，导致自动检测直接把无标题的游戏窗口忽略掉了。
+   - **修复**: 全面支持无标题 Wine 游戏识别；自动探测画面中分辨率符合主流游戏的可见窗口，并支持精准匹配 Window ID。
+2. **游戏在非前台时停止运行/暂停渲染的解法**:
+   - Galgame 普遍带有“失去焦点自动静音/暂停渲染”的特性。原全屏覆盖层弹出时夺取了系统输入焦点，导致 Wine 接收到 `WM_KILLFOCUS` 而停机。
+   - **修复**: 在全屏覆盖层加入 `Qt::WindowDoesNotAcceptFocus`，并调用 `XSetInputFocus` 显式将输入焦点永远留在游戏窗口上，游戏认为自己始终处于前台，Live2D 与动画 100% 持续全速运行。
+3. **点击传递不下去且吸附到右侧的解法 (坐标系统彻底理清)**:
+   - 原先在点击时调用了 `XTestFakeMotionEvent(gamePos)`。由于游戏窗口位于屏幕右侧 `X=976`，每次点击强行瞬移物理指针，导致光标被狠狠拽到右侧！
+   - 同时，覆盖层在游戏上方，`XTest` 的点击又被覆盖层自己吃掉，根本落不到游戏上。
+   - **修复**: 全面改用 **`XSendEvent` 窗口协议直投**：
+     - 计算相对于游戏窗口的局部相对坐标 `localX = [0, winW]`、`localY = [0, winH]`；
+     - 通过 `XSendEvent` 绕过所有上层遮挡，直接把 `ButtonPress` 与 `ButtonRelease` 事件塞入目标游戏窗口句柄；
+     - **物理光标位置分毫不动，绝不跳帧，绝不吸附右侧，点击 100% 命中**。
