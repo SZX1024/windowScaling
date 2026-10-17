@@ -47,7 +47,6 @@ MagpieEffect::MagpieEffect()
     m_toggleAction->setObjectName(QStringLiteral("ToggleMagpie"));
     m_toggleAction->setText(i18n("Toggle Magpie Window Scaling"));
 
-    // Forcibly set both default and active shortcut to Ctrl+Alt+M with NoAutoloading
     KGlobalAccel::self()->setDefaultShortcut(m_toggleAction, {QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M)});
     KGlobalAccel::self()->setShortcut(m_toggleAction, {QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M)}, KGlobalAccel::NoAutoloading);
 
@@ -186,6 +185,53 @@ void MagpieEffect::renderVisualCursor(const RenderViewport &viewport)
     tex->unbind();
 }
 
+QPointF MagpieEffect::mapScaledToSurface(const QPointF &pos) const
+{
+    if (!m_targetWindow) {
+        return pos;
+    }
+
+    LogicalOutput *output = m_targetWindow->screen();
+    if (!output && effects) {
+        output = effects->activeScreen();
+    }
+    if (!output && effects && !effects->screens().isEmpty()) {
+        output = effects->screens().first();
+    }
+    if (!output) {
+        return pos;
+    }
+
+    const RectF outputRect = output->geometryF();
+    const RectF winGeom = m_targetWindow->frameGeometry();
+
+    const qreal winW = winGeom.width();
+    const qreal winH = winGeom.height();
+
+    if (winW <= 0.0 || winH <= 0.0 || outputRect.width() <= 0.0 || outputRect.height() <= 0.0) {
+        return pos;
+    }
+
+    const qreal scale = std::min(outputRect.width() / winW, outputRect.height() / winH);
+    const qreal scaledW = winW * scale;
+    const qreal scaledH = winH * scale;
+
+    const qreal targetX = outputRect.x() + (outputRect.width() - scaledW) / 2.0;
+    const qreal targetY = outputRect.y() + (outputRect.height() - scaledH) / 2.0;
+
+    const qreal relX = pos.x() - targetX;
+    const qreal relY = pos.y() - targetY;
+
+    const qreal clampedRelX = std::clamp(relX, 0.0, scaledW);
+    const qreal clampedRelY = std::clamp(relY, 0.0, scaledH);
+
+    // Surface-local coordinates: (0, 0) is window top-left
+    const qreal surfX = clampedRelX / scale;
+    const qreal surfY = clampedRelY / scale;
+
+    return QPointF(surfX, surfY);
+}
+
 void MagpieEffect::activateOnWindow(EffectWindow *window)
 {
     if (!window || window->isSpecialWindow()) {
@@ -198,16 +244,25 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
 
     if (effects) {
         m_visualCursorPos = effects->cursorPos();
+        // Start full mouse interception to capture all events exclusively
+        effects->startMouseInterception(this, Qt::ArrowCursor);
         effects->hideCursor();
     }
 
-    m_inputSpy = std::make_unique<MagpieInputSpy>(this);
+    // Immediately notify Wayland seat of pointer focus enter on game surface
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    SurfaceInterface *surf = m_targetWindow ? m_targetWindow->surface() : nullptr;
+    if (seat && surf) {
+        QPointF surfacePos = mapScaledToSurface(m_visualCursorPos);
+        seat->notifyPointerEnter(surf, m_visualCursorPos, surfacePos);
+        seat->notifyPointerFrame();
+    }
 
     QString name = m_targetWindow->caption();
     if (name.isEmpty()) {
         name = QStringLiteral("Window");
     }
-    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1\n快捷键: Ctrl+Alt+M").arg(name));
+    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1\n快捷键: Ctrl+Alt+M 恢复").arg(name));
 
     if (effects) {
         effects->addRepaintFull();
@@ -216,10 +271,19 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
 
 void MagpieEffect::deactivate()
 {
-    m_inputSpy.reset();
+    if (effects) {
+        if (effects->isMouseInterception()) {
+            effects->stopMouseInterception(this);
+        }
+        if (effects->isCursorHidden()) {
+            effects->showCursor();
+        }
+    }
 
-    if (effects && effects->isCursorHidden()) {
-        effects->showCursor();
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    if (seat) {
+        seat->notifyPointerLeave();
+        seat->notifyPointerFrame();
     }
 
     if (m_targetWindow) {
@@ -274,68 +338,121 @@ void MagpieEffect::slotWindowClosed(EffectWindow *w)
     }
 }
 
-QPointF MagpieEffect::mapScaledToOriginal(const QPointF &pos) const
-{
-    if (!m_targetWindow) {
-        return pos;
-    }
-
-    LogicalOutput *output = m_targetWindow->screen();
-    if (!output && effects) {
-        output = effects->activeScreen();
-    }
-    if (!output && effects && !effects->screens().isEmpty()) {
-        output = effects->screens().first();
-    }
-    if (!output) {
-        return pos;
-    }
-
-    const RectF outputRect = output->geometryF();
-    const RectF winGeom = m_targetWindow->frameGeometry();
-
-    const qreal winW = winGeom.width();
-    const qreal winH = winGeom.height();
-
-    if (winW <= 0.0 || winH <= 0.0 || outputRect.width() <= 0.0 || outputRect.height() <= 0.0) {
-        return pos;
-    }
-
-    const qreal scale = std::min(outputRect.width() / winW, outputRect.height() / winH);
-    const qreal scaledW = winW * scale;
-    const qreal scaledH = winH * scale;
-
-    const qreal targetX = outputRect.x() + (outputRect.width() - scaledW) / 2.0;
-    const qreal targetY = outputRect.y() + (outputRect.height() - scaledH) / 2.0;
-
-    const qreal relX = pos.x() - targetX;
-    const qreal relY = pos.y() - targetY;
-
-    const qreal clampedRelX = std::clamp(relX, 0.0, scaledW);
-    const qreal clampedRelY = std::clamp(relY, 0.0, scaledH);
-
-    const qreal origX = winGeom.x() + clampedRelX / scale;
-    const qreal origY = winGeom.y() + clampedRelY / scale;
-
-    return QPointF(origX, origY);
-}
-
-void MagpieEffect::handlePointerEvent(PointerMotionEvent *event)
+// Option 3: Event Interception & Direct Wayland Protocol Dispatch
+void MagpieEffect::pointerMotion(PointerMotionEvent *event)
 {
     if (!m_active || !m_targetWindow) {
         return;
     }
 
     m_visualCursorPos = event->position;
+    const QPointF surfacePos = mapScaledToSurface(event->position);
 
-    // Map screen cursor position to game window coordinate and warp physical pointer
-    const QPointF origPos = mapScaledToOriginal(m_visualCursorPos);
-    if (input()) {
-        input()->warpPointer(origPos);
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    SurfaceInterface *surf = m_targetWindow ? m_targetWindow->surface() : nullptr;
+    if (seat && surf) {
+        seat->notifyPointerMotion(surfacePos);
+        seat->notifyPointerFrame();
     }
 
     if (effects) {
         effects->addRepaintFull();
+    }
+}
+
+void MagpieEffect::pointerButton(PointerButtonEvent *event)
+{
+    if (!m_active || !m_targetWindow) {
+        return;
+    }
+
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    SurfaceInterface *surf = m_targetWindow ? m_targetWindow->surface() : nullptr;
+    if (seat && surf) {
+        seat->notifyPointerButton(event->button, event->state);
+        seat->notifyPointerFrame();
+    }
+
+    if (effects) {
+        effects->addRepaintFull();
+    }
+}
+
+void MagpieEffect::pointerAxis(PointerAxisEvent *event)
+{
+    if (!m_active || !m_targetWindow) {
+        return;
+    }
+
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    SurfaceInterface *surf = m_targetWindow ? m_targetWindow->surface() : nullptr;
+    if (seat && surf) {
+        seat->notifyPointerAxis(event->orientation, event->delta, event->deltaV120, event->source, event->inverted);
+        seat->notifyPointerFrame();
+    }
+
+    if (effects) {
+        effects->addRepaintFull();
+    }
+}
+
+bool MagpieEffect::touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+{
+    Q_UNUSED(time);
+    if (!m_active || !m_targetWindow) {
+        return false;
+    }
+
+    const QPointF surfacePos = mapScaledToSurface(pos);
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    SurfaceInterface *surf = m_targetWindow ? m_targetWindow->surface() : nullptr;
+    if (seat && surf) {
+        seat->notifyTouchDown(surf, surfacePos, id, pos);
+        seat->notifyTouchFrame();
+    }
+    return true;
+}
+
+bool MagpieEffect::touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time)
+{
+    Q_UNUSED(time);
+    if (!m_active || !m_targetWindow) {
+        return false;
+    }
+
+    const QPointF surfacePos = mapScaledToSurface(pos);
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    if (seat) {
+        seat->notifyTouchMotion(id, surfacePos);
+        seat->notifyTouchFrame();
+    }
+    return true;
+}
+
+bool MagpieEffect::touchUp(qint32 id, std::chrono::microseconds time)
+{
+    Q_UNUSED(time);
+    if (!m_active || !m_targetWindow) {
+        return false;
+    }
+
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    if (seat) {
+        seat->notifyTouchUp(id);
+        seat->notifyTouchFrame();
+    }
+    return true;
+}
+
+void MagpieEffect::touchCancel()
+{
+    if (!m_active || !m_targetWindow) {
+        return;
+    }
+
+    SeatInterface *seat = waylandServer() ? waylandServer()->seat() : nullptr;
+    if (seat) {
+        seat->notifyTouchCancel();
     }
 }
 

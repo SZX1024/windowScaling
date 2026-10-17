@@ -2,9 +2,10 @@
 
 #include <effect/offscreeneffect.h>
 #include <effect/effecthandler.h>
-#include <input_event_spy.h>
 #include <input_event.h>
-#include <input.h>
+#include <wayland_server.h>
+#include <wayland/seat.h>
+#include <wayland/surface.h>
 #include <memory>
 
 class QAction;
@@ -13,7 +14,6 @@ namespace KWin
 {
 
 class EffectWindow;
-class MagpieInputSpy;
 
 class MagpieEffect : public OffscreenEffect
 {
@@ -38,8 +38,17 @@ public:
     void postPaintScreen() override;
 
     EffectWindow *targetWindow() const;
-    QPointF mapScaledToOriginal(const QPointF &pos) const;
-    void handlePointerEvent(PointerMotionEvent *event);
+    QPointF mapScaledToSurface(const QPointF &pos) const;
+
+    // First-class input interception (Option 3: Fullscreen Input Overlay)
+    void pointerMotion(PointerMotionEvent *event) override;
+    void pointerButton(PointerButtonEvent *event) override;
+    void pointerAxis(PointerAxisEvent *event) override;
+
+    bool touchDown(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
+    bool touchMotion(qint32 id, const QPointF &pos, std::chrono::microseconds time) override;
+    bool touchUp(qint32 id, std::chrono::microseconds time) override;
+    void touchCancel() override;
 
 public Q_SLOTS:
     Q_SCRIPTABLE void toggle();
@@ -59,84 +68,6 @@ private:
     EffectWindow *m_targetWindow{nullptr};
     QAction *m_toggleAction{nullptr};
     QPointF m_visualCursorPos;
-    std::unique_ptr<MagpieInputSpy> m_inputSpy;
-
-    friend class MagpieInputSpy;
-};
-
-class MagpieInputSpy : public InputEventSpy
-{
-public:
-    explicit MagpieInputSpy(MagpieEffect *effect)
-        : m_effect(effect)
-    {
-        if (input()) {
-            input()->installInputEventSpy(this);
-        }
-    }
-
-    ~MagpieInputSpy() override
-    {
-        if (input()) {
-            input()->uninstallInputEventSpy(this);
-        }
-    }
-
-    void pointerMotion(PointerMotionEvent *event) override
-    {
-        if (event->warp) {
-            return;
-        }
-        if (m_effect && m_effect->isActive()) {
-            m_effect->handlePointerEvent(event);
-        }
-    }
-
-    void pointerButton(PointerButtonEvent *event) override
-    {
-        if (m_effect && m_effect->isActive()) {
-            // Map button click strictly from visual cursor position (single source of truth)
-            event->position = m_effect->mapScaledToOriginal(m_effect->m_visualCursorPos);
-        }
-    }
-
-    void pointerAxis(PointerAxisEvent *event) override
-    {
-        if (m_effect && m_effect->isActive()) {
-            event->position = m_effect->mapScaledToOriginal(m_effect->m_visualCursorPos);
-        }
-    }
-
-    void touchDown(TouchDownEvent *event) override
-    {
-        if (m_effect && m_effect->isActive()) {
-            event->pos = m_effect->mapScaledToOriginal(event->pos);
-        }
-    }
-
-    void touchMotion(TouchMotionEvent *event) override
-    {
-        if (m_effect && m_effect->isActive()) {
-            event->pos = m_effect->mapScaledToOriginal(event->pos);
-        }
-    }
-
-    void tabletToolTipEvent(TabletToolTipEvent *event) override
-    {
-        if (m_effect && m_effect->isActive()) {
-            event->position = m_effect->mapScaledToOriginal(event->position);
-        }
-    }
-
-    void tabletToolAxisEvent(TabletToolAxisEvent *event) override
-    {
-        if (m_effect && m_effect->isActive()) {
-            event->position = m_effect->mapScaledToOriginal(event->position);
-        }
-    }
-
-private:
-    MagpieEffect *m_effect{nullptr};
 };
 
 } // namespace KWin
