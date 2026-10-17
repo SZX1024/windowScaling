@@ -2,6 +2,9 @@
 
 #include <effect/offscreeneffect.h>
 #include <effect/effecthandler.h>
+#include <input_event_spy.h>
+#include <input_event.h>
+#include <input.h>
 #include <memory>
 
 class QAction;
@@ -10,6 +13,7 @@ namespace KWin
 {
 
 class EffectWindow;
+class MagpieInputSpy;
 
 class MagpieEffect : public OffscreenEffect
 {
@@ -34,6 +38,8 @@ public:
     void postPaintScreen() override;
 
     EffectWindow *targetWindow() const;
+    QPointF mapScaledToOriginal(const QPointF &pos) const;
+    void handlePointerEvent(PointerMotionEvent *event);
 
 public Q_SLOTS:
     Q_SCRIPTABLE void toggle();
@@ -47,10 +53,45 @@ protected:
 private:
     void activateOnWindow(EffectWindow *w);
     void deactivate();
+    void renderVisualCursor(const RenderViewport &viewport);
 
     bool m_active{false};
     EffectWindow *m_targetWindow{nullptr};
     QAction *m_toggleAction{nullptr};
+    QPointF m_visualCursorPos;
+    std::unique_ptr<MagpieInputSpy> m_inputSpy;
+};
+
+class MagpieInputSpy : public InputEventSpy
+{
+public:
+    explicit MagpieInputSpy(MagpieEffect *effect)
+        : m_effect(effect)
+    {
+        if (input()) {
+            input()->installInputEventSpy(this);
+        }
+    }
+
+    ~MagpieInputSpy() override
+    {
+        if (input()) {
+            input()->uninstallInputEventSpy(this);
+        }
+    }
+
+    void pointerMotion(PointerMotionEvent *event) override
+    {
+        if (event->warp) {
+            return;
+        }
+        if (m_effect && m_effect->isActive()) {
+            m_effect->handlePointerEvent(event);
+        }
+    }
+
+private:
+    MagpieEffect *m_effect{nullptr};
 };
 
 } // namespace KWin

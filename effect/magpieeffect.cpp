@@ -8,7 +8,11 @@
 #include <QLoggingCategory>
 
 #include <core/output.h>
+#include <core/renderviewport.h>
 #include <effect/effectwindow.h>
+#include <opengl/gltexture.h>
+#include <opengl/glshadermanager.h>
+#include <opengl/glshader.h>
 
 Q_LOGGING_CATEGORY(KWIN_MAGPIE, "kwin_effect_magpie", QtInfoMsg)
 
@@ -43,7 +47,7 @@ MagpieEffect::MagpieEffect()
     m_toggleAction->setObjectName(QStringLiteral("ToggleMagpie"));
     m_toggleAction->setText(i18n("Toggle Magpie Window Scaling"));
 
-    KGlobalAccel::setGlobalShortcut(m_toggleAction, QKeySequence(Qt::META | Qt::ALT | Qt::Key_M));
+    KGlobalAccel::setGlobalShortcut(m_toggleAction, QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_M));
 
     connect(m_toggleAction, &QAction::triggered, this, &MagpieEffect::toggle);
 
@@ -132,6 +136,10 @@ void MagpieEffect::paintScreen(const RenderTarget &renderTarget, const RenderVie
     if (effects) {
         effects->paintScreen(renderTarget, viewport, mask, deviceRegion, screen);
     }
+
+    if (m_active && m_targetWindow) {
+        renderVisualCursor(viewport);
+    }
 }
 
 void MagpieEffect::postPaintScreen()
@@ -139,6 +147,41 @@ void MagpieEffect::postPaintScreen()
     if (effects) {
         effects->postPaintScreen();
     }
+}
+
+void MagpieEffect::renderVisualCursor(const RenderViewport &viewport)
+{
+    if (!effects) {
+        return;
+    }
+
+    PlatformCursorImage cursor = effects->cursorImage();
+    if (cursor.isNull()) {
+        return;
+    }
+
+    const QImage img = cursor.image();
+    const QPointF hotSpot = cursor.hotSpot();
+    const QPointF drawPos = m_visualCursorPos - hotSpot;
+
+    std::unique_ptr<GLTexture> tex = GLTexture::upload(img);
+    if (!tex) {
+        return;
+    }
+
+    tex->setFilter(GL_LINEAR);
+    tex->bind();
+
+    GLShader *shader = ShaderManager::instance()->pushShader(ShaderTrait::MapTexture);
+    if (shader) {
+        QMatrix4x4 mvp = viewport.projectionMatrix();
+        mvp.translate(drawPos.x(), drawPos.y());
+        shader->setUniform(GLShader::Mat4Uniform::ModelViewProjectionMatrix, mvp);
+        tex->render(img.size());
+        ShaderManager::instance()->popShader();
+    }
+
+    tex->unbind();
 }
 
 void MagpieEffect::activateOnWindow(EffectWindow *window)
@@ -151,11 +194,18 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
     m_active = true;
     redirect(m_targetWindow);
 
+    if (effects) {
+        m_visualCursorPos = effects->cursorPos();
+        effects->hideCursor();
+    }
+
+    m_inputSpy = std::make_unique<MagpieInputSpy>(this);
+
     QString name = m_targetWindow->caption();
     if (name.isEmpty()) {
         name = QStringLiteral("Window");
     }
-    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1").arg(name));
+    sendDesktopNotification(QStringLiteral("Magpie 已激活"), QStringLiteral("正在等比全屏放大：%1\n按 Ctrl+Alt+M 退出").arg(name));
 
     if (effects) {
         effects->addRepaintFull();
@@ -164,6 +214,12 @@ void MagpieEffect::activateOnWindow(EffectWindow *window)
 
 void MagpieEffect::deactivate()
 {
+    m_inputSpy.reset();
+
+    if (effects && effects->isCursorHidden()) {
+        effects->showCursor();
+    }
+
     if (m_targetWindow) {
         unredirect(m_targetWindow);
         m_targetWindow = nullptr;
@@ -187,6 +243,7 @@ void MagpieEffect::toggle()
 
         EffectWindow *window = effects->activeWindow();
         if (!window) {
+            sendDesktopNotification(QStringLiteral("Magpie 待命"), QStringLiteral("请点击需要放大的目标窗口"));
             effects->startInteractiveWindowSelection([this](EffectWindow *w) {
                 if (w) {
                     activateOnWindow(w);
@@ -204,25 +261,79 @@ void MagpieEffect::toggle()
 void MagpieEffect::handleWindowDeleted(EffectWindow *w)
 {
     if (w == m_targetWindow) {
-        m_targetWindow = nullptr;
-        m_active = false;
-        if (effects) {
-            effects->addRepaintFull();
-        }
+        deactivate();
     }
 }
 
 void MagpieEffect::slotWindowClosed(EffectWindow *w)
 {
     if (w == m_targetWindow) {
-        if (m_active && m_targetWindow) {
-            unredirect(m_targetWindow);
-        }
-        m_targetWindow = nullptr;
-        m_active = false;
-        if (effects) {
-            effects->addRepaintFull();
-        }
+        deactivate();
+    }
+}
+
+QPointF MagpieEffect::mapScaledToOriginal(const QPointF &pos) const
+{
+    if (!m_targetWindow) {
+        return pos;
+    }
+
+    LogicalOutput *output = m_targetWindow->screen();
+    if (!output && effects) {
+        output = effects->activeScreen();
+    }
+    if (!output && effects && !effects->screens().isEmpty()) {
+        output = effects->screens().first();
+    }
+    if (!output) {
+        return pos;
+    }
+
+    const RectF outputRect = output->geometryF();
+    const RectF winGeom = m_targetWindow->frameGeometry();
+
+    const qreal winW = winGeom.width();
+    const qreal winH = winGeom.height();
+
+    if (winW <= 0.0 || winH <= 0.0 || outputRect.width() <= 0.0 || outputRect.height() <= 0.0) {
+        return pos;
+    }
+
+    const qreal scale = std::min(outputRect.width() / winW, outputRect.height() / winH);
+    const qreal scaledW = winW * scale;
+    const qreal scaledH = winH * scale;
+
+    const qreal targetX = outputRect.x() + (outputRect.width() - scaledW) / 2.0;
+    const qreal targetY = outputRect.y() + (outputRect.height() - scaledH) / 2.0;
+
+    const qreal relX = pos.x() - targetX;
+    const qreal relY = pos.y() - targetY;
+
+    const qreal clampedRelX = std::clamp(relX, 0.0, scaledW);
+    const qreal clampedRelY = std::clamp(relY, 0.0, scaledH);
+
+    const qreal origX = winGeom.x() + clampedRelX / scale;
+    const qreal origY = winGeom.y() + clampedRelY / scale;
+
+    return QPointF(origX, origY);
+}
+
+void MagpieEffect::handlePointerEvent(PointerMotionEvent *event)
+{
+    if (!m_active || !m_targetWindow) {
+        return;
+    }
+
+    m_visualCursorPos = event->position;
+
+    // Map screen cursor position to game window coordinate and warp physical pointer
+    const QPointF origPos = mapScaledToOriginal(m_visualCursorPos);
+    if (input()) {
+        input()->warpPointer(origPos);
+    }
+
+    if (effects) {
+        effects->addRepaintFull();
     }
 }
 
@@ -259,7 +370,7 @@ void MagpieEffect::apply(EffectWindow *window, int mask, WindowPaintData &data, 
     // Aspect-preserving scale
     const qreal scale = std::min(outputRect.width() / winW, outputRect.height() / winH);
 
-    // Center alignment:
+    // Exact Center alignment:
     const QPointF screenCenter(outputRect.x() + outputRect.width() / 2.0,
                                outputRect.y() + outputRect.height() / 2.0);
     const QPointF windowPos = window->pos();
