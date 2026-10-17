@@ -90,6 +90,48 @@ public:
         }
     }
 
+    void pointerButton(PointerButtonEvent *event) override
+    {
+        if (m_effect && m_effect->isActive()) {
+            event->position = m_effect->mapScaledToOriginal(event->position);
+        }
+    }
+
+    void pointerAxis(PointerAxisEvent *event) override
+    {
+        if (m_effect && m_effect->isActive()) {
+            event->position = m_effect->mapScaledToOriginal(event->position);
+        }
+    }
+
+    void touchDown(TouchDownEvent *event) override
+    {
+        if (m_effect && m_effect->isActive()) {
+            event->pos = m_effect->mapScaledToOriginal(event->pos);
+        }
+    }
+
+    void touchMotion(TouchMotionEvent *event) override
+    {
+        if (m_effect && m_effect->isActive()) {
+            event->pos = m_effect->mapScaledToOriginal(event->pos);
+        }
+    }
+
+    void tabletToolTipEvent(TabletToolTipEvent *event) override
+    {
+        if (m_effect && m_effect->isActive()) {
+            event->position = m_effect->mapScaledToOriginal(event->position);
+        }
+    }
+
+    void tabletToolAxisEvent(TabletToolAxisEvent *event) override
+    {
+        if (m_effect && m_effect->isActive()) {
+            event->position = m_effect->mapScaledToOriginal(event->position);
+        }
+    }
+
 private:
     MagpieEffect *m_effect{nullptr};
 };
