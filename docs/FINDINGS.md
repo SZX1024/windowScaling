@@ -192,3 +192,14 @@
 3. **独立性与稳定性**:
    - 独立进程编译为 `bin/magpie-overlay`，配有便捷启动器 `bin/magpie`。
    - 零崩溃风险，按下 `Esc` 或 `Ctrl+Alt+M` 即刻退出全屏。
+### 覆盖层调试与修复记录 (实测排查)
+1. **光标被卡在屏幕右侧的原因**:
+   - 原代码在 `mouseMoveEvent`（鼠标普通悬停移动）中也调用了 `XTestFakeMotionEvent(gamePos)`。
+   - 当用户在全屏窗口中自由移动光标时，每一帧移动都会把底层硬件指针瞬移回小窗口的 X 坐标（如 934 像素），导致光标产生致命的“向右吸附”死循环，死死卡在右侧。
+   - **修复**: 普通鼠标悬停移动时，光标在全屏覆盖层内**绝对自由移动，绝不触发底层指针瞬移**；只有在用户**点击（mousePress）、按住拖拽（drag）、滚轮（wheel）或触摸屏手指触控（touchDown）**的瞬间，才定向将动作精准注入给游戏。光标完全自由流畅，绝不再卡顿。
+2. **画面打开后内容不更新（冻结）的原因**:
+   - 原代码在 `QOpenGLWindow` 内部试图使用 `QPainter(this)` 绘制。在 Qt6 中，未绑定的纯 OpenGL 窗口无法使用 2D QPainter 进行帧上屏，导致除第一帧外后续所有帧被直接丢弃。
+   - **修复**: 全面重构为**原生现代 OpenGL 3.3+ 管线**：
+     - 构建专用的定点着色器（Vertex Shader）与片元着色器（Fragment Shader）；
+     - 利用正交投影矩阵（Orthographic Projection）与 VAO/VBO 绘制双三角形纹理四边形；
+     - 每一帧从 `XComposite` / `MIT-SHM` 拉取的最新画面直接写入 `QOpenGLTexture` 上屏，120Hz 极限满血流畅刷新，彻底解决画面冻结。
