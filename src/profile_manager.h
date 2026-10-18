@@ -3,15 +3,45 @@
 #include <QString>
 #include <QStringList>
 #include <QJsonObject>
+#include <QJsonArray>
 #include <QMap>
+#include <vector>
 #include <memory>
+
+struct EffectPass {
+    QString name;
+    QString scalingType{"Fit"}; // "Fit", "Normal", "Fill"
+    float scaleX{1.0f};
+    float scaleY{1.0f};
+    QMap<QString, float> parameters;
+
+    QJsonObject toJson() const;
+    static EffectPass fromJson(const QJsonObject &obj);
+};
+
+struct ScalingModeConfig {
+    QString name;
+    std::vector<EffectPass> effects;
+
+    QString description() const {
+        QStringList names;
+        for (const auto &e : effects) {
+            names << e.name;
+        }
+        return names.join(", ");
+    }
+
+    QJsonObject toJson() const;
+    static ScalingModeConfig fromJson(const QJsonObject &obj);
+};
 
 struct GameProfile {
     QString name;
     QString windowClassPattern;
     QString windowTitlePattern;
 
-    QStringList effectChain; // e.g. ["Anime4K", "CAS"]
+    QString scalingModeName{"Lanczos"};
+    QStringList effectChain; // Fallback or active chain
     int scalingMode{0};      // 0: Fit, 1: Integer, 2: Stretch, 3: Windowed
     float windowScale{1.5f}; // For Windowed mode
     float sharpness{0.45f};  // For CAS
@@ -41,6 +71,13 @@ public:
     bool load();
     bool save();
 
+    // Scaling Modes (Pipelines from screenshot)
+    std::vector<ScalingModeConfig> listScalingModes() const;
+    ScalingModeConfig getScalingModeByName(const QString &name) const;
+    void saveScalingMode(const ScalingModeConfig &mode);
+    void deleteScalingMode(const QString &name);
+
+    // Profiles
     GameProfile getProfileForWindow(const QString &winClass, const QString &winTitle);
     void setProfileForWindow(const QString &key, const GameProfile &profile);
 
@@ -56,8 +93,10 @@ private:
     ProfileManager();
     QString configFilePath() const;
     void createDefaultProfiles();
+    void createDefaultScalingModes();
 
     QMap<QString, GameProfile> m_profiles;
+    std::vector<ScalingModeConfig> m_scalingModes;
     GameProfile m_currentProfile;
     QString m_lastMatchedKey;
 };

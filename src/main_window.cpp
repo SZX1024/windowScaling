@@ -40,8 +40,8 @@ MainWindow::~MainWindow()
 void MainWindow::setupUI()
 {
     setWindowTitle(QStringLiteral("windowScaling - 窗口超分辨率放大器 (Linux / Galgame 专属)"));
-    setMinimumSize(820, 620);
-    resize(880, 680);
+    setMinimumSize(840, 640);
+    resize(900, 700);
 
     auto *central = new QWidget(this);
     setCentralWidget(central);
@@ -57,7 +57,7 @@ void MainWindow::setupUI()
     m_navList->setFixedWidth(190);
     m_navList->addItem(QStringLiteral("🏠  主页 (Home)"));
     m_navList->addItem(QStringLiteral("🎮  配置档 (Profiles)"));
-    m_navList->addItem(QStringLiteral("⚡  缩放模式与效果"));
+    m_navList->addItem(QStringLiteral("⚡  缩放模式 (Modes)"));
     m_navList->addItem(QStringLiteral("⚙️  设置 (Settings)"));
     m_navList->addItem(QStringLiteral("ℹ️  关于 (About)"));
     m_navList->setCurrentRow(0);
@@ -86,7 +86,7 @@ void MainWindow::onNavChanged(int row)
 }
 
 // -------------------------------------------------------------
-// Page 0: 主页 (HomePage)
+// Page 0: 主页 (HomePage) - 对标 Magpie HomePage.xaml
 // -------------------------------------------------------------
 QWidget *MainWindow::createHomePage()
 {
@@ -95,7 +95,42 @@ QWidget *MainWindow::createHomePage()
     layout->setContentsMargins(18, 18, 18, 18);
     layout->setSpacing(14);
 
-    // 1. 缩放激活卡片组 (Activation)
+    // 1. 缩放配置卡片组 (Configuration)
+    auto *confGroup = new QGroupBox(QStringLiteral("✨ 缩放配置 (Configuration)"), page);
+    auto *confLayout = new QFormLayout(confGroup);
+    confLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    confLayout->setSpacing(10);
+
+    m_homeScalingModeCombo = new QComboBox(confGroup);
+    m_homeScalingModeCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    auto modes = ProfileManager::instance().listScalingModes();
+    for (const auto &m : modes) {
+        m_homeScalingModeCombo->addItem(QStringLiteral("%1  (%2)").arg(m.name).arg(m.description()), m.name);
+    }
+    connect(m_homeScalingModeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [this](int idx) {
+        if (m_loadingProfile || idx < 0) return;
+        QString modeName = m_homeScalingModeCombo->itemData(idx).toString();
+        auto modeCfg = ProfileManager::instance().getScalingModeByName(modeName);
+        if (m_overlay && m_overlay->shaderPipeline()) {
+            QStringList chain;
+            for (const auto &e : modeCfg.effects) chain << e.name;
+            m_overlay->shaderPipeline()->setEffectChain(chain);
+            if (!modeCfg.effects.empty() && modeCfg.effects[0].parameters.contains("sharpness")) {
+                m_overlay->shaderPipeline()->setSharpness(modeCfg.effects[0].parameters["sharpness"]);
+            } else if (modeCfg.effects.size() > 1 && modeCfg.effects[1].parameters.contains("sharpness")) {
+                m_overlay->shaderPipeline()->setSharpness(modeCfg.effects[1].parameters["sharpness"]);
+            }
+            updatePipelineListUI();
+        }
+    });
+    confLayout->addRow(QStringLiteral("处理流水线模式:"), m_homeScalingModeCombo);
+
+    auto *capLabel = new QLabel(QStringLiteral("XComposite + MIT-SHM (零拷贝硬件共享显存)"), confGroup);
+    confLayout->addRow(QStringLiteral("图像捕获方式:"), capLabel);
+
+    layout->addWidget(confGroup);
+
+    // 2. 缩放激活卡片组 (Activation)
     auto *actGroup = new QGroupBox(QStringLiteral("⚡ 缩放激活 (Activation)"), page);
     auto *actLayout = new QFormLayout(actGroup);
     actLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
@@ -124,7 +159,7 @@ QWidget *MainWindow::createHomePage()
 
     layout->addWidget(actGroup);
 
-    // 2. 目标游戏窗口卡片组 (Target Window)
+    // 3. 目标游戏窗口卡片组 (Target Window)
     auto *winGroup = new QGroupBox(QStringLiteral("🎯 目标游戏窗口 (Target Window)"), page);
     auto *winLayout = new QVBoxLayout(winGroup);
     winLayout->setSpacing(10);
@@ -147,7 +182,7 @@ QWidget *MainWindow::createHomePage()
     layout->addWidget(winGroup);
     layout->addStretch();
 
-    // 3. 立即启动操作按钮 (Scale Now)
+    // 4. 立即启动操作按钮 (Scale Now)
     auto *btnRow = new QHBoxLayout();
     m_scaleFullscreenBtn = new QPushButton(QStringLiteral("🚀 立即全屏放大 (Scale Fullscreen)"), page);
     m_scaleFullscreenBtn->setFixedHeight(44);
@@ -228,7 +263,7 @@ QWidget *MainWindow::createProfilesPage()
 }
 
 // -------------------------------------------------------------
-// Page 2: 缩放模式与自定义效果流水线 (ScalingModesPage)
+// Page 2: 缩放模式与自定义效果流水线 (ScalingModesPage - 1:1 对标 Magpie 截图)
 // -------------------------------------------------------------
 QWidget *MainWindow::createScalingModesPage()
 {
@@ -237,21 +272,53 @@ QWidget *MainWindow::createScalingModesPage()
     layout->setContentsMargins(18, 18, 18, 18);
     layout->setSpacing(14);
 
-    // 1. 缩放比例模式 (Scaling Modes)
-    auto *modeGroup = new QGroupBox(QStringLiteral("📐 缩放比例模式 (Scaling Modes)"), page);
-    auto *modeLayout = new QFormLayout(modeGroup);
-    modeLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    modeLayout->setSpacing(10);
+    // 1. 顶栏操作区 (Title & New Mode)
+    auto *headerRow = new QHBoxLayout();
+    auto *titleVBox = new QVBoxLayout();
+    auto *titleLbl = new QLabel(QStringLiteral("<h2>缩放模式</h2>"), page);
+    auto *subTitleLbl = new QLabel(QStringLiteral("创建和配置超分辨率缩放模式与流水线"), page);
+    subTitleLbl->setStyleSheet(QStringLiteral("color: gray;"));
+    titleVBox->addWidget(titleLbl);
+    titleVBox->addWidget(subTitleLbl);
+    headerRow->addLayout(titleVBox);
+    headerRow->addStretch();
 
-    m_modeCombo = new QComboBox(modeGroup);
+    m_newScalingModeBtn = new QPushButton(QStringLiteral("➕ 新建模式"), page);
+    connect(m_newScalingModeBtn, &QPushButton::clicked, this, &MainWindow::onNewScalingModeClicked);
+    m_saveScalingModeBtn = new QPushButton(QStringLiteral("💾 保存当前模式"), page);
+    connect(m_saveScalingModeBtn, &QPushButton::clicked, this, &MainWindow::onSaveScalingModeClicked);
+    m_deleteScalingModeBtn = new QPushButton(QStringLiteral("🗑️ 删除模式"), page);
+    connect(m_deleteScalingModeBtn, &QPushButton::clicked, this, &MainWindow::onDeleteScalingModeClicked);
+
+    headerRow->addWidget(m_newScalingModeBtn);
+    headerRow->addWidget(m_saveScalingModeBtn);
+    headerRow->addWidget(m_deleteScalingModeBtn);
+    layout->addLayout(headerRow);
+
+    // 2. 缩放模式选择 (7大截图预设模式 + 自定义)
+    auto *modeSelGroup = new QGroupBox(QStringLiteral("📋 缩放模式选择 (Scaling Mode)"), page);
+    auto *modeSelLayout = new QFormLayout(modeSelGroup);
+    modeSelLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    modeSelLayout->setSpacing(8);
+
+    m_scalingModeSelector = new QComboBox(modeSelGroup);
+    m_scalingModeSelector->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    auto modes = ProfileManager::instance().listScalingModes();
+    for (const auto &m : modes) {
+        m_scalingModeSelector->addItem(QStringLiteral("%1  (%2)").arg(m.name).arg(m.description()), m.name);
+    }
+    connect(m_scalingModeSelector, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::onScalingModeChanged);
+    modeSelLayout->addRow(QStringLiteral("当前模式:"), m_scalingModeSelector);
+
+    m_modeCombo = new QComboBox(modeSelGroup);
     m_modeCombo->addItem(QStringLiteral("等比适应全屏 (Fit / 自动黑边居中，Galgame标准)"), (int)ScalingMode::Fit);
     m_modeCombo->addItem(QStringLiteral("整数倍无损放大 (Integer 1x/2x/3x，复古点阵像素)"), (int)ScalingMode::Integer);
     m_modeCombo->addItem(QStringLiteral("强制拉伸铺满全屏 (Stretch)"), (int)ScalingMode::Stretch);
     m_modeCombo->addItem(QStringLiteral("窗口化缩放模式 (Windowed Mode，自定义窗口倍率)"), (int)ScalingMode::Windowed);
     connect(m_modeCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::onModeChanged);
-    modeLayout->addRow(QStringLiteral("缩放比例模式:"), m_modeCombo);
+    modeSelLayout->addRow(QStringLiteral("缩放比例类型:"), m_modeCombo);
 
-    m_windowScaleRow = new QWidget(modeGroup);
+    m_windowScaleRow = new QWidget(modeSelGroup);
     auto *wsHBox = new QHBoxLayout(m_windowScaleRow);
     wsHBox->setContentsMargins(0, 0, 0, 0);
     m_windowScaleSpin = new QDoubleSpinBox(m_windowScaleRow);
@@ -262,15 +329,15 @@ QWidget *MainWindow::createScalingModesPage()
     connect(m_windowScaleSpin, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, &MainWindow::onWindowScaleChanged);
     wsHBox->addWidget(m_windowScaleSpin);
     wsHBox->addStretch();
-    modeLayout->addRow(QStringLiteral("窗口化倍率:"), m_windowScaleRow);
+    modeSelLayout->addRow(QStringLiteral("窗口化倍率:"), m_windowScaleRow);
     m_windowScaleRow->setVisible(false);
 
-    layout->addWidget(modeGroup);
+    layout->addWidget(modeSelGroup);
 
-    // 2. 画面裁剪 (Cropping)
+    // 3. 画面黑边裁剪 (Cropping)
     auto *cropGroup = new QGroupBox(QStringLiteral("✂️ 画面黑边裁剪 (Cropping)"), page);
     auto *cropLayout = new QGridLayout(cropGroup);
-    cropLayout->setSpacing(10);
+    cropLayout->setSpacing(8);
 
     cropLayout->addWidget(new QLabel(QStringLiteral("左裁 (Left):"), cropGroup), 0, 0);
     m_cropLeft = new QSpinBox(cropGroup);
@@ -302,23 +369,12 @@ QWidget *MainWindow::createScalingModesPage()
 
     layout->addWidget(cropGroup);
 
-    // 3. 多算法顺序串联流水线 (Effects Pipeline Editor - 对标 Magpie)
+    // 4. 多算法顺序串联流水线 (Effects Pipeline - 1:1 对标 Magpie 展开卡片)
     auto *pipeGroup = new QGroupBox(QStringLiteral("🧩 超分流水线与效果链编排器 (Effects Pipeline)"), page);
     auto *pipeVBox = new QVBoxLayout(pipeGroup);
-    pipeVBox->setSpacing(10);
+    pipeVBox->setSpacing(8);
 
-    // Preset quick bar
-    auto *presetRow = new QHBoxLayout();
-    presetRow->addWidget(new QLabel(QStringLiteral("⚡ 快速套用预设:"), pipeGroup));
-    m_presetCombo = new QComboBox(pipeGroup);
-    m_presetCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    auto presets = ShaderPipeline::availablePresets();
-    m_presetCombo->addItems(presets);
-    connect(m_presetCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::onPresetChanged);
-    presetRow->addWidget(m_presetCombo);
-    pipeVBox->addLayout(presetRow);
-
-    // Effect List and Management Buttons
+    // Pipeline list & operation buttons
     auto *listAndBtnRow = new QHBoxLayout();
     m_pipelineList = new QListWidget(pipeGroup);
     m_pipelineList->setFixedHeight(120);
@@ -326,7 +382,7 @@ QWidget *MainWindow::createScalingModesPage()
     listAndBtnRow->addWidget(m_pipelineList, 3);
 
     auto *btnCol = new QVBoxLayout();
-    btnCol->setSpacing(6);
+    btnCol->setSpacing(5);
 
     m_addEffectBtn = new QPushButton(QStringLiteral("➕ 添加效果..."), pipeGroup);
     m_addEffectMenu = new QMenu(m_addEffectBtn);
@@ -357,8 +413,8 @@ QWidget *MainWindow::createScalingModesPage()
     listAndBtnRow->addLayout(btnCol, 1);
     pipeVBox->addLayout(listAndBtnRow);
 
-    // 4. 选中效果参数动态面板 (Dynamic Parameter Panel)
-    m_paramBox = new QGroupBox(QStringLiteral("⚙️ 效果参数调节 (选中上方效果联动展示)"), pipeGroup);
+    // 5. 选中效果参数动态调节 (Dynamic Parameter Panel)
+    m_paramBox = new QGroupBox(QStringLiteral("⚙️ 选中效果参数调节 (与上方选中 Pass 联动)"), pipeGroup);
     auto *paramLayout = new QFormLayout(m_paramBox);
     paramLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
     paramLayout->setSpacing(8);
@@ -367,19 +423,19 @@ QWidget *MainWindow::createScalingModesPage()
     m_paramTitleLabel->setStyleSheet(QStringLiteral("font-weight: bold;"));
     paramLayout->addRow(m_paramTitleLabel);
 
-    // CAS Sharpness
+    // CAS / RCAS Sharpness (0.00 ~ 1.00)
     m_sharpnessRow = new QWidget(m_paramBox);
     auto *sBox = new QHBoxLayout(m_sharpnessRow);
     sBox->setContentsMargins(0, 0, 0, 0);
     m_sharpnessSlider = new QSlider(Qt::Horizontal, m_sharpnessRow);
     m_sharpnessSlider->setRange(0, 100);
-    m_sharpnessSlider->setValue(45);
-    m_sharpnessLabel = new QLabel(QStringLiteral("0.45"), m_sharpnessRow);
+    m_sharpnessSlider->setValue(87); // Magpie default RCAS sharpness 0.87
+    m_sharpnessLabel = new QLabel(QStringLiteral("0.87"), m_sharpnessRow);
     m_sharpnessLabel->setFixedWidth(36);
     connect(m_sharpnessSlider, &QSlider::valueChanged, this, &MainWindow::onSharpnessChanged);
     sBox->addWidget(m_sharpnessSlider);
     sBox->addWidget(m_sharpnessLabel);
-    paramLayout->addRow(QStringLiteral("CAS / RCAS 锐度:"), m_sharpnessRow);
+    paramLayout->addRow(QStringLiteral("锐化强度 (Sharpness):"), m_sharpnessRow);
 
     // Anime4K line strength
     m_animeRow = new QWidget(m_paramBox);
@@ -387,13 +443,13 @@ QWidget *MainWindow::createScalingModesPage()
     aBox->setContentsMargins(0, 0, 0, 0);
     m_animeSlider = new QSlider(Qt::Horizontal, m_animeRow);
     m_animeSlider->setRange(0, 100);
-    m_animeSlider->setValue(50);
-    m_animeLabel = new QLabel(QStringLiteral("0.50"), m_animeRow);
+    m_animeSlider->setValue(65);
+    m_animeLabel = new QLabel(QStringLiteral("0.65"), m_animeRow);
     m_animeLabel->setFixedWidth(36);
     connect(m_animeSlider, &QSlider::valueChanged, this, &MainWindow::onAnimeChanged);
     aBox->addWidget(m_animeSlider);
     aBox->addWidget(m_animeLabel);
-    paramLayout->addRow(QStringLiteral("动漫线条强化:"), m_animeRow);
+    paramLayout->addRow(QStringLiteral("动漫暗线强化:"), m_animeRow);
 
     // Deband threshold
     m_debandThresholdRow = new QWidget(m_paramBox);
@@ -442,6 +498,98 @@ QWidget *MainWindow::createScalingModesPage()
 
     layout->addStretch();
     return page;
+}
+
+void MainWindow::onScalingModeChanged(int index)
+{
+    if (m_loadingProfile || index < 0) return;
+    QString modeName = m_scalingModeSelector->itemData(index).toString();
+    auto modeCfg = ProfileManager::instance().getScalingModeByName(modeName);
+
+    if (m_overlay && m_overlay->shaderPipeline()) {
+        QStringList chain;
+        for (const auto &e : modeCfg.effects) chain << e.name;
+        m_overlay->shaderPipeline()->setEffectChain(chain);
+
+        // Apply parameters if present
+        for (const auto &e : modeCfg.effects) {
+            if (e.parameters.contains("sharpness")) {
+                m_overlay->shaderPipeline()->setSharpness(e.parameters["sharpness"]);
+                m_sharpnessSlider->setValue(std::lround(e.parameters["sharpness"] * 100));
+            }
+            if (e.parameters.contains("animeStrength")) {
+                m_overlay->shaderPipeline()->setAnimeStrength(e.parameters["animeStrength"]);
+                m_animeSlider->setValue(std::lround(e.parameters["animeStrength"] * 100));
+            }
+            if (e.parameters.contains("crtScanline")) {
+                m_overlay->shaderPipeline()->setCRTScanline(e.parameters["crtScanline"]);
+                m_crtScanlineSlider->setValue(std::lround(e.parameters["crtScanline"] * 100));
+            }
+        }
+        updatePipelineListUI();
+    }
+}
+
+void MainWindow::onNewScalingModeClicked()
+{
+    bool ok = false;
+    QString name = QInputDialog::getText(this, QStringLiteral("新建缩放模式"), QStringLiteral("请输入缩放模式名称:"), QLineEdit::Normal, QStringLiteral(""), &ok);
+    if (ok && !name.trimmed().isEmpty()) {
+        ScalingModeConfig cfg;
+        cfg.name = name.trimmed();
+        if (m_overlay && m_overlay->shaderPipeline()) {
+            for (const auto &effName : m_overlay->shaderPipeline()->effectChain()) {
+                EffectPass pass;
+                pass.name = effName;
+                pass.scalingType = "Fit";
+                if (effName == "FSR_RCAS" || effName == "CAS") pass.parameters["sharpness"] = m_overlay->shaderPipeline()->sharpness();
+                cfg.effects.push_back(pass);
+            }
+        }
+        ProfileManager::instance().saveScalingMode(cfg);
+        m_scalingModeSelector->addItem(QStringLiteral("%1  (%2)").arg(cfg.name).arg(cfg.description()), cfg.name);
+        m_scalingModeSelector->setCurrentText(cfg.name);
+    }
+}
+
+void MainWindow::onSaveScalingModeClicked()
+{
+    int idx = m_scalingModeSelector->currentIndex();
+    if (idx < 0) return;
+    QString name = m_scalingModeSelector->itemData(idx).toString();
+
+    ScalingModeConfig cfg;
+    cfg.name = name;
+    if (m_overlay && m_overlay->shaderPipeline()) {
+        for (const auto &effName : m_overlay->shaderPipeline()->effectChain()) {
+            EffectPass pass;
+            pass.name = effName;
+            pass.scalingType = "Fit";
+            if (effName == "FSR_RCAS" || effName == "CAS") pass.parameters["sharpness"] = m_overlay->shaderPipeline()->sharpness();
+            if (effName.contains("Anime4K")) pass.parameters["animeStrength"] = m_overlay->shaderPipeline()->animeStrength();
+            if (effName == "CRT") pass.parameters["crtScanline"] = m_overlay->shaderPipeline()->crtScanline();
+            cfg.effects.push_back(pass);
+        }
+    }
+    ProfileManager::instance().saveScalingMode(cfg);
+    m_scalingModeSelector->setItemText(idx, QStringLiteral("%1  (%2)").arg(cfg.name).arg(cfg.description()));
+    QMessageBox::information(this, QStringLiteral("已保存"), QStringLiteral("缩放模式 [%1] 流水线配置保存成功！").arg(name));
+}
+
+void MainWindow::onDeleteScalingModeClicked()
+{
+    int idx = m_scalingModeSelector->currentIndex();
+    if (idx < 0) return;
+    QString name = m_scalingModeSelector->itemData(idx).toString();
+    if (name == "Lanczos" || name == "FSR") {
+        QMessageBox::warning(this, QStringLiteral("提示"), QStringLiteral("默认内置缩放模式不可删除。"));
+        return;
+    }
+
+    if (QMessageBox::question(this, QStringLiteral("删除确认"), QStringLiteral("确定删除缩放模式 [%1] 吗？").arg(name)) == QMessageBox::Yes) {
+        ProfileManager::instance().deleteScalingMode(name);
+        m_scalingModeSelector->removeItem(idx);
+    }
 }
 
 void MainWindow::updatePipelineListUI()
@@ -495,7 +643,6 @@ void MainWindow::updateParamControlsForCurrentEffect()
     m_debandRangeRow->setVisible(currentEffect == "Deband");
     m_crtRow->setVisible(currentEffect == "CRT");
 }
-
 
 void MainWindow::onAddEffectClicked()
 {
@@ -796,6 +943,16 @@ void MainWindow::loadProfileToUI(const GameProfile &p)
     m_toolbarModeCombo->setCurrentIndex(p.toolbarPinned ? 1 : 0);
     m_showProfilerCheck->setChecked(p.showProfiler);
 
+    // Sync scaling mode in home and modes page
+    if (m_homeScalingModeCombo) {
+        int smIdx = m_homeScalingModeCombo->findData(p.scalingModeName);
+        if (smIdx >= 0) m_homeScalingModeCombo->setCurrentIndex(smIdx);
+    }
+    if (m_scalingModeSelector) {
+        int smIdx = m_scalingModeSelector->findData(p.scalingModeName);
+        if (smIdx >= 0) m_scalingModeSelector->setCurrentIndex(smIdx);
+    }
+
     if (m_overlay) {
         m_overlay->setCropMargins(QMargins(p.cropLeft, p.cropTop, p.cropRight, p.cropBottom));
         m_overlay->setWindowScale(p.windowScale);
@@ -823,6 +980,9 @@ GameProfile MainWindow::collectUIProfile() const
     p.name = m_profileCombo->currentText();
     p.windowClassPattern = m_ruleClassEdit->text().trimmed();
     p.windowTitlePattern = m_ruleTitleEdit->text().trimmed();
+    if (m_scalingModeSelector) {
+        p.scalingModeName = m_scalingModeSelector->currentData().toString();
+    }
 
     if (m_overlay && m_overlay->shaderPipeline()) {
         p.effectChain = m_overlay->shaderPipeline()->effectChain();
@@ -946,12 +1106,7 @@ void MainWindow::onWindowSelected(int index)
 
 void MainWindow::onPresetChanged(int index)
 {
-    if (m_loadingProfile) return;
-    QString presetText = m_presetCombo->itemText(index);
-    if (m_overlay && m_overlay->shaderPipeline()) {
-        m_overlay->shaderPipeline()->applyPreset(presetText);
-        updatePipelineListUI();
-    }
+    Q_UNUSED(index);
 }
 
 void MainWindow::onModeChanged(int index)

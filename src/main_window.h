@@ -54,6 +54,10 @@ private slots:
     void onCropChanged();
 
     // Custom Effects Pipeline Editor slots (Magpie style)
+    void onScalingModeChanged(int index);
+    void onNewScalingModeClicked();
+    void onSaveScalingModeClicked();
+    void onDeleteScalingModeClicked();
     void onPresetChanged(int index);
     void onPipelineRowChanged(int row);
     void onAddEffectClicked();
@@ -95,6 +99,7 @@ private:
 
     // --- Page 0: Home ---
     QComboBox *m_homeWindowCombo{nullptr};
+    QComboBox *m_homeScalingModeCombo{nullptr};
     QPushButton *m_homeRefreshBtn{nullptr};
     QLabel *m_homeProfileStatus{nullptr};
     QSlider *m_delaySlider{nullptr};
@@ -119,6 +124,12 @@ private:
     QSpinBox *m_cropTop{nullptr};
     QSpinBox *m_cropRight{nullptr};
     QSpinBox *m_cropBottom{nullptr};
+
+    // Scaling Modes (Pipelines from screenshot)
+    QComboBox *m_scalingModeSelector{nullptr};
+    QPushButton *m_newScalingModeBtn{nullptr};
+    QPushButton *m_saveScalingModeBtn{nullptr};
+    QPushButton *m_deleteScalingModeBtn{nullptr};
 
     // Effects Pipeline Editor
     QComboBox *m_presetCombo{nullptr};

@@ -7,12 +7,73 @@
 #include <QJsonArray>
 #include <QDebug>
 
+QJsonObject EffectPass::toJson() const
+{
+    QJsonObject obj;
+    obj["name"] = name;
+    obj["scalingType"] = scalingType;
+    obj["scaleX"] = (double)scaleX;
+    obj["scaleY"] = (double)scaleY;
+
+    QJsonObject paramObj;
+    for (auto it = parameters.begin(); it != parameters.end(); ++it) {
+        paramObj[it.key()] = (double)it.value();
+    }
+    obj["parameters"] = paramObj;
+
+    return obj;
+}
+
+EffectPass EffectPass::fromJson(const QJsonObject &obj)
+{
+    EffectPass p;
+    p.name = obj["name"].toString();
+    p.scalingType = obj["scalingType"].toString("Fit");
+    p.scaleX = (float)obj["scaleX"].toDouble(1.0);
+    p.scaleY = (float)obj["scaleY"].toDouble(1.0);
+
+    QJsonObject paramObj = obj["parameters"].toObject();
+    for (auto it = paramObj.begin(); it != paramObj.end(); ++it) {
+        p.parameters[it.key()] = (float)it.value().toDouble();
+    }
+
+    return p;
+}
+
+QJsonObject ScalingModeConfig::toJson() const
+{
+    QJsonObject obj;
+    obj["name"] = name;
+
+    QJsonArray effArr;
+    for (const auto &eff : effects) {
+        effArr.append(eff.toJson());
+    }
+    obj["effects"] = effArr;
+
+    return obj;
+}
+
+ScalingModeConfig ScalingModeConfig::fromJson(const QJsonObject &obj)
+{
+    ScalingModeConfig cfg;
+    cfg.name = obj["name"].toString();
+
+    QJsonArray effArr = obj["effects"].toArray();
+    for (const auto &val : effArr) {
+        cfg.effects.push_back(EffectPass::fromJson(val.toObject()));
+    }
+
+    return cfg;
+}
+
 QJsonObject GameProfile::toJson() const
 {
     QJsonObject obj;
     obj["name"] = name;
     obj["windowClassPattern"] = windowClassPattern;
     obj["windowTitlePattern"] = windowTitlePattern;
+    obj["scalingModeName"] = scalingModeName;
 
     QJsonArray chainArr;
     for (const auto &effect : effectChain) {
@@ -45,13 +106,14 @@ GameProfile GameProfile::fromJson(const QJsonObject &obj)
     p.name = obj["name"].toString();
     p.windowClassPattern = obj["windowClassPattern"].toString();
     p.windowTitlePattern = obj["windowTitlePattern"].toString();
+    p.scalingModeName = obj["scalingModeName"].toString("Lanczos");
 
     QJsonArray chainArr = obj["effectChain"].toArray();
     for (const auto &val : chainArr) {
         p.effectChain.append(val.toString());
     }
     if (p.effectChain.isEmpty()) {
-        p.effectChain << "CAS";
+        p.effectChain << "Lanczos";
     }
 
     p.scalingMode = obj["scalingMode"].toInt(0);
@@ -81,6 +143,7 @@ ProfileManager &ProfileManager::instance()
 
 ProfileManager::ProfileManager()
 {
+    createDefaultScalingModes();
     createDefaultProfiles();
     load();
 }
@@ -92,79 +155,165 @@ QString ProfileManager::configFilePath() const
     return configDir + "/profiles.json";
 }
 
+void ProfileManager::createDefaultScalingModes()
+{
+    m_scalingModes.clear();
+
+    // 1. Lanczos
+    {
+        ScalingModeConfig m;
+        m.name = "Lanczos";
+        EffectPass p;
+        p.name = "Lanczos";
+        p.scalingType = "Fit";
+        m.effects.push_back(p);
+        m_scalingModes.push_back(m);
+    }
+    // 2. FSR (EASU + RCAS sharpness=0.87)
+    {
+        ScalingModeConfig m;
+        m.name = "FSR";
+        EffectPass easu;
+        easu.name = "FSR_EASU";
+        easu.scalingType = "Fit";
+        m.effects.push_back(easu);
+
+        EffectPass rcas;
+        rcas.name = "FSR_RCAS";
+        rcas.scalingType = "None";
+        rcas.parameters["sharpness"] = 0.87f;
+        m.effects.push_back(rcas);
+
+        m_scalingModes.push_back(m);
+    }
+    // 3. FSRCNNX
+    {
+        ScalingModeConfig m;
+        m.name = "FSRCNNX";
+        EffectPass p;
+        p.name = "FSRCNNX";
+        p.scalingType = "Fit";
+        m.effects.push_back(p);
+        m_scalingModes.push_back(m);
+    }
+    // 4. CuNNy
+    {
+        ScalingModeConfig m;
+        m.name = "CuNNy";
+        EffectPass p;
+        p.name = "CuNNy";
+        p.scalingType = "Fit";
+        m.effects.push_back(p);
+        m_scalingModes.push_back(m);
+    }
+    // 5. Anime4K
+    {
+        ScalingModeConfig m;
+        m.name = "Anime4K";
+        EffectPass p1;
+        p1.name = "Anime4K";
+        p1.parameters["animeStrength"] = 0.65f;
+        m.effects.push_back(p1);
+
+        EffectPass p2;
+        p2.name = "Anime4K_Upscale";
+        p2.scalingType = "Fit";
+        m.effects.push_back(p2);
+
+        m_scalingModes.push_back(m);
+    }
+    // 6. CRT-Geom
+    {
+        ScalingModeConfig m;
+        m.name = "CRT-Geom";
+        EffectPass p;
+        p.name = "CRT";
+        p.scalingType = "Fit";
+        p.parameters["crtScanline"] = 0.50f;
+        m.effects.push_back(p);
+        m_scalingModes.push_back(m);
+    }
+    // 7. Integer Scale 2x
+    {
+        ScalingModeConfig m;
+        m.name = "Integer Scale 2x";
+        EffectPass p;
+        p.name = "Bilinear";
+        p.scalingType = "Normal";
+        p.scaleX = 2.0f;
+        p.scaleY = 2.0f;
+        m.effects.push_back(p);
+        m_scalingModes.push_back(m);
+    }
+}
+
 void ProfileManager::createDefaultProfiles()
 {
-    // 1. Lanczos
-    GameProfile lanczos;
-    lanczos.name = "Lanczos";
-    lanczos.effectChain = {"Lanczos"};
-    lanczos.scalingMode = 0; // Fit
-    m_profiles[lanczos.name] = lanczos;
+    m_profiles.clear();
 
-    // 2. FSR
-    GameProfile fsr;
-    fsr.name = "FSR";
-    fsr.effectChain = {"FSR_EASU", "FSR_RCAS"};
-    fsr.scalingMode = 0; // Fit
-    fsr.sharpness = 0.87f; // Magpie default
-    m_profiles[fsr.name] = fsr;
-
-    // 3. FSRCNNX
-    GameProfile fsrcnnx;
-    fsrcnnx.name = "FSRCNNX";
-    fsrcnnx.effectChain = {"FSRCNNX"};
-    fsrcnnx.scalingMode = 0; // Fit
-    m_profiles[fsrcnnx.name] = fsrcnnx;
-
-    // 4. CuNNy
-    GameProfile cunny;
-    cunny.name = "CuNNy";
-    cunny.effectChain = {"CuNNy"};
-    cunny.scalingMode = 0; // Fit
-    m_profiles[cunny.name] = cunny;
-
-    // 5. Anime4K
-    GameProfile anime4k;
-    anime4k.name = "Anime4K";
-    anime4k.effectChain = {"Anime4K", "Anime4K_Upscale"};
-    anime4k.scalingMode = 0; // Fit
-    anime4k.animeStrength = 0.65f;
-    m_profiles[anime4k.name] = anime4k;
-
-    // 6. CRT-Geom
-    GameProfile crtGeom;
-    crtGeom.name = "CRT-Geom";
-    crtGeom.effectChain = {"CRT"};
-    crtGeom.scalingMode = 0; // Fit
-    crtGeom.crtScanline = 0.50f;
-    m_profiles[crtGeom.name] = crtGeom;
-
-    // 7. Integer Scale 2x
-    GameProfile integer2x;
-    integer2x.name = "Integer Scale 2x";
-    integer2x.effectChain = {"Bilinear"};
-    integer2x.scalingMode = 1; // Integer
-    m_profiles[integer2x.name] = integer2x;
-
-    // 8. 默认 (Default) - Galgame 推荐
     GameProfile def;
     def.name = "默认 (Default)";
-    def.effectChain = {"CuNNy", "CAS"};
+    def.scalingModeName = "Lanczos";
+    def.effectChain = {"Lanczos"};
     def.scalingMode = 0; // Fit
-    def.sharpness = 0.45f;
-    def.animeStrength = 0.5f;
     m_profiles[def.name] = def;
 
-    // 9. Galgame 视觉小说精细画质
     GameProfile galgame;
     galgame.name = "Galgame 视觉小说精细画质";
+    galgame.scalingModeName = "CuNNy";
     galgame.effectChain = {"CuNNy", "CAS"};
     galgame.scalingMode = 0; // Fit
-    galgame.sharpness = 0.55f;
+    galgame.sharpness = 0.50f;
     galgame.animeStrength = 0.65f;
     m_profiles[galgame.name] = galgame;
 
-    m_currentProfile = lanczos; // Default to Lanczos matching Magpie
+    GameProfile debandProfile;
+    debandProfile.name = "去色彩断层 (Bicubic + Deband)";
+    debandProfile.scalingModeName = "Bicubic + Deband";
+    debandProfile.effectChain = {"Bicubic", "Deband"};
+    debandProfile.scalingMode = 0;
+    debandProfile.sharpness = 0.40f;
+    m_profiles[debandProfile.name] = debandProfile;
+
+    m_currentProfile = def;
+}
+
+std::vector<ScalingModeConfig> ProfileManager::listScalingModes() const
+{
+    return m_scalingModes;
+}
+
+ScalingModeConfig ProfileManager::getScalingModeByName(const QString &name) const
+{
+    for (const auto &m : m_scalingModes) {
+        if (m.name == name) return m;
+    }
+    if (!m_scalingModes.empty()) return m_scalingModes[0];
+    return ScalingModeConfig{};
+}
+
+void ProfileManager::saveScalingMode(const ScalingModeConfig &mode)
+{
+    for (size_t i = 0; i < m_scalingModes.size(); ++i) {
+        if (m_scalingModes[i].name == mode.name) {
+            m_scalingModes[i] = mode;
+            save();
+            return;
+        }
+    }
+    m_scalingModes.push_back(mode);
+    save();
+}
+
+void ProfileManager::deleteScalingMode(const QString &name)
+{
+    for (auto it = m_scalingModes.begin(); it != m_scalingModes.end(); ++it) {
+        if (it->name == name) {
+            m_scalingModes.erase(it);
+            save();
+            return;
+        }
+    }
 }
 
 bool ProfileManager::load()
@@ -181,11 +330,26 @@ bool ProfileManager::load()
     }
 
     QJsonObject root = doc.object();
-    QJsonArray arr = root["profiles"].toArray();
-    for (const auto &item : arr) {
-        GameProfile p = GameProfile::fromJson(item.toObject());
-        if (!p.name.isEmpty()) {
-            m_profiles[p.name] = p;
+
+    // Load Scaling Modes
+    if (root.contains("scalingModes")) {
+        QJsonArray smArr = root["scalingModes"].toArray();
+        if (!smArr.isEmpty()) {
+            m_scalingModes.clear();
+            for (const auto &item : smArr) {
+                m_scalingModes.push_back(ScalingModeConfig::fromJson(item.toObject()));
+            }
+        }
+    }
+
+    // Load Profiles
+    if (root.contains("profiles")) {
+        QJsonArray arr = root["profiles"].toArray();
+        for (const auto &item : arr) {
+            GameProfile p = GameProfile::fromJson(item.toObject());
+            if (!p.name.isEmpty()) {
+                m_profiles[p.name] = p;
+            }
         }
     }
 
@@ -205,6 +369,15 @@ bool ProfileManager::save()
     }
 
     QJsonObject root;
+
+    // Save Scaling Modes
+    QJsonArray smArr;
+    for (const auto &m : m_scalingModes) {
+        smArr.append(m.toJson());
+    }
+    root["scalingModes"] = smArr;
+
+    // Save Profiles
     QJsonArray arr;
     for (auto it = m_profiles.begin(); it != m_profiles.end(); ++it) {
         arr.append(it.value().toJson());
