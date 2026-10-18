@@ -21,27 +21,33 @@ public:
     {
         if (m_display) {
             m_root = DefaultRootWindow(m_display);
-            m_keyCode = XKeysymToKeycode(m_display, XK_m);
-            if (m_keyCode != 0) {
-                // Grab Ctrl + Alt + M (Mod1Mask = Alt, ControlMask = Ctrl)
-                unsigned int modifiers[] = {
-                    ControlMask | Mod1Mask,
-                    ControlMask | Mod1Mask | Mod2Mask, // Mod2Mask is NumLock
-                    ControlMask | Mod1Mask | LockMask, // LockMask is CapsLock
-                    ControlMask | Mod1Mask | Mod2Mask | LockMask
-                };
-                for (unsigned int mod : modifiers) {
-                    XGrabKey(m_display, m_keyCode, mod, m_root, True, GrabModeAsync, GrabModeAsync);
+            m_keyFullscreen = XKeysymToKeycode(m_display, XK_m);
+            m_keyWindowed = XKeysymToKeycode(m_display, XK_w);
+
+            unsigned int modifiers[] = {
+                ControlMask | Mod1Mask,
+                ControlMask | Mod1Mask | Mod2Mask,
+                ControlMask | Mod1Mask | LockMask,
+                ControlMask | Mod1Mask | Mod2Mask | LockMask
+            };
+
+            for (unsigned int mod : modifiers) {
+                if (m_keyFullscreen != 0) {
+                    XGrabKey(m_display, m_keyFullscreen, mod, m_root, True, GrabModeAsync, GrabModeAsync);
                 }
-                XFlush(m_display);
+                if (m_keyWindowed != 0) {
+                    XGrabKey(m_display, m_keyWindowed, mod, m_root, True, GrabModeAsync, GrabModeAsync);
+                }
             }
+            XFlush(m_display);
         }
     }
 
     ~X11GlobalHotkeyFilter() override
     {
-        if (m_display && m_keyCode != 0) {
-            XUngrabKey(m_display, m_keyCode, AnyModifier, m_root);
+        if (m_display) {
+            if (m_keyFullscreen != 0) XUngrabKey(m_display, m_keyFullscreen, AnyModifier, m_root);
+            if (m_keyWindowed != 0) XUngrabKey(m_display, m_keyWindowed, AnyModifier, m_root);
             XFlush(m_display);
         }
     }
@@ -52,9 +58,14 @@ public:
         if (eventType == "xcb_generic_event_t" || eventType == "X11") {
             auto *ev = reinterpret_cast<XEvent*>(message);
             if (ev && ev->type == KeyPress) {
-                if (ev->xkey.keycode == m_keyCode) {
+                if (ev->xkey.keycode == m_keyFullscreen && m_keyFullscreen != 0) {
                     if (m_window) {
-                        m_window->triggerScaling(0);
+                        m_window->triggerScaling(0, false);
+                    }
+                    return true;
+                } else if (ev->xkey.keycode == m_keyWindowed && m_keyWindowed != 0) {
+                    if (m_window) {
+                        m_window->triggerScaling(0, true);
                     }
                     return true;
                 }
@@ -66,7 +77,8 @@ public:
 private:
     Display *m_display{nullptr};
     Window m_root{None};
-    KeyCode m_keyCode{0};
+    KeyCode m_keyFullscreen{0};
+    KeyCode m_keyWindowed{0};
     MainWindow *m_window{nullptr};
 };
 
@@ -95,12 +107,12 @@ int main(int argc, char **argv)
     }
 
     QApplication app(argc, argv);
-    app.setApplicationName(QStringLiteral("magpie-overlay"));
-    app.setApplicationVersion(QStringLiteral("0.2.0"));
+    app.setApplicationName(QStringLiteral("windowScaling"));
+    app.setApplicationVersion(QStringLiteral("0.3.0"));
     app.setQuitOnLastWindowClosed(false); // Enable running minimized in system tray
 
     QCommandLineParser parser;
-    parser.setApplicationDescription(QStringLiteral("Magpie - Linux 窗口超分辨率放大器"));
+    parser.setApplicationDescription(QStringLiteral("windowScaling - Linux 窗口超分辨率放大器 (Galgame 专属)"));
     parser.addHelpOption();
     parser.addVersionOption();
 

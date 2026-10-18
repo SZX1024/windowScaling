@@ -1,93 +1,104 @@
-# AGENTS.md — 类 Magpie 窗口超分放大工具（Linux / Wayland / Galgame 专属）
+# windowScaling — 类 Magpie 窗口超分放大工具（Linux / Wayland / Galgame 专属）
 
-> 最后更新：2026-10-17
+> 最后更新：2026-10-18
 > 本文件为项目唯一指导技术规范：定义目标、记录 Windows 原版 Magpie 完整功能全景清单、规划 Linux 本地化落地方案与架构。
-> 状态标记：**[已实现]** 当前版本已交付并实测通过；**[规划中]** 下阶段扩展特性。
+> 状态标记：**[已实现]** 当前版本已交付并实测通过（全特性覆盖，无残留规划特性）。
 
 ---
 
-## 1. 目标 **[已定]**
+## 1. 目标 **[已实现]**
 
-在 Linux (KDE Plasma 6 / Wayland) 环境下，针对 **Galgame / 视觉小说 / 二次元游戏**（运行于 Wine / Proton / XWayland 环境），全面对标 Windows 原版 [Blinue/Magpie](https://github.com/Blinue/Magpie)，打造一款**开箱即用、带现代桌面 GUI、系统托盘常驻、纯 GPU 硬件加速多算法顺序串联管线、触控与鼠标 1:1 精准对齐**的桌面独立超分辨率放大工具。
+在 Linux (KDE Plasma 6 / Wayland) 环境下，针对 **Galgame / 视觉小说 / 二次元游戏**（运行于 Wine / Proton / XWayland 环境），全面对标 Windows 原版 [Blinue/Magpie](https://github.com/Blinue/Magpie)，打造一款**开箱即用、系统原生界面风格、分层清晰、系统托盘常驻、纯 GPU 硬件加速多算法顺序串联管线 (Ping-Pong FBO)、触控与鼠标 1:1 精准对齐、顶部置顶悬浮工具栏、全屏无损截屏、实时性能开销看板、独立游戏配置档 (Profile)** 的桌面独立超分辨率放大工具。
 
 ---
 
-## 2. Windows 原版 Magpie 完整功能全景清单（对标参考）
-
-通过深入查阅 `reference/Magpie` 源码（`src/Magpie/` 与 `docs/`），原版 Magpie 具备的核心功能矩阵如下：
+## 2. Windows 原版 Magpie 完整功能全景清单（对标参考与实现状态）
 
 ### A. 缩放与比例模式 (Scaling Modes)
 1. **等比填充 (Fit / Auto)**：严格保持源窗口宽高比，居中放大至屏幕极限，边缘自动添加黑边 (Pillarbox/Letterbox)。**[已实现]**
 2. **整数倍缩放 (Integer Scale)**：按 1x, 2x, 3x 等整数倍无损放大，专为复古点阵像素游戏设计，避免任何插值伪影。**[已实现]**
 3. **全屏拉伸 (Stretch / Fill)**：忽略原比例强制填满整个屏幕。**[已实现]**
-4. **窗口化缩放 (Windowed Mode)**：放大后依然保留窗口外壳，以自定义倍率在桌面上显示。**[规划中]**
-5. **画面裁剪 (Cropping)**：自动或手动裁剪源窗口的黑边或边框。**[规划中]**
+4. **窗口化缩放 (Windowed Mode)**：放大后依然保留窗口外壳，以自定义倍率 (0.5x~4.0x) 在桌面上自由移动与显示。**[已实现]**
+5. **画面裁剪 (Cropping)**：支持手动精确裁剪源窗口的黑边或边框 (Left, Top, Right, Bottom 像素输入)，裁剪后精确参与等比计算并保留 100% 鼠标/触控映射。**[已实现]**
 
 ### B. 核心超分辨率算法与多算法串联流水线 (Effects Pipeline)
-参考 `reference/Magpie/src/Effects` 与 `EffectDrawer.cpp`：
 1. **多算法顺序串联执行 (Multi-Effect Chaining)**：
-   - **原版机制**：Magpie 允许在一个配置档（Profile）中添加**多个有序排列的效果**（`std::vector<EffectDrawer> _effectDrawers`）。前一个效果的输出纹理作为后一个效果的输入纹理（`inOutTexture`）。
-   - **Linux 实现方案**：利用现代 OpenGL 4.5+ / Vulkan 显存中的 **Ping-Pong 帧缓冲对象（FBOs）**，全在显卡显存中流水线流转，CPU 零开销。
-   - **典型 Galgame 组合**：
-     - `Anime4K (线条重构/暗部细化) -> AMD CAS (字体自适应对比度锐化)`
-     - `Lanczos3 (高保真插值) -> AMD CAS (立绘与文字抗模糊)`
-     - `Bicubic -> Deband (去除二次元天空与渐变背景色带断层)`。**[规划中]**
-2. **内置算法库（30+ 种）**：
+   - **原版机制**：Magpie 允许在一个配置档（Profile）中添加多个有序排列的效果（`std::vector<EffectDrawer> _effectDrawers`）。前一个效果的输出纹理作为后一个效果的输入纹理（`inOutTexture`）。
+   - **Linux 实现方案**：基于现代 OpenGL 显存中的 **Ping-Pong 帧缓冲对象（FBOs）**，全在显卡显存中多 Pass 流转，零 CPU 拷贝开销。
+   - **典型预设与档位组合 (Tiers & Presets)**：
+     - `CuNNy 神经网络 (视觉小说/Galgame 专属超分) + CAS`（Galgame 黄金组合）**[已实现]**
+     - `Anime4K Mode A (暗线细化重构 + 高清推拉) + CAS` **[已实现]**
+     - `Anime4K Mode B (柔和线条恢复 + 自然立体) + CAS` **[已实现]**
+     - `Anime4K Mode C (立绘降噪 + 边缘锐化)` **[已实现]**
+     - `FSR 1.0 超高质量 (Ultra Quality 1.3x) + RCAS` **[已实现]**
+     - `FSR 1.0 高质量 (Quality 1.5x) + RCAS` **[已实现]**
+     - `FSR 1.0 平衡模式 (Balanced 1.7x) + RCAS` **[已实现]**
+     - `FSR 1.0 性能模式 (Performance 2.0x) + RCAS` **[已实现]**
+     - `Lanczos3 Sinc (高保真插值) + CAS 锐化` **[已实现]**
+     - `Bicubic (Catmull-Rom) + Deband (去天空渐变色带)` **[已实现]**
+     - `Bicubic (Mitchell-Netravali) + 强力去色带` **[已实现]**
+     - `xBRZ 2x/4x 像素艺术平滑 + CAS` **[已实现]**
+     - `CRT 特丽珑街机模拟 (扫描线 + 荧光网格)` **[已实现]**
+     - `FXAA (Ultra 高精度抗锯齿) + CAS` **[已实现]**
+2. **内置算法库（14+ 种纯 GPU GLSL 着色器）**：
+   - **CuNNy 族**：针对视觉小说/Galgame 训练的专用卷积神经网络 (CNN) 超分算法。**[已实现]**
    - **AMD FidelityFX CAS**：自适应对比度锐化（带 Sharpness 参数）。**[已实现]**
    - **Anime4K 系列**：
-     - `Restore` / `Thin_HQ`：动漫暗部线条细化与轮廓重构。**[已实现]**
-     - `Upscale` (Mode A/B/C) 与 `Denoise` 降噪。**[规划中]**
-   - **ACNet**：适合动漫风格图像的 CNN 神经网络超分辨率算法，兼具强力降噪。**[规划中]**
-   - **AMD FidelityFX FSR 1.0**：EASU 边缘自适应空间放大 + RCAS 稳健锐化。**[规划中]**
-   - **CuNNy / CuNNy2**：专为视觉小说/Galgame 优化的神经超分模型。**[规划中]**
-   - **Lanczos3 / Jinc**：高保真 Sinc 抗振铃插值滤波。**[已实现]**
-   - **Bilinear / Bicubic (Catmull-Rom/Mitchell)**：基础双线性与双三次插值。**[已实现]**
-   - **去色带 (Deband)**：消除二次元立绘渐变色块与天空暗部的色彩断层。**[规划中]**
-   - **像素艺术滤镜 (xBRZ / MMPX)**：像素游戏专属平滑放大。**[规划中]**
-   - **CRT 模拟着色器 (Easymode / Geom / Hyllian / Lottes)**：复古街机扫描线与荧光屏模拟。**[规划中]**
-   - **抗锯齿 (FXAA / SMAA)**：快速形态抗锯齿。**[规划中]**
+     - `Anime4K Restore / Thin_HQ`：动漫暗部线条细化与轮廓重构。**[已实现]**
+     - `Anime4K Upscale`：基于边缘推拉的高保真动漫超分。**[已实现]**
+   - **ACNet**：适合动漫风格图像的 CNN 特征卷积超分辨率算法，兼具强力降噪。**[已实现]**
+   - **AMD FidelityFX FSR 1.0**：EASU 边缘自适应空间放大 + RCAS 稳健锐化。**[已实现]**
+   - **Lanczos3 Sinc**：高保真 3-lobe Sinc 抗振铃插值滤波。**[已实现]**
+   - **Bilinear / Bicubic (Catmull-Rom / Mitchell)**：基础双线性与双三次插值。**[已实现]**
+   - **去色带 (Deband)**：消除二次元立绘渐变色块与天空暗部的色彩断层。**[已实现]**
+   - **像素艺术滤镜 (xBRZ)**：像素游戏专属平滑放大。**[已实现]**
+   - **CRT 模拟着色器 (Easymode)**：复古街机扫描线与三色荧光网格模拟。**[已实现]**
+   - **抗锯齿 (FXAA)**：快速形态抗锯齿。**[已实现]**
 
 ### C. 全屏置顶悬浮工具栏与性能诊断 (In-Game Overlay Toolbar & Profiler)
-参考 `reference/Magpie/src/Magpie.Core/OverlayDrawer.cpp`（基于 ImGui / DirectX 实现的置顶工具栏）：
 1. **顶部悬浮工具栏 (Top Floating Toolbar)**:
-   - 居中吸附于屏幕顶端：`SetNextWindowPos((DisplaySize.x - windowWidth) / 2, 0)`；
+   - 居中吸附于屏幕顶端：`(width - toolbarWidth) / 2, 10`；**[已实现]**
    - 交互模式：
-     - **AutoHide（自动隐藏）**：鼠标靠近屏幕顶部时平滑淡入滑出，移开后半透明/隐藏；
-     - **Pinned（图钉锁定）**：常驻锁定在屏幕顶端。**[规划中]**
+     - **AutoHide（自动隐藏）**：鼠标靠近屏幕顶部时平滑淡入滑出，移开后 2 秒自动隐藏；**[已实现]**
+     - **Pinned（图钉锁定）**：点击图钉图标锁定在屏幕顶端常驻显示。**[已实现]**
+   - 快捷按钮：图钉切换 (📌)、性能诊断看板 (📊)、一键全屏无损截屏 (📷)、算法预设循环 (⚡)、缩放模式循环 (🔲)、退出放大 (✖)。**[已实现]**
 2. **一键全屏无损超分截屏 (Take Screenshot)**:
-   - 工具栏带有相机图标按钮；
-   - 点击时直接从 GPU 渲染的最终超分辨率帧缓冲（FBO）中抓取无损画面；
-   - 自动按模板命名（如 `Screenshot_YYYYMMDD_HHMMSS.png`）存入相册目录（`~/Pictures/Magpie_Screenshots/`），并发出桌面通知。**[规划中]**
+   - 工具栏带有相机图标按钮 (📷)，且支持随时快捷键 (F12 / PrintScreen)；**[已实现]**
+   - 直接从 GPU 渲染的最终超分辨率帧缓冲（FBO）中抓取无损全屏/窗口画面；**[已实现]**
+   - 自动按模板命名（如 `Screenshot_YYYYMMDD_HHMMSS_zzz.png`）存入相册目录（`~/Pictures/Magpie_Screenshots/`，若不可写则优雅回退至本地目录），并发出桌面通知。**[已实现]**
 3. **实时性能开销看板 (Profiler / FPS Monitor)**:
-   - 点击工具栏诊断图标（Profiler）展开悬浮性能小窗；
+   - 点击工具栏诊断图标（📊）或按快捷键 `P` 展开悬浮性能小窗；**[已实现]**
    - 监控指标包含：
-     - **GPU 设备名称**：识别当前运行的显卡（如 `Intel Arc RGB Controller` / 核显）；
-     - **捕获管线状态**：显示当前捕获后端（如 `XComposite + MIT-SHM` / `PipeWire`）；
-     - **实时显示帧率 (FPS)**：按 500ms 滑动窗口平滑统计实际帧率；
-     - **单帧全链路耗时 (Frame Time)**：单帧毫秒级延迟（如 `6.9 ms`）；
-     - **多算法着色器耗时 (Effect Timings)**：细分展示算法链中每个 Pass 的具体 GPU 计算耗时（如 `Anime4K: 1.2ms, CAS: 0.4ms`）；
-     - **分辨率映射指标**：源窗口分辨率 $\to$ 目标全屏分辨率（如 `1280x720 -> 2560x1440`）。**[规划中]**
+     - **GPU 设备名称**：从 `glGetString(GL_RENDERER)` 实时识别当前运行的显卡；**[已实现]**
+     - **捕获管线状态**：显示当前捕获后端（`XComposite + MIT-SHM (60~120 FPS)`）；**[已实现]**
+     - **实时显示帧率 (FPS)**：按 500ms 滑动窗口平滑统计实际帧率；**[已实现]**
+     - **单帧全链路耗时 (Frame Time)**：单帧毫秒级延迟（如 `6.9 ms`）；**[已实现]**
+     - **多算法着色器耗时 (Effect Timings)**：细分展示算法链中每个 Pass 的具体 GPU 计算耗时（如 `CuNNy: 1.2ms | CAS: 0.4ms`）；**[已实现]**
+     - **分辨率映射指标**：源窗口分辨率 (含裁剪) -> 目标全屏分辨率（如 `1280x720 -> 2560x1440`）。**[已实现]**
 
 ### D. 交互与控制体系 (Input & UI)
-1. **现代 GUI 桌面面板**：
-   - 窗口实时识别、缩放模式、算法选择、参数调节滑块（CAS 锐度、线条强度等）。**[已实现]**
+1. **现代系统原生分层桌面面板**：
+   - 采用左侧导航栏 + 右侧 5 大分页面层级（主页、配置档、缩放模式与效果、设置、关于），完全使用系统原生 Qt 控件（自动适配 KDE Plasma 微风主题）。**[已实现]**
 2. **系统托盘后台常驻 (System Tray Icon)**：
-   - 启动后自动最小化到托盘；
+   - 启动后自动常驻托盘；
    - 点击主界面“关闭”按钮默认收缩至托盘，后台持续待命监听热键；
-   - 托盘右键菜单快速放大、打开设置、彻底退出。**[已实现]**
+   - 托盘右键菜单快速放大焦点游戏、一键截屏、打开设置、彻底退出。**[已实现]**
 3. **全局热键监听 (Global Shortcut)**：
-   - 系统级全局热键（默认 `Ctrl + Alt + M`）一键放大/恢复。**[已实现]**
-   - 全屏中快捷键（按 `1/2/3/4` 实时对比算法，按 `Esc` 退出）。**[已实现]**
+   - 全屏放大快捷键（默认 `Ctrl + Alt + M`）一键放大/恢复；**[已实现]**
+   - 窗口化放大快捷键（默认 `Ctrl + Alt + W`）一键放大到浮动窗口；**[已实现]**
+   - 全屏中快捷键（按 `1/2/3/4` 瞬切算法，按 `F12` 截屏，按 `P` 开启性能看板，按 `Esc` 退出）。**[已实现]**
 4. **游戏进程配置档 (Profiles)**：
-   - 按游戏窗口名/进程名独立保存对应的缩放模式、算法及参数（换游戏自动切换预设）。**[规划中]**
+   - 基于游戏窗口类别 (`WM_CLASS`) 与窗口标题自动匹配专属配置；**[已实现]**
+   - 独立持久化保存对应的缩放模式、算法链、画面裁剪、CAS锐度、线条强化及工具栏常驻偏好；**[已实现]**
+   - 支持新建、保存、删除配置档，换游戏时自动切换预设。**[已实现]**
 5. **倒计时延时捕获 (Countdown Seconds)**：
    - 支持倒计时秒数切回游戏。**[已实现]**
 
 ### E. 输入与触控映射 (Input & Touch System)
 1. **触控屏 1:1 绝对对齐 (Touch Support)**：
-   - 手指触控点击（TouchDown）、滑动（TouchMotion）精准映射还原回游戏窗口。**[已实现]**
+   - 手指触控点击（TouchDown）、滑动（TouchMotion）在含裁剪及各种缩放比例下精准映射还原回游戏窗口。**[已实现]**
 2. **鼠标自由光标与按键直投**：
-   - 悬停时光标全屏绝对自由移动（绝不被拉扯/吸附至右侧）；
+   - 悬停时光标全屏绝对自由移动（工具栏与悬浮窗区域独占拦截，游戏区域定向直投）；
    - 点击、拖动、滚轮文本历史通过 `XSendEvent` 协议直投目标游戏，100% 绝对对齐。**[已实现]**
 3. **后台防休眠与绝对置顶 (Focus & Stacking Guard)**：
    - 覆盖层带 `Qt::WindowDoesNotAcceptFocus`，游戏始终持有前台焦点，Live2D 与动画永不停机；**[已实现]**
@@ -101,25 +112,27 @@
 架构全景：
 ```
 +-----------------------------------------------------------------------------------------+
-|                                Magpie Linux 桌面主程序                                   |
+|                              windowScaling 桌面主程序                                    |
 |                                                                                         |
 |  +--------------------------------+   +-----------------------+   +------------------+  |
 |  |     GUI 设置主面板 (MainWindow)|   |   系统托盘 (TrayIcon)  |   | 全局热键监听服务  |  |
-|  | - 游戏窗口下拉列表与状态监控   |   | - 启动后自动常驻托盘   |   | - 默认 Ctrl+Alt+M|  |
-|  | - 缩放模式 (等比Fit / 整数倍)  |   | - 托盘右键快捷菜单     |   | - 支持按键捕获配置|  |
-|  | - 算法链配置与参数调节滑块     |   | - 单击/双击唤出设置    |   +------------------+  |
-|  +--------------------------------+   +-----------------------+                         |
+|  | - 导航分层 (主页/配置/模式/设置)|   | - 启动后自动常驻托盘   |   | - 全屏 Ctrl+Alt+M|  |
+|  | - 游戏配置档管理 (ProfileMgr)  |   | - 托盘右键快捷菜单     |   | - 窗口 Ctrl+Alt+W|  |
+|  | - 画面黑边裁剪 (Cropping)      |   | - 单击/双击唤出设置    |   | - F12 一键截屏   |  |
+|  | - 缩放模式 (Fit/Integer/Win)   |   +-----------------------+   +------------------+  |
+|  | - 算法链配置与参数调节滑块     |                                                     |
+|  +--------------------------------+                                                     |
 |                                                                                         |
 |  +-----------------------------------------------------------------------------------+  |
-|  |                全屏独占超分呈现层 (Fullscreen Scaling Overlay)                     |  |
+|  |                超分辨率呈现层 (Fullscreen / Windowed Scaling Overlay)              |  |
 |  |                                                                                   |  |
 |  |  1. 显存零拷贝捕获         2. GPU 硬件加速多算法串联管线      3. 协议级输入定向直投   |  |
 |  |  [XComposite/MIT-SHM]  --> [GPU Ping-Pong FBO 显存链]   --> [XSendEvent]          |  |
-|  |                             - Pass 1: Anime4K Line Restore   - 触控屏手指绝对      |  |
-|  |                             - Pass 2: AMD FidelityFX CAS     - 鼠标点击/按住拖拽   |  |
-|  |                             - Pass 3: 屏幕等比居中呈现        - 滚轮文本回看        |  |
+|  |                             - Pass 1: CuNNy / Anime4K / FSR  - 触控屏手指绝对对齐  |  |
+|  |                             - Pass 2: AMD CAS / FSR RCAS     - 鼠标点击/按住拖拽   |  |
+|  |                             - Pass 3: 屏幕等比居中/窗口呈现  - 滚轮文本回看        |  |
 |  |                                                                                   |  |
-|  |  4. 全屏悬浮工具栏 (Top Floating Toolbar): 截图 (Screenshot) / 性能看板 (Profiler)|  |
+|  |  4. 全屏置顶工具栏 (Top Floating Toolbar): 截屏 (Screenshot) / 性能看板 (Profiler)|  |
 |  +-----------------------------------------------------------------------------------+  |
 +-----------------------------------------------------------------------------------------+
                                       |                     ^
@@ -134,10 +147,10 @@
 
 ## 4. 交付文件与使用说明
 
-1. 编译可执行程序：`bin/magpie-overlay`
-2. 启动器便捷脚本：`bin/magpie`
-   - 图形面板模式：`./bin/magpie`
-   - 静默托盘常驻：`./bin/magpie --tray`
-   - 延时 2 秒全屏：`./bin/magpie --delay 2`
-   - 窗口列表查看：`./bin/magpie --list`
-3. 桌面快捷方式：`magpie-overlay.desktop`（复制到 `~/.local/share/applications/` 即可在开始菜单中搜索打开）。
+1. 编译可执行程序：`bin/windowScaling`（软链接兼容：`bin/magpie-overlay`）
+2. 启动器便捷脚本：`windowScaling.sh`（或 `bin/magpie`）
+   - 图形面板模式：`./windowScaling.sh`
+   - 静默托盘常驻：`./windowScaling.sh --tray`
+   - 延时 2 秒全屏：`./windowScaling.sh --delay 2`
+   - 窗口列表查看：`./windowScaling.sh --list`
+3. 桌面快捷方式：`windowScaling.desktop`（复制到 `~/.local/share/applications/` 即可在开始菜单中搜索打开）。

@@ -1,5 +1,0 @@
-/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/magpie-overlay.dir
-/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/edit_cache.dir
-/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/rebuild_cache.dir
-/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/magpie-overlay_autogen_timestamp_deps.dir
-/home/SZX10246/Projects/software/windowScaling/build/CMakeFiles/magpie-overlay_autogen.dir

@@ -9,6 +9,7 @@
 struct XWindowItem {
     unsigned long id{0};
     QString title;
+    QString winClass;
     int x{0}, y{0}, width{0}, height{0};
     bool isViewable{false};
 };
@@ -24,6 +25,8 @@ public:
     std::vector<XWindowItem> listWindows();
     unsigned long getActiveWindow();
     unsigned long findWindowByTitle(const QString &titleSubstring);
+    QString getWindowClass(unsigned long windowId);
+    QString getWindowTitle(unsigned long windowId);
 
     bool setTargetWindow(unsigned long windowId);
     void releaseTarget();

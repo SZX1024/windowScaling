@@ -1,0 +1,50 @@
+reference/
+# Build output and artifacts
+build/
+bin/
+*.o
+*.obj
+*.so
+*.a
+*.dylib
+*.dll
+*.exe
+
+# CMake generated files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+CTestTestfile.cmake
+*.cmake.in
+
+# Qt & MOC generated files
+*.moc
+moc_*.cpp
+moc_*.h
+ui_*.h
+qrc_*.cpp
+*_autogen/
+.qt/
+
+# Test binaries & temporary test files
+test_features
+test_plugin_mgr
+test_filter
+test_runner
+test_scr
+test_qpainter
+test_orientation_and_dpi
+test_*.cpp
+test_*.o
+
+# Runtime generated screenshots
+Magpie_Screenshots/
+*.png
+
+# Editor / IDE artifacts
+.vscode/
+.idea/
+*.swp
+*~
+*.user

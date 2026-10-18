@@ -1,5 +1,0 @@
-# Hashes of file build rules.
-5561aad90dde05801715f6ea92f875ab CMakeFiles/magpie-overlay_autogen
-02ba007d66e9e95e2bc36ecdfe0238d0 effect/kwin4_effect_magpie2_autogen/timestamp
-682e0c4ccc7c62a259cf7e70626cf1c5 effect/kwin4_effect_magpie_autogen/timestamp
-5dec48eb58b7775f4fd6f71ddafcbc24 magpie-overlay_autogen/timestamp

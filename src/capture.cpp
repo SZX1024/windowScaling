@@ -11,6 +11,7 @@
 #include <X11/Xatom.h>
 #include <X11/extensions/Xcomposite.h>
 #include <X11/extensions/XShm.h>
+#include <X11/Xutil.h>
 
 static int silentX11ErrorHandler(Display *disp, XErrorEvent *err)
 {
@@ -149,6 +150,7 @@ std::vector<XWindowItem> X11CaptureEngine::listWindows()
                 XWindowItem item;
                 item.id = win;
                 item.title = name ? QString::fromUtf8(name) : QString();
+                item.winClass = getWindowClass(win);
                 item.x = attrs.x;
                 item.y = attrs.y;
                 item.width = attrs.width;
@@ -160,6 +162,33 @@ std::vector<XWindowItem> X11CaptureEngine::listWindows()
         }
         XFree(prop);
     }
+    return result;
+}
+
+QString X11CaptureEngine::getWindowClass(unsigned long windowId)
+{
+    if (!d->display || windowId == 0) return QString();
+    XClassHint hint;
+    QString result;
+    if (XGetClassHint(d->display, (Window)windowId, &hint)) {
+        if (hint.res_class) {
+            result = QString::fromUtf8(hint.res_class);
+            XFree(hint.res_class);
+        }
+        if (hint.res_name) {
+            XFree(hint.res_name);
+        }
+    }
+    return result;
+}
+
+QString X11CaptureEngine::getWindowTitle(unsigned long windowId)
+{
+    if (!d->display || windowId == 0) return QString();
+    char *name = nullptr;
+    XFetchName(d->display, (Window)windowId, &name);
+    QString result = name ? QString::fromUtf8(name) : QString();
+    if (name) XFree(name);
     return result;
 }
 
@@ -227,7 +256,12 @@ bool X11CaptureEngine::setTargetWindow(unsigned long windowId)
 
     d->target = windowId;
     m_target = windowId;
-    d->targetGeometry = QRect(attrs.x, attrs.y, attrs.width, attrs.height);
+    int rootX = attrs.x, rootY = attrs.y;
+    Window childWin;
+    if (d->display && d->root != None) {
+        XTranslateCoordinates(d->display, d->target, d->root, 0, 0, &rootX, &rootY, &childWin);
+    }
+    d->targetGeometry = QRect(rootX, rootY, attrs.width, attrs.height);
 
     // Redirect window offscreen
     XCompositeRedirectWindow(d->display, d->target, CompositeRedirectAutomatic);
@@ -320,7 +354,12 @@ QImage X11CaptureEngine::captureFrame()
     // Update geometry if needed
     XWindowAttributes attrs;
     if (XGetWindowAttributes(d->display, d->target, &attrs)) {
-        d->targetGeometry = QRect(attrs.x, attrs.y, attrs.width, attrs.height);
+        int rootX = attrs.x, rootY = attrs.y;
+        Window childWin;
+        if (d->display && d->root != None) {
+            XTranslateCoordinates(d->display, d->target, d->root, 0, 0, &rootX, &rootY, &childWin);
+        }
+        d->targetGeometry = QRect(rootX, rootY, attrs.width, attrs.height);
         // If size changed, reallocate SHM
         if (attrs.width != d->shmImage->width || attrs.height != d->shmImage->height) {
             setTargetWindow(d->target);
