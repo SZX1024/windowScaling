@@ -229,6 +229,8 @@ in vec2 TexCoord;
 out vec4 FragColor;
 uniform sampler2D uTexture;
 uniform vec2 uSourceSize;
+uniform float uDebandRange;
+uniform float uDebandThreshold;
 
 // Dithering pseudo-random hash
 float rand(vec2 co) {
@@ -239,8 +241,8 @@ void main() {
     vec2 texel = 1.0 / uSourceSize;
     vec4 center = texture(uTexture, TexCoord);
 
-    float range = 16.0;
-    float threshold = 0.04;
+    float range = max(2.0, uDebandRange);
+    float threshold = max(0.001, uDebandThreshold);
 
     float r = rand(TexCoord);
     float angle = r * 6.2831853;
@@ -729,6 +731,40 @@ void ShaderPipeline::setSingleEffect(const QString &effectName)
     m_effectChain << effectName;
 }
 
+
+void ShaderPipeline::addEffect(const QString &effectName)
+{
+    m_effectChain.append(effectName);
+}
+
+void ShaderPipeline::removeEffect(int index)
+{
+    if (index >= 0 && index < m_effectChain.size()) {
+        m_effectChain.removeAt(index);
+        if (m_effectChain.isEmpty()) {
+            m_effectChain << "CAS";
+        }
+    }
+}
+
+bool ShaderPipeline::moveEffectUp(int index)
+{
+    if (index > 0 && index < m_effectChain.size()) {
+        m_effectChain.swapItemsAt(index, index - 1);
+        return true;
+    }
+    return false;
+}
+
+bool ShaderPipeline::moveEffectDown(int index)
+{
+    if (index >= 0 && index < m_effectChain.size() - 1) {
+        m_effectChain.swapItemsAt(index, index + 1);
+        return true;
+    }
+    return false;
+}
+
 QString ShaderPipeline::currentPipelineName() const
 {
     return m_effectChain.join(" -> ");
@@ -814,6 +850,9 @@ void ShaderPipeline::renderQuad(QOpenGLShaderProgram *prog, GLuint inputTex, con
     prog->setUniformValue("uSourceSize", QVector2D(sourceSize.width(), sourceSize.height()));
     prog->setUniformValue("uSharpness", m_sharpness);
     prog->setUniformValue("uAnimeStrength", m_animeStrength);
+    prog->setUniformValue("uDebandRange", (float)m_debandRange);
+    prog->setUniformValue("uDebandThreshold", m_debandThreshold);
+    prog->setUniformValue("uCRTScanline", m_crtScanline);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, inputTex);

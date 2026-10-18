@@ -39,9 +39,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::setupUI()
 {
-    setWindowTitle(QStringLiteral("windowScaling - Linux 窗口超分辨率放大器 (Galgame 专属)"));
-    setMinimumSize(780, 560);
-    resize(840, 620);
+    setWindowTitle(QStringLiteral("windowScaling - 窗口超分辨率放大器 (Linux / Galgame 专属)"));
+    setMinimumSize(820, 620);
+    resize(880, 680);
 
     auto *central = new QWidget(this);
     setCentralWidget(central);
@@ -145,7 +145,6 @@ QWidget *MainWindow::createHomePage()
     winLayout->addWidget(m_homeProfileStatus);
 
     layout->addWidget(winGroup);
-
     layout->addStretch();
 
     // 3. 立即启动操作按钮 (Scale Now)
@@ -218,7 +217,7 @@ QWidget *MainWindow::createProfilesPage()
     connect(m_fillRuleBtn, &QPushButton::clicked, this, &MainWindow::onFillRulesFromCurrentGame);
     ruleLayout->addRow(QString(), m_fillRuleBtn);
 
-    auto *ruleTip = new QLabel(QStringLiteral("💡 启动放大时，Magpie 会自动检测焦点窗口并根据以上规则匹配加载专属配置。"), ruleGroup);
+    auto *ruleTip = new QLabel(QStringLiteral("💡 启动放大时，windowScaling 会自动检测焦点窗口并根据以上规则匹配加载专属配置。"), ruleGroup);
     ruleTip->setStyleSheet(QStringLiteral("color: gray;"));
     ruleLayout->addRow(QString(), ruleTip);
 
@@ -229,7 +228,7 @@ QWidget *MainWindow::createProfilesPage()
 }
 
 // -------------------------------------------------------------
-// Page 2: 缩放模式与效果 (ScalingModesPage)
+// Page 2: 缩放模式与自定义效果流水线 (ScalingModesPage)
 // -------------------------------------------------------------
 QWidget *MainWindow::createScalingModesPage()
 {
@@ -303,48 +302,266 @@ QWidget *MainWindow::createScalingModesPage()
 
     layout->addWidget(cropGroup);
 
-    // 3. GPU 多算法串联流水线 (Effects Pipeline)
-    auto *scalerGroup = new QGroupBox(QStringLiteral("✨ GPU 硬件加速多算法流水线 (Effects Pipeline)"), page);
-    auto *scalerLayout = new QFormLayout(scalerGroup);
-    scalerLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    scalerLayout->setSpacing(10);
+    // 3. 多算法顺序串联流水线 (Effects Pipeline Editor - 对标 Magpie)
+    auto *pipeGroup = new QGroupBox(QStringLiteral("🧩 超分流水线与效果链编排器 (Effects Pipeline)"), page);
+    auto *pipeVBox = new QVBoxLayout(pipeGroup);
+    pipeVBox->setSpacing(10);
 
-    m_presetCombo = new QComboBox(scalerGroup);
+    // Preset quick bar
+    auto *presetRow = new QHBoxLayout();
+    presetRow->addWidget(new QLabel(QStringLiteral("⚡ 快速套用预设:"), pipeGroup));
+    m_presetCombo = new QComboBox(pipeGroup);
+    m_presetCombo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     auto presets = ShaderPipeline::availablePresets();
     m_presetCombo->addItems(presets);
     connect(m_presetCombo, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &MainWindow::onPresetChanged);
-    scalerLayout->addRow(QStringLiteral("算法流水线预设:"), m_presetCombo);
+    presetRow->addWidget(m_presetCombo);
+    pipeVBox->addLayout(presetRow);
 
-    auto *sharpnessRow = new QWidget(scalerGroup);
-    auto *sharpnessHBox = new QHBoxLayout(sharpnessRow);
-    sharpnessHBox->setContentsMargins(0, 0, 0, 0);
-    m_sharpnessSlider = new QSlider(Qt::Horizontal, sharpnessRow);
+    // Effect List and Management Buttons
+    auto *listAndBtnRow = new QHBoxLayout();
+    m_pipelineList = new QListWidget(pipeGroup);
+    m_pipelineList->setFixedHeight(120);
+    connect(m_pipelineList, &QListWidget::currentRowChanged, this, &MainWindow::onPipelineRowChanged);
+    listAndBtnRow->addWidget(m_pipelineList, 3);
+
+    auto *btnCol = new QVBoxLayout();
+    btnCol->setSpacing(6);
+
+    m_addEffectBtn = new QPushButton(QStringLiteral("➕ 添加效果..."), pipeGroup);
+    m_addEffectMenu = new QMenu(m_addEffectBtn);
+    for (const auto &eff : ShaderPipeline::availableEffects()) {
+        auto *act = m_addEffectMenu->addAction(eff);
+        connect(act, &QAction::triggered, this, [this, eff]() {
+            if (m_overlay && m_overlay->shaderPipeline()) {
+                m_overlay->shaderPipeline()->addEffect(eff);
+                updatePipelineListUI();
+            }
+        });
+    }
+    m_addEffectBtn->setMenu(m_addEffectMenu);
+    btnCol->addWidget(m_addEffectBtn);
+
+    m_removeEffectBtn = new QPushButton(QStringLiteral("🗑️ 移除效果"), pipeGroup);
+    connect(m_removeEffectBtn, &QPushButton::clicked, this, &MainWindow::onRemoveEffectClicked);
+    btnCol->addWidget(m_removeEffectBtn);
+
+    m_moveUpEffectBtn = new QPushButton(QStringLiteral("⬆️ 上移 Pass"), pipeGroup);
+    connect(m_moveUpEffectBtn, &QPushButton::clicked, this, &MainWindow::onMoveUpEffectClicked);
+    btnCol->addWidget(m_moveUpEffectBtn);
+
+    m_moveDownEffectBtn = new QPushButton(QStringLiteral("⬇️ 下移 Pass"), pipeGroup);
+    connect(m_moveDownEffectBtn, &QPushButton::clicked, this, &MainWindow::onMoveDownEffectClicked);
+    btnCol->addWidget(m_moveDownEffectBtn);
+
+    listAndBtnRow->addLayout(btnCol, 1);
+    pipeVBox->addLayout(listAndBtnRow);
+
+    // 4. 选中效果参数动态面板 (Dynamic Parameter Panel)
+    m_paramBox = new QGroupBox(QStringLiteral("⚙️ 效果参数调节 (选中上方效果联动展示)"), pipeGroup);
+    auto *paramLayout = new QFormLayout(m_paramBox);
+    paramLayout->setLabelAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    paramLayout->setSpacing(8);
+
+    m_paramTitleLabel = new QLabel(QStringLiteral("当前调节效果: 未选中"), m_paramBox);
+    m_paramTitleLabel->setStyleSheet(QStringLiteral("font-weight: bold;"));
+    paramLayout->addRow(m_paramTitleLabel);
+
+    // CAS Sharpness
+    m_sharpnessRow = new QWidget(m_paramBox);
+    auto *sBox = new QHBoxLayout(m_sharpnessRow);
+    sBox->setContentsMargins(0, 0, 0, 0);
+    m_sharpnessSlider = new QSlider(Qt::Horizontal, m_sharpnessRow);
     m_sharpnessSlider->setRange(0, 100);
     m_sharpnessSlider->setValue(45);
-    m_sharpnessLabel = new QLabel(QStringLiteral("0.45"), sharpnessRow);
+    m_sharpnessLabel = new QLabel(QStringLiteral("0.45"), m_sharpnessRow);
     m_sharpnessLabel->setFixedWidth(36);
     connect(m_sharpnessSlider, &QSlider::valueChanged, this, &MainWindow::onSharpnessChanged);
-    sharpnessHBox->addWidget(m_sharpnessSlider);
-    sharpnessHBox->addWidget(m_sharpnessLabel);
-    scalerLayout->addRow(QStringLiteral("CAS 锐度:"), sharpnessRow);
+    sBox->addWidget(m_sharpnessSlider);
+    sBox->addWidget(m_sharpnessLabel);
+    paramLayout->addRow(QStringLiteral("CAS / RCAS 锐度:"), m_sharpnessRow);
 
-    auto *animeRow = new QWidget(scalerGroup);
-    auto *animeHBox = new QHBoxLayout(animeRow);
-    animeHBox->setContentsMargins(0, 0, 0, 0);
-    m_animeSlider = new QSlider(Qt::Horizontal, animeRow);
+    // Anime4K line strength
+    m_animeRow = new QWidget(m_paramBox);
+    auto *aBox = new QHBoxLayout(m_animeRow);
+    aBox->setContentsMargins(0, 0, 0, 0);
+    m_animeSlider = new QSlider(Qt::Horizontal, m_animeRow);
     m_animeSlider->setRange(0, 100);
     m_animeSlider->setValue(50);
-    m_animeLabel = new QLabel(QStringLiteral("0.50"), animeRow);
+    m_animeLabel = new QLabel(QStringLiteral("0.50"), m_animeRow);
     m_animeLabel->setFixedWidth(36);
     connect(m_animeSlider, &QSlider::valueChanged, this, &MainWindow::onAnimeChanged);
-    animeHBox->addWidget(m_animeSlider);
-    animeHBox->addWidget(m_animeLabel);
-    scalerLayout->addRow(QStringLiteral("动漫线条强化:"), animeRow);
+    aBox->addWidget(m_animeSlider);
+    aBox->addWidget(m_animeLabel);
+    paramLayout->addRow(QStringLiteral("动漫线条强化:"), m_animeRow);
 
-    layout->addWidget(scalerGroup);
+    // Deband threshold
+    m_debandThresholdRow = new QWidget(m_paramBox);
+    auto *dtBox = new QHBoxLayout(m_debandThresholdRow);
+    dtBox->setContentsMargins(0, 0, 0, 0);
+    m_debandThresholdSlider = new QSlider(Qt::Horizontal, m_debandThresholdRow);
+    m_debandThresholdSlider->setRange(5, 150);
+    m_debandThresholdSlider->setValue(40);
+    m_debandThresholdLabel = new QLabel(QStringLiteral("0.040"), m_debandThresholdRow);
+    m_debandThresholdLabel->setFixedWidth(40);
+    connect(m_debandThresholdSlider, &QSlider::valueChanged, this, &MainWindow::onDebandThresholdChanged);
+    dtBox->addWidget(m_debandThresholdSlider);
+    dtBox->addWidget(m_debandThresholdLabel);
+    paramLayout->addRow(QStringLiteral("去色带门限:"), m_debandThresholdRow);
+
+    // Deband range
+    m_debandRangeRow = new QWidget(m_paramBox);
+    auto *drBox = new QHBoxLayout(m_debandRangeRow);
+    drBox->setContentsMargins(0, 0, 0, 0);
+    m_debandRangeSlider = new QSlider(Qt::Horizontal, m_debandRangeRow);
+    m_debandRangeSlider->setRange(4, 48);
+    m_debandRangeSlider->setValue(16);
+    m_debandRangeLabel = new QLabel(QStringLiteral("16"), m_debandRangeRow);
+    m_debandRangeLabel->setFixedWidth(40);
+    connect(m_debandRangeSlider, &QSlider::valueChanged, this, &MainWindow::onDebandRangeChanged);
+    drBox->addWidget(m_debandRangeSlider);
+    drBox->addWidget(m_debandRangeLabel);
+    paramLayout->addRow(QStringLiteral("去色带采样范围:"), m_debandRangeRow);
+
+    // CRT scanline
+    m_crtRow = new QWidget(m_paramBox);
+    auto *cBox = new QHBoxLayout(m_crtRow);
+    cBox->setContentsMargins(0, 0, 0, 0);
+    m_crtScanlineSlider = new QSlider(Qt::Horizontal, m_crtRow);
+    m_crtScanlineSlider->setRange(0, 100);
+    m_crtScanlineSlider->setValue(50);
+    m_crtScanlineLabel = new QLabel(QStringLiteral("0.50"), m_crtRow);
+    m_crtScanlineLabel->setFixedWidth(40);
+    connect(m_crtScanlineSlider, &QSlider::valueChanged, this, &MainWindow::onCRTScanlineChanged);
+    cBox->addWidget(m_crtScanlineSlider);
+    cBox->addWidget(m_crtScanlineLabel);
+    paramLayout->addRow(QStringLiteral("CRT 扫描线强度:"), m_crtRow);
+
+    pipeVBox->addWidget(m_paramBox);
+    layout->addWidget(pipeGroup);
+
     layout->addStretch();
-
     return page;
+}
+
+void MainWindow::updatePipelineListUI()
+{
+    if (!m_pipelineList || !m_overlay || !m_overlay->shaderPipeline()) return;
+
+    m_pipelineList->blockSignals(true);
+    m_pipelineList->clear();
+
+    const auto &chain = m_overlay->shaderPipeline()->effectChain();
+    for (int i = 0; i < chain.size(); ++i) {
+        m_pipelineList->addItem(QStringLiteral("Pass %1: %2").arg(i + 1).arg(chain[i]));
+    }
+
+    if (m_pipelineList->count() > 0) {
+        m_pipelineList->setCurrentRow(0);
+    }
+    m_pipelineList->blockSignals(false);
+
+    updateParamControlsForCurrentEffect();
+}
+
+void MainWindow::onPipelineRowChanged(int row)
+{
+    Q_UNUSED(row);
+    updateParamControlsForCurrentEffect();
+}
+
+void MainWindow::updateParamControlsForCurrentEffect()
+{
+    if (!m_pipelineList || !m_overlay || !m_overlay->shaderPipeline()) return;
+
+    int row = m_pipelineList->currentRow();
+    const auto &chain = m_overlay->shaderPipeline()->effectChain();
+    if (row < 0 || row >= chain.size()) {
+        m_paramTitleLabel->setText(QStringLiteral("当前调节效果: 未选中"));
+        m_sharpnessRow->setVisible(false);
+        m_animeRow->setVisible(false);
+        m_debandThresholdRow->setVisible(false);
+        m_debandRangeRow->setVisible(false);
+        m_crtRow->setVisible(false);
+        return;
+    }
+
+    QString currentEffect = chain[row];
+    m_paramTitleLabel->setText(QStringLiteral("当前选中: Pass %1 — <b>%2</b>").arg(row + 1).arg(currentEffect));
+
+    m_sharpnessRow->setVisible(currentEffect == "CAS" || currentEffect == "FSR_RCAS");
+    m_animeRow->setVisible(currentEffect.contains("Anime4K") || currentEffect == "CuNNy");
+    m_debandThresholdRow->setVisible(currentEffect == "Deband");
+    m_debandRangeRow->setVisible(currentEffect == "Deband");
+    m_crtRow->setVisible(currentEffect == "CRT");
+}
+
+
+void MainWindow::onAddEffectClicked()
+{
+    if (m_addEffectBtn && m_addEffectMenu) {
+        m_addEffectMenu->exec(m_addEffectBtn->mapToGlobal(QPoint(0, m_addEffectBtn->height())));
+    }
+}
+
+void MainWindow::onRemoveEffectClicked()
+{
+    if (!m_pipelineList || !m_overlay || !m_overlay->shaderPipeline()) return;
+    int row = m_pipelineList->currentRow();
+    if (row >= 0) {
+        m_overlay->shaderPipeline()->removeEffect(row);
+        updatePipelineListUI();
+    }
+}
+
+void MainWindow::onMoveUpEffectClicked()
+{
+    if (!m_pipelineList || !m_overlay || !m_overlay->shaderPipeline()) return;
+    int row = m_pipelineList->currentRow();
+    if (row > 0) {
+        if (m_overlay->shaderPipeline()->moveEffectUp(row)) {
+            updatePipelineListUI();
+            m_pipelineList->setCurrentRow(row - 1);
+        }
+    }
+}
+
+void MainWindow::onMoveDownEffectClicked()
+{
+    if (!m_pipelineList || !m_overlay || !m_overlay->shaderPipeline()) return;
+    int row = m_pipelineList->currentRow();
+    if (row >= 0 && row < m_pipelineList->count() - 1) {
+        if (m_overlay->shaderPipeline()->moveEffectDown(row)) {
+            updatePipelineListUI();
+            m_pipelineList->setCurrentRow(row + 1);
+        }
+    }
+}
+
+void MainWindow::onDebandThresholdChanged(int val)
+{
+    float t = val / 1000.0f;
+    m_debandThresholdLabel->setText(QString::number(t, 'f', 3));
+    if (m_overlay && m_overlay->shaderPipeline()) {
+        m_overlay->shaderPipeline()->setDebandThreshold(t);
+    }
+}
+
+void MainWindow::onDebandRangeChanged(int val)
+{
+    m_debandRangeLabel->setText(QString::number(val));
+    if (m_overlay && m_overlay->shaderPipeline()) {
+        m_overlay->shaderPipeline()->setDebandRange(val);
+    }
+}
+
+void MainWindow::onCRTScanlineChanged(int val)
+{
+    float s = val / 100.0f;
+    m_crtScanlineLabel->setText(QString::number(s, 'f', 2));
+    if (m_overlay && m_overlay->shaderPipeline()) {
+        m_overlay->shaderPipeline()->setCRTScanline(s);
+    }
 }
 
 // -------------------------------------------------------------
@@ -465,7 +682,7 @@ QWidget *MainWindow::createAboutPage()
     auto *creditsGroup = new QGroupBox(QStringLiteral("致敬与开源协议"), page);
     auto *crLayout = new QVBoxLayout(creditsGroup);
     crLayout->addWidget(new QLabel(QStringLiteral("本工具深度参考并全面对标 Windows 原版项目 <b>Blinue/Magpie</b>。<br>"
-                                                 "着色器算法涵盖 Anime4K (bloc97), AMD FidelityFX (CAS & FSR 1.0), mpv-player deband 等。"), creditsGroup));
+                                                 "着色器算法涵盖 CuNNy (funnyplanter), Anime4K (bloc97), AMD FidelityFX (CAS & FSR 1.0), mpv-player deband 等。"), creditsGroup));
     layout->addWidget(creditsGroup);
 
     layout->addStretch();
@@ -552,15 +769,6 @@ void MainWindow::loadProfileToUI(const GameProfile &p)
     m_ruleClassEdit->setText(p.windowClassPattern);
     m_ruleTitleEdit->setText(p.windowTitlePattern);
 
-    // Match preset
-    QString effStr = p.effectChain.join(" + ");
-    for (int i = 0; i < m_presetCombo->count(); ++i) {
-        if (m_presetCombo->itemText(i).contains(effStr)) {
-            m_presetCombo->setCurrentIndex(i);
-            break;
-        }
-    }
-
     m_modeCombo->setCurrentIndex(p.scalingMode);
     m_windowScaleRow->setVisible(p.scalingMode == 3);
     m_windowScaleSpin->setValue(p.windowScale);
@@ -570,6 +778,15 @@ void MainWindow::loadProfileToUI(const GameProfile &p)
 
     m_animeSlider->setValue(std::lround(p.animeStrength * 100));
     m_animeLabel->setText(QString::number(p.animeStrength, 'f', 2));
+
+    m_debandThresholdSlider->setValue(std::lround(p.debandThreshold * 1000));
+    m_debandThresholdLabel->setText(QString::number(p.debandThreshold, 'f', 3));
+
+    m_debandRangeSlider->setValue(p.debandRange);
+    m_debandRangeLabel->setText(QString::number(p.debandRange));
+
+    m_crtScanlineSlider->setValue(std::lround(p.crtScanline * 100));
+    m_crtScanlineLabel->setText(QString::number(p.crtScanline, 'f', 2));
 
     m_cropLeft->setValue(p.cropLeft);
     m_cropTop->setValue(p.cropTop);
@@ -589,8 +806,13 @@ void MainWindow::loadProfileToUI(const GameProfile &p)
             m_overlay->shaderPipeline()->setScalingMode((ScalingMode)p.scalingMode);
             m_overlay->shaderPipeline()->setSharpness(p.sharpness);
             m_overlay->shaderPipeline()->setAnimeStrength(p.animeStrength);
+            m_overlay->shaderPipeline()->setDebandThreshold(p.debandThreshold);
+            m_overlay->shaderPipeline()->setDebandRange(p.debandRange);
+            m_overlay->shaderPipeline()->setCRTScanline(p.crtScanline);
         }
     }
+
+    updatePipelineListUI();
 
     m_loadingProfile = false;
 }
@@ -605,12 +827,15 @@ GameProfile MainWindow::collectUIProfile() const
     if (m_overlay && m_overlay->shaderPipeline()) {
         p.effectChain = m_overlay->shaderPipeline()->effectChain();
     } else {
-        p.effectChain = {"Anime4K", "CAS"};
+        p.effectChain = {"CuNNy", "CAS"};
     }
     p.scalingMode = m_modeCombo->currentIndex();
     p.windowScale = (float)m_windowScaleSpin->value();
     p.sharpness = m_sharpnessSlider->value() / 100.0f;
     p.animeStrength = m_animeSlider->value() / 100.0f;
+    p.debandThreshold = m_debandThresholdSlider->value() / 1000.0f;
+    p.debandRange = m_debandRangeSlider->value();
+    p.crtScanline = m_crtScanlineSlider->value() / 100.0f;
 
     p.cropLeft = m_cropLeft->value();
     p.cropTop = m_cropTop->value();
@@ -725,6 +950,7 @@ void MainWindow::onPresetChanged(int index)
     QString presetText = m_presetCombo->itemText(index);
     if (m_overlay && m_overlay->shaderPipeline()) {
         m_overlay->shaderPipeline()->applyPreset(presetText);
+        updatePipelineListUI();
     }
 }
 

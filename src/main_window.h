@@ -5,6 +5,7 @@
 #include <QListWidget>
 #include <QStackedWidget>
 #include <QComboBox>
+#include <QGroupBox>
 #include <QSlider>
 #include <QLabel>
 #include <QPushButton>
@@ -12,6 +13,7 @@
 #include <QDoubleSpinBox>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QMenu>
 #include <QCloseEvent>
 #include <memory>
 #include "capture.h"
@@ -46,13 +48,23 @@ private slots:
     void onDeleteProfileClicked();
     void onFillRulesFromCurrentGame();
 
-    // Scaling & effects slots
-    void onPresetChanged(int index);
+    // Scaling mode & crop slots
     void onModeChanged(int index);
+    void onWindowScaleChanged(double val);
+    void onCropChanged();
+
+    // Custom Effects Pipeline Editor slots (Magpie style)
+    void onPresetChanged(int index);
+    void onPipelineRowChanged(int row);
+    void onAddEffectClicked();
+    void onRemoveEffectClicked();
+    void onMoveUpEffectClicked();
+    void onMoveDownEffectClicked();
     void onSharpnessChanged(int val);
     void onAnimeChanged(int val);
-    void onCropChanged();
-    void onWindowScaleChanged(double val);
+    void onDebandThresholdChanged(int val);
+    void onDebandRangeChanged(int val);
+    void onCRTScanlineChanged(int val);
 
     // Settings page slots
     void onBrowseScreenshotDir();
@@ -70,6 +82,8 @@ private:
 
     void loadProfileToUI(const GameProfile &p);
     GameProfile collectUIProfile() const;
+    void updatePipelineListUI();
+    void updateParamControlsForCurrentEffect();
 
     X11CaptureEngine &m_capture;
     X11InputForwarder &m_input;
@@ -97,7 +111,7 @@ private:
     QLineEdit *m_ruleTitleEdit{nullptr};
     QPushButton *m_fillRuleBtn{nullptr};
 
-    // --- Page 2: Scaling Modes & Effects ---
+    // --- Page 2: Scaling Modes & Custom Effects Pipeline Editor ---
     QComboBox *m_modeCombo{nullptr};
     QWidget *m_windowScaleRow{nullptr};
     QDoubleSpinBox *m_windowScaleSpin{nullptr};
@@ -105,11 +119,39 @@ private:
     QSpinBox *m_cropTop{nullptr};
     QSpinBox *m_cropRight{nullptr};
     QSpinBox *m_cropBottom{nullptr};
+
+    // Effects Pipeline Editor
     QComboBox *m_presetCombo{nullptr};
+    QListWidget *m_pipelineList{nullptr};
+    QPushButton *m_addEffectBtn{nullptr};
+    QPushButton *m_removeEffectBtn{nullptr};
+    QPushButton *m_moveUpEffectBtn{nullptr};
+    QPushButton *m_moveDownEffectBtn{nullptr};
+    QMenu *m_addEffectMenu{nullptr};
+
+    // Dynamic Parameter Controls
+    QGroupBox *m_paramBox{nullptr};
+    QLabel *m_paramTitleLabel{nullptr};
+
+    QWidget *m_sharpnessRow{nullptr};
     QSlider *m_sharpnessSlider{nullptr};
     QLabel *m_sharpnessLabel{nullptr};
+
+    QWidget *m_animeRow{nullptr};
     QSlider *m_animeSlider{nullptr};
     QLabel *m_animeLabel{nullptr};
+
+    QWidget *m_debandThresholdRow{nullptr};
+    QSlider *m_debandThresholdSlider{nullptr};
+    QLabel *m_debandThresholdLabel{nullptr};
+
+    QWidget *m_debandRangeRow{nullptr};
+    QSlider *m_debandRangeSlider{nullptr};
+    QLabel *m_debandRangeLabel{nullptr};
+
+    QWidget *m_crtRow{nullptr};
+    QSlider *m_crtScanlineSlider{nullptr};
+    QLabel *m_crtScanlineLabel{nullptr};
 
     // --- Page 3: Settings ---
     QComboBox *m_toolbarModeCombo{nullptr};

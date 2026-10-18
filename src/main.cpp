@@ -1,3 +1,5 @@
+#include <unistd.h>
+#include <QMessageBox>
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QAbstractNativeEventFilter>
@@ -84,9 +86,11 @@ private:
 
 int main(int argc, char **argv)
 {
-    // Auto-detect XAUTHORITY if needed
+    // Auto-detect XAUTHORITY for current user if needed
     if (!getenv("XAUTHORITY")) {
-        FILE *fp = popen("ls -t /run/user/1000/xauth_* 2>/dev/null | head -n 1", "r");
+        uid_t uid = getuid();
+        QString authCmd = QString::asprintf("ls -t /run/user/%u/xauth_* 2>/dev/null | head -n 1", (unsigned int)uid);
+        FILE *fp = popen(authCmd.toUtf8().constData(), "r");
         if (fp) {
             char path[512] = {0};
             if (fgets(path, sizeof(path) - 1, fp)) {

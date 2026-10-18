@@ -16,6 +16,9 @@ struct GameProfile {
     float windowScale{1.5f}; // For Windowed mode
     float sharpness{0.45f};  // For CAS
     float animeStrength{0.5f}; // For Anime4K
+    float debandThreshold{0.04f};
+    int debandRange{16};
+    float crtScanline{0.5f};
 
     // Cropping margins (pixels to trim from original game before scaling)
     int cropLeft{0};

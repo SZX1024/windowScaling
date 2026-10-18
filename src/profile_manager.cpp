@@ -24,6 +24,9 @@ QJsonObject GameProfile::toJson() const
     obj["windowScale"] = (double)windowScale;
     obj["sharpness"] = (double)sharpness;
     obj["animeStrength"] = (double)animeStrength;
+    obj["debandThreshold"] = (double)debandThreshold;
+    obj["debandRange"] = debandRange;
+    obj["crtScanline"] = (double)crtScanline;
 
     obj["cropLeft"] = cropLeft;
     obj["cropTop"] = cropTop;
@@ -55,6 +58,9 @@ GameProfile GameProfile::fromJson(const QJsonObject &obj)
     p.windowScale = (float)obj["windowScale"].toDouble(1.5);
     p.sharpness = (float)obj["sharpness"].toDouble(0.45);
     p.animeStrength = (float)obj["animeStrength"].toDouble(0.5);
+    p.debandThreshold = (float)obj["debandThreshold"].toDouble(0.04);
+    p.debandRange = obj["debandRange"].toInt(16);
+    p.crtScanline = (float)obj["crtScanline"].toDouble(0.5);
 
     p.cropLeft = obj["cropLeft"].toInt(0);
     p.cropTop = obj["cropTop"].toInt(0);

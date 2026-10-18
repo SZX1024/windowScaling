@@ -86,7 +86,8 @@ bool X11CaptureEngine::open(const char *displayName)
     }
 
     XSetErrorHandler(silentX11ErrorHandler);
-    d->display = XOpenDisplay(displayName);
+    const char *actualDisplay = (displayName && strlen(displayName) > 0) ? displayName : getenv("DISPLAY");
+    d->display = XOpenDisplay(actualDisplay);
     if (!d->display) {
         qWarning() << "X11CaptureEngine: Failed to open X11 display:" << displayName;
         return false;

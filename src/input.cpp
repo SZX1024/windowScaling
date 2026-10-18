@@ -28,7 +28,8 @@ bool X11InputForwarder::open(const char *displayName)
         return true;
     }
 
-    d->display = XOpenDisplay(displayName);
+    const char *actualDisplay = (displayName && strlen(displayName) > 0) ? displayName : getenv("DISPLAY");
+    d->display = XOpenDisplay(actualDisplay);
     if (!d->display) {
         qWarning() << "X11InputForwarder: Failed to open X11 display:" << displayName;
         return false;

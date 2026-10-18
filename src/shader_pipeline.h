@@ -62,6 +62,21 @@ public:
     void setAnimeStrength(float a) { m_animeStrength = std::clamp(a, 0.0f, 1.0f); }
     float animeStrength() const { return m_animeStrength; }
 
+    void setDebandThreshold(float t) { m_debandThreshold = std::clamp(t, 0.005f, 0.20f); }
+    float debandThreshold() const { return m_debandThreshold; }
+
+    void setDebandRange(int r) { m_debandRange = std::clamp(r, 4, 48); }
+    int debandRange() const { return m_debandRange; }
+
+    void setCRTScanline(float s) { m_crtScanline = std::clamp(s, 0.0f, 1.0f); }
+    float crtScanline() const { return m_crtScanline; }
+
+    // Pipeline manipulation
+    void addEffect(const QString &effectName);
+    void removeEffect(int index);
+    bool moveEffectUp(int index);
+    bool moveEffectDown(int index);
+
     QRect calculateTargetRect(const QSize &sourceSize, const QSize &viewportSize) const;
 
     // GPU Multi-pass execution with Ping-Pong FBOs
@@ -84,6 +99,9 @@ private:
 
     float m_sharpness{0.45f};
     float m_animeStrength{0.5f};
+    float m_debandThreshold{0.04f};
+    int m_debandRange{16};
+    float m_crtScanline{0.5f};
 
     std::unordered_map<std::string, std::unique_ptr<QOpenGLShaderProgram>> m_programs;
     QOpenGLShaderProgram* getProgram(const QString &name) const;
