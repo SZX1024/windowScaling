@@ -94,6 +94,59 @@ QString ProfileManager::configFilePath() const
 
 void ProfileManager::createDefaultProfiles()
 {
+    // 1. Lanczos
+    GameProfile lanczos;
+    lanczos.name = "Lanczos";
+    lanczos.effectChain = {"Lanczos"};
+    lanczos.scalingMode = 0; // Fit
+    m_profiles[lanczos.name] = lanczos;
+
+    // 2. FSR
+    GameProfile fsr;
+    fsr.name = "FSR";
+    fsr.effectChain = {"FSR_EASU", "FSR_RCAS"};
+    fsr.scalingMode = 0; // Fit
+    fsr.sharpness = 0.87f; // Magpie default
+    m_profiles[fsr.name] = fsr;
+
+    // 3. FSRCNNX
+    GameProfile fsrcnnx;
+    fsrcnnx.name = "FSRCNNX";
+    fsrcnnx.effectChain = {"FSRCNNX"};
+    fsrcnnx.scalingMode = 0; // Fit
+    m_profiles[fsrcnnx.name] = fsrcnnx;
+
+    // 4. CuNNy
+    GameProfile cunny;
+    cunny.name = "CuNNy";
+    cunny.effectChain = {"CuNNy"};
+    cunny.scalingMode = 0; // Fit
+    m_profiles[cunny.name] = cunny;
+
+    // 5. Anime4K
+    GameProfile anime4k;
+    anime4k.name = "Anime4K";
+    anime4k.effectChain = {"Anime4K", "Anime4K_Upscale"};
+    anime4k.scalingMode = 0; // Fit
+    anime4k.animeStrength = 0.65f;
+    m_profiles[anime4k.name] = anime4k;
+
+    // 6. CRT-Geom
+    GameProfile crtGeom;
+    crtGeom.name = "CRT-Geom";
+    crtGeom.effectChain = {"CRT"};
+    crtGeom.scalingMode = 0; // Fit
+    crtGeom.crtScanline = 0.50f;
+    m_profiles[crtGeom.name] = crtGeom;
+
+    // 7. Integer Scale 2x
+    GameProfile integer2x;
+    integer2x.name = "Integer Scale 2x";
+    integer2x.effectChain = {"Bilinear"};
+    integer2x.scalingMode = 1; // Integer
+    m_profiles[integer2x.name] = integer2x;
+
+    // 8. 默认 (Default) - Galgame 推荐
     GameProfile def;
     def.name = "默认 (Default)";
     def.effectChain = {"CuNNy", "CAS"};
@@ -102,28 +155,16 @@ void ProfileManager::createDefaultProfiles()
     def.animeStrength = 0.5f;
     m_profiles[def.name] = def;
 
+    // 9. Galgame 视觉小说精细画质
     GameProfile galgame;
     galgame.name = "Galgame 视觉小说精细画质";
-    galgame.effectChain = {"Anime4K", "CAS"};
+    galgame.effectChain = {"CuNNy", "CAS"};
     galgame.scalingMode = 0; // Fit
     galgame.sharpness = 0.55f;
     galgame.animeStrength = 0.65f;
     m_profiles[galgame.name] = galgame;
 
-    GameProfile debandProfile;
-    debandProfile.name = "去色彩断层 (Bicubic + Deband)";
-    debandProfile.effectChain = {"Bicubic", "Deband"};
-    debandProfile.scalingMode = 0;
-    debandProfile.sharpness = 0.4f;
-    m_profiles[debandProfile.name] = debandProfile;
-
-    GameProfile retro;
-    retro.name = "复古像素点阵 (Integer 2x + CRT)";
-    retro.effectChain = {"CRT"};
-    retro.scalingMode = 1; // Integer
-    m_profiles[retro.name] = retro;
-
-    m_currentProfile = def;
+    m_currentProfile = lanczos; // Default to Lanczos matching Magpie
 }
 
 bool ProfileManager::load()

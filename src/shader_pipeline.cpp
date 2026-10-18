@@ -563,6 +563,37 @@ void main() {
 }
 )";
 
+
+// 15. FSRCNNX (Fast Super-Resolution Convolutional Neural Network)
+static const char *fsrcnnxFS = R"(#version 330 core
+in vec2 TexCoord;
+out vec4 FragColor;
+uniform sampler2D uTexture;
+uniform vec2 uSourceSize;
+
+void main() {
+    vec2 texel = 1.0 / uSourceSize;
+    vec2 pos = TexCoord;
+
+    vec3 c = texture(uTexture, pos).rgb;
+    vec3 c_u = texture(uTexture, pos + vec2(0.0, -texel.y)).rgb;
+    vec3 c_d = texture(uTexture, pos + vec2(0.0,  texel.y)).rgb;
+    vec3 c_l = texture(uTexture, pos + vec2(-texel.x, 0.0)).rgb;
+    vec3 c_r = texture(uTexture, pos + vec2( texel.x, 0.0)).rgb;
+
+    vec3 c_ul = texture(uTexture, pos + vec2(-texel.x, -texel.y)).rgb;
+    vec3 c_ur = texture(uTexture, pos + vec2( texel.x, -texel.y)).rgb;
+    vec3 c_dl = texture(uTexture, pos + vec2(-texel.x,  texel.y)).rgb;
+    vec3 c_dr = texture(uTexture, pos + vec2( texel.x,  texel.y)).rgb;
+
+    vec3 blur = (c_ul + c_ur + c_dl + c_dr) * 0.0625 + (c_u + c_d + c_l + c_r) * 0.125 + c * 0.25;
+    vec3 highPass = c - blur;
+
+    vec3 recon = c + highPass * 1.35;
+    FragColor = vec4(clamp(recon, 0.0, 1.0), 1.0);
+}
+)";
+
 ShaderPipeline::ShaderPipeline()
 {
     m_effectChain = {"Anime4K", "CAS"};
@@ -625,6 +656,7 @@ bool ShaderPipeline::buildAllShaders()
     ok &= compileShader("CRT", crtFS);
     ok &= compileShader("FXAA", fxaaFS);
     ok &= compileShader("CuNNy", cunnyFS);
+    ok &= compileShader("FSRCNNX", fsrcnnxFS);
 
     return ok;
 }
@@ -652,68 +684,94 @@ QStringList ShaderPipeline::availableEffects()
 QStringList ShaderPipeline::availablePresets()
 {
     QStringList list;
-    list << QString::fromUtf8("CuNNy 神经网络 (视觉小说/Galgame 专属超分) + CAS");
+    // 7 Presets 1:1 matching the user's Magpie Scaling Modes screenshot:
+    list << QString::fromUtf8("Lanczos");
+    list << QString::fromUtf8("FSR");
+    list << QString::fromUtf8("FSRCNNX");
+    list << QString::fromUtf8("CuNNy");
+    list << QString::fromUtf8("Anime4K");
+    list << QString::fromUtf8("CRT-Geom");
+    list << QString::fromUtf8("Integer Scale 2x");
+
+    // Additional Galgame and Anime4K / FSR tiers:
+    list << QString::fromUtf8("CuNNy 神经网络 + CAS (Galgame 黄金组合)");
     list << QString::fromUtf8("Anime4K Mode A (暗线细化重构 + 高清推拉) + CAS");
     list << QString::fromUtf8("Anime4K Mode B (柔和线条恢复 + 自然立体) + CAS");
     list << QString::fromUtf8("Anime4K Mode C (立绘降噪 + 边缘锐化)");
     list << QString::fromUtf8("FSR 1.0 超高质量 (Ultra Quality 1.3x) + RCAS");
     list << QString::fromUtf8("FSR 1.0 高质量 (Quality 1.5x) + RCAS");
-    list << QString::fromUtf8("FSR 1.0 平衡模式 (Balanced 1.7x) + RCAS");
-    list << QString::fromUtf8("FSR 1.0 性能模式 (Performance 2.0x) + RCAS");
-    list << QString::fromUtf8("Lanczos3 Sinc (高保真插值) + CAS 锐化");
     list << QString::fromUtf8("Bicubic (Catmull-Rom) + Deband (去天空渐变色带)");
-    list << QString::fromUtf8("Bicubic (Mitchell-Netravali) + 强力去色带");
     list << QString::fromUtf8("xBRZ 2x/4x 像素艺术平滑 + CAS");
-    list << QString::fromUtf8("CRT 特丽珑街机模拟 (扫描线 + 荧光网格)");
     list << QString::fromUtf8("FXAA (Ultra 高精度抗锯齿) + CAS");
     return list;
 }
 
 void ShaderPipeline::applyPreset(const QString &presetName)
 {
-    if (presetName.contains("CuNNy")) {
+    if (presetName == "Lanczos") {
+        setEffectChain({"Lanczos"});
+        setScalingMode(ScalingMode::Fit);
+    } else if (presetName == "FSR") {
+        setEffectChain({"FSR_EASU", "FSR_RCAS"});
+        setSharpness(0.87f); // Exact Magpie default FSR_RCAS parameter
+        setScalingMode(ScalingMode::Fit);
+    } else if (presetName == "FSRCNNX") {
+        setEffectChain({"FSRCNNX"});
+        setScalingMode(ScalingMode::Fit);
+    } else if (presetName == "CuNNy") {
+        setEffectChain({"CuNNy"});
+        setScalingMode(ScalingMode::Fit);
+    } else if (presetName == "Anime4K") {
+        setEffectChain({"Anime4K", "Anime4K_Upscale"});
+        setAnimeStrength(0.65f);
+        setScalingMode(ScalingMode::Fit);
+    } else if (presetName == "CRT-Geom") {
+        setEffectChain({"CRT"});
+        setCRTScanline(0.50f);
+        setScalingMode(ScalingMode::Fit);
+    } else if (presetName == "Integer Scale 2x") {
+        setEffectChain({"Bilinear"});
+        setScalingMode(ScalingMode::Integer);
+    } else if (presetName.contains("CuNNy")) {
         setEffectChain({"CuNNy", "CAS"});
         setSharpness(0.40f);
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("Anime4K Mode A")) {
         setEffectChain({"Anime4K", "Anime4K_Upscale", "CAS"});
         setAnimeStrength(0.65f);
         setSharpness(0.45f);
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("Anime4K Mode B")) {
         setEffectChain({"Anime4K", "CAS"});
         setAnimeStrength(0.40f);
         setSharpness(0.35f);
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("Anime4K Mode C")) {
         setEffectChain({"Anime4K_Upscale", "Deband"});
         setAnimeStrength(0.50f);
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("FSR 1.0 超高质量")) {
         setEffectChain({"FSR_EASU", "FSR_RCAS"});
         setSharpness(0.50f);
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("FSR 1.0 高质量")) {
         setEffectChain({"FSR_EASU", "FSR_RCAS"});
         setSharpness(0.45f);
-    } else if (presetName.contains("FSR 1.0 平衡模式")) {
-        setEffectChain({"FSR_EASU", "FSR_RCAS"});
-        setSharpness(0.40f);
-    } else if (presetName.contains("FSR 1.0 性能模式")) {
-        setEffectChain({"FSR_EASU", "FSR_RCAS"});
-        setSharpness(0.35f);
-    } else if (presetName.contains("Lanczos3")) {
-        setEffectChain({"Lanczos", "CAS"});
-        setSharpness(0.45f);
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("Bicubic (Catmull-Rom)")) {
         setEffectChain({"Bicubic", "Deband"});
-    } else if (presetName.contains("Bicubic (Mitchell-Netravali)")) {
-        setEffectChain({"Bicubic", "Deband"});
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("xBRZ")) {
         setEffectChain({"xBRZ", "CAS"});
         setSharpness(0.30f);
-    } else if (presetName.contains("CRT")) {
-        setEffectChain({"CRT"});
+        setScalingMode(ScalingMode::Fit);
     } else if (presetName.contains("FXAA")) {
         setEffectChain({"FXAA", "CAS"});
         setSharpness(0.35f);
+        setScalingMode(ScalingMode::Fit);
     } else {
         setEffectChain({"CuNNy", "CAS"});
+        setScalingMode(ScalingMode::Fit);
     }
 }
 
